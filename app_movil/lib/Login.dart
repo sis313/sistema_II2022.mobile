@@ -1,4 +1,4 @@
-import 'dart:html';
+
 
 import 'package:app_movil/RoleMenu.dart';
 import 'package:flutter/cupertino.dart';
@@ -122,17 +122,19 @@ class _Login extends State<Login> {
                 )
                 )
               ),
-              Container(
-                padding: EdgeInsets.only(top: 30, right: 15, bottom: 30),
-                child:Align(
-                  alignment: Alignment.centerRight,
-                  child: FlatButton(
-                    onPressed: (){
-                      //TODO FORGOT PASSWORD SCREEN GOES HERE
-                    },
-                    child: Text(
-                      'Olvidaste tu contraseña',
-                      style: TextStyle(color: Color(0xff6B7A40), fontSize: 15),
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.only(top: 30, right: 15, bottom: 30),
+                  child:Align(
+                    alignment: Alignment.centerRight,
+                    child: FlatButton(
+                      onPressed: (){
+                        //TODO FORGOT PASSWORD SCREEN GOES HERE
+                      },
+                      child: Text(
+                        'Olvidaste tu contraseña',
+                        style: TextStyle(color: Color(0xff6B7A40), fontSize: 15),
+                      ),
                     ),
                   ),
                 ),
@@ -142,19 +144,21 @@ class _Login extends State<Login> {
                 width: 250,
                 decoration: BoxDecoration(
                     color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
-                child: FlatButton(
-                  onPressed: validate,
-                  child: Text(
-                    'Ingresar',
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+                child: Flexible(
+                  child: Center(
+                    child: FlatButton(
+                      onPressed: validate,
+                      child: Text(
+                        'Ingresar',
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      ),
+                    ),
                   ),
-                ),
+                )
               ),
-              SizedBox(
-                height: 130,
-              ),
+
               Text('Aún no tienes una cuenta?'),
-              FlatButton(
+              Flexible(child: FlatButton(
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
                 },
@@ -162,7 +166,7 @@ class _Login extends State<Login> {
                   'Registrarse',
                   style: TextStyle(color: Color(0xfff3ede0), fontSize: 15),
                 ),
-              ),
+              ),)
             ],
           ),
         ),

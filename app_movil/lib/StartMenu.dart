@@ -33,7 +33,7 @@ class _StartMenu extends State<StartMenu> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5.0),
               child: Center(
                 child: Text(
                   'SAF',

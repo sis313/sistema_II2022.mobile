@@ -64,21 +64,21 @@ class _RoleMenu extends State<RoleMenu> {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(
-              height: 130,
-            ),
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
-              child: FlatButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
-                },
-                child: Text(
-                  'Cliente',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+            
+            Flexible(
+              child: Container(
+                height: 50,
+                width: 250,
+                decoration: BoxDecoration(
+                    color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
+                child: FlatButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                  },
+                  child: Text(
+                    'Cliente',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
                 ),
               ),
             ),
