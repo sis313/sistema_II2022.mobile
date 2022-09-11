@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'DTO/Negocio.dart';
 import 'DTO/Sucursal.dart';
 
@@ -11,7 +10,13 @@ class OwnerMenu extends StatefulWidget {
 
 class _OwnerMenuState extends State<OwnerMenu> {
 
-  //Datos de prueba
+  //Valor que se mostrara al inicio en el dropdaown menu
+  String value = '';
+
+  //Datos de prueba para dropdown
+  var categorias = ['', 'Categoria 1', 'Categoria 2', 'Categoria 3'];
+
+  //Datos de prueba para listado
   var negocios = [
     Negocio('Nombre Negocio 1', [Sucursal('Sucursal 1', ''), Sucursal('Sucursal 2', '')]),
     Negocio('Nombre Negocio 2', [Sucursal('Sucursal 1', '')]),
@@ -38,6 +43,81 @@ class _OwnerMenuState extends State<OwnerMenu> {
       home: Scaffold(
           appBar: AppBar(
             title: Text('Mis Negocios'),
+            actions: [
+              PopupMenuButton<int>(
+                  onSelected: (item) => _onSelected(context, item),
+                  itemBuilder: (context) => [
+                    PopupMenuItem<int>(
+                        value: 0,
+                        child: GestureDetector(
+                          onTap: (){
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      AlertDialog(
+                                        title: const Text('Nuevo Negocio'),
+                                        content: Column(
+                                          children: [
+                                            const TextField(
+                                              decoration: InputDecoration(
+                                                border: UnderlineInputBorder(),
+                                                labelText: 'Nombre de Negocio',
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
+                                            const TextField(
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                hintText: 'Descripcion',
+                                              ),
+                                            ),
+                                            DropdownButton<String>(
+                                                value: value,
+                                                items: categorias.map(
+                                                        (String e) =>
+                                                        DropdownMenuItem<String>(
+                                                            value: e,
+                                                            child: Text(e)
+                                                        )
+                                                ).toList(),
+                                                onChanged: (String value) {
+                                                  setState(() {
+                                                    this.value = value;
+                                                  });
+                                                }
+                                            )
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () {},
+                                              child: const Text('Cancelar')
+                                          ),
+                                          TextButton(
+                                              onPressed: () {},
+                                              child: const Text('Registrar')
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  );
+                                }
+                            );
+                          },
+                          child: const Text('Añadir Negocio'),
+                        )
+                    ),
+                    const PopupMenuItem<int>(
+                      value: 1,
+                      child: Text('Salir'),
+                    )
+                  ]
+              )
+            ],
           ),
           body: ListView.builder(
             itemCount: negocios.length,
@@ -168,9 +248,17 @@ class _OwnerMenuState extends State<OwnerMenu> {
         )
       ],
     );
+  }
 
-    // return ListTile(
-    //     title: Text(nombre)
-    // );
+  void _onSelected(BuildContext context, int item){
+    switch(item){
+      case 0:
+        print('Seleccionado Añadir Negocio');
+        break;
+
+      case 1:
+        print('Seleccionado Salir');
+        break;
+    }
   }
 }
