@@ -1,5 +1,6 @@
 
 
+import 'package:app_movil/ClienteServicios.dart';
 import 'package:app_movil/RoleMenu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ class _Login extends State<Login> {
                         ),
                       ),
                     ),
-                    Padding(
+                    Container(
                         padding: const EdgeInsets.only(
                             left: 15.0, right: 15.0, top: 15, bottom: 0),
                         //padding: EdgeInsets.symmetric(horizontal: 15),
@@ -123,8 +124,8 @@ class _Login extends State<Login> {
                 )
               ),
               Flexible(
+                fit: FlexFit.tight,
                 child: Container(
-                  padding: EdgeInsets.only(top: 30, right: 15, bottom: 30),
                   child:Align(
                     alignment: Alignment.centerRight,
                     child: FlatButton(
@@ -139,26 +140,36 @@ class _Login extends State<Login> {
                   ),
                 ),
               ),
-              Container(
-                height: 50,
-                width: 250,
-                decoration: BoxDecoration(
-                    color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
-                child: Flexible(
-                  child: Center(
-                    child: FlatButton(
-                      onPressed: validate,
-                      child: Text(
-                        'Ingresar',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
+              Flexible(
+                fit: FlexFit.tight,
+                flex: 1,
+                child: Container(
+                  height: 50,
+                  width: 250,
+                  decoration: BoxDecoration(
+                      color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
+                  child:  Center(
+                      child: FlatButton(
+                        onPressed: (){
+                          validate;
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (_) => ClienteServicios()));
+                        },
+                        child: Text(
+                          'Ingresar',
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ),
                       ),
                     ),
                   ),
-                )
               ),
 
+
               Text('Aún no tienes una cuenta?'),
-              Flexible(child: FlatButton(
+              Flexible(
+                fit: FlexFit.tight,
+
+                child: FlatButton(
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
                 },
