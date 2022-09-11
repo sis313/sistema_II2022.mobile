@@ -1,3 +1,4 @@
+import 'package:app_movil/OwnerMenu.dart';
 import 'package:app_movil/SignUp.dart';
 import 'package:app_movil/StartMenu.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +93,8 @@ class _RoleMenu extends State<RoleMenu> {
                   color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => OwnerMenu()));
                 },
                 child: Text(
                   'Negocio',
