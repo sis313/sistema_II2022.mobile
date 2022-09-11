@@ -65,8 +65,7 @@ class _SignUp extends State<SignUp> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child:Form(
-                  key: formkey,
-                  autovalidate: true,
+                  autovalidateMode: AutovalidateMode.always, key: formkey,
                   child: Column(
                       children: <Widget>[
                       Padding(

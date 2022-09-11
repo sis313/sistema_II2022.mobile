@@ -69,8 +69,7 @@ class _Login extends State<Login> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 child: Form(
-                  key: formkey,
-                  autovalidate: true,
+                  autovalidateMode: AutovalidateMode.always, key: formkey,
                   child: Column(
                   children: <Widget>[
                     Padding(
