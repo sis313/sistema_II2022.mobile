@@ -24,6 +24,16 @@ class _Login extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+
+    final elevButtonStyle = ElevatedButton.styleFrom(
+        primary:  Color(0xff6B7A40),
+        onPrimary: Color(0xfff3ede0),
+        shadowColor:  Color(0xfff3ede0),
+        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+        elevation: 10
+    );
+
+
     return Scaffold(
       //backgroundColor: Color(0xfff3ede0),
       body: Container(
@@ -126,7 +136,12 @@ class _Login extends State<Login> {
                   padding: EdgeInsets.only(top: 30, right: 15, bottom: 30),
                   child:Align(
                     alignment: Alignment.centerRight,
-                    child: FlatButton(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary:  Colors.transparent,
+                          onPrimary: Color(0xfff3ede0),
+                          shadowColor:  Colors.transparent,
+                      ),
                       onPressed: (){
                         //TODO FORGOT PASSWORD SCREEN GOES HERE
                       },
@@ -138,14 +153,10 @@ class _Login extends State<Login> {
                   ),
                 ),
               ),
-              Container(
-                height: 50,
-                width: 250,
-                decoration: BoxDecoration(
-                    color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
-                child: Flexible(
+             Flexible(
                   child: Center(
-                    child: FlatButton(
+                    child: ElevatedButton(
+                      style: elevButtonStyle,
                       onPressed: validate,
                       child: Text(
                         'Ingresar',
@@ -153,11 +164,17 @@ class _Login extends State<Login> {
                       ),
                     ),
                   ),
-                )
-              ),
+                ),
 
               Text('Aún no tienes una cuenta?'),
-              Flexible(child: FlatButton(
+
+              Flexible(
+                child:ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary:  Colors.transparent,
+                    onPrimary: Color(0xfff3ede0),
+                    shadowColor:  Colors.transparent,
+                  ),
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
                 },

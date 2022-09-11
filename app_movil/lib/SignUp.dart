@@ -20,6 +20,15 @@ class _SignUp extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+
+    final elevButtonStyle = ElevatedButton.styleFrom(
+        primary: Color(0xff6B7A40),
+        onPrimary: Color(0xfff3ede0),
+        padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+        shadowColor: Color(0xfff3ede0),
+        elevation: 10
+    );
+
     return Scaffold(
       //backgroundColor: Color(0xfff3ede0),
       body: Container(
@@ -145,7 +154,8 @@ class _SignUp extends State<SignUp> {
               width: 250,
               decoration: BoxDecoration(
                   color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
-              child: FlatButton(
+              child: ElevatedButton(
+                style: elevButtonStyle,
                 onPressed: validate,
                 child: Text(
                   'Registrar',
@@ -157,7 +167,13 @@ class _SignUp extends State<SignUp> {
               height: 150,
             ),
             Text('Ya tienes una cuenta?'),
-            FlatButton(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  onPrimary: Color(0xfff3ede0),
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  shadowColor:Colors.transparent
+              ),
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
               },

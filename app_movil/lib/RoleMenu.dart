@@ -11,6 +11,15 @@ class RoleMenu extends StatefulWidget {
 class _RoleMenu extends State<RoleMenu> {
   @override
   Widget build(BuildContext context) {
+
+    final elevButtonStyle = ElevatedButton.styleFrom(
+        primary: Color(0xff6B7A40),
+        onPrimary: Color(0xfff3ede0),
+        padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+        shadowColor: Color(0xfff3ede0),
+        elevation: 10
+    );
+
     return Scaffold(
         backgroundColor: Color(0xfff3ede0),
         body:Container(
@@ -65,14 +74,12 @@ class _RoleMenu extends State<RoleMenu> {
                 textAlign: TextAlign.center,
               ),
             ),
-            
+            SizedBox(
+              height: 30,
+            ),
             Flexible(
-              child: Container(
-                height: 50,
-                width: 250,
-                decoration: BoxDecoration(
-                    color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
-                child: FlatButton(
+                child: ElevatedButton(
+                  style: elevButtonStyle,
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
                   },
@@ -82,16 +89,11 @@ class _RoleMenu extends State<RoleMenu> {
                   ),
                 ),
               ),
-            ),
             SizedBox(
               height: 30,
             ),
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
-              child: FlatButton(
+            ElevatedButton(
+                style: elevButtonStyle,
                 onPressed: () {
                   //Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
                   Navigator.push(context, MaterialPageRoute(builder: (context) => OwnerMenu()));
@@ -101,16 +103,12 @@ class _RoleMenu extends State<RoleMenu> {
                   style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
               ),
-            ),
+
             SizedBox(
               height: 30,
             ),
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
-              child: FlatButton(
+            ElevatedButton(
+                style: elevButtonStyle,
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => StartMenu()));
                 },
@@ -119,8 +117,6 @@ class _RoleMenu extends State<RoleMenu> {
                   style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
               ),
-            ),
-
 
           ],
         )

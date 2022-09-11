@@ -11,6 +11,15 @@ class _StartMenu extends State<StartMenu> {
   @override
   //String color = HexColor.replaceAll('#', '0xff');
   Widget build(BuildContext context) {
+
+    final elevButtonStyle = ElevatedButton.styleFrom(
+      primary: Color(0xff6B7A40),
+      onPrimary: Color(0xfff3ede0),
+      padding: EdgeInsets.all(20),
+      shadowColor: Color(0xfff3ede0),
+      elevation: 10
+    );
+
     return Scaffold(
       //backgroundColor: Color(0xfff3ede0),
       body: Container(
@@ -75,56 +84,31 @@ class _StartMenu extends State<StartMenu> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
-                Container(
-                  height: 50,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Color(0xffCEA660),
-                      border: Border.all(
-                        color: Color(0xff745D20),
-                        width: 3,
-                      ),
-                      borderRadius: BorderRadius.circular(20)
+                ElevatedButton(
+                  style: elevButtonStyle,
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                  },
+                  child: Text(
+                    'Ingresar',
+                    style: TextStyle(color: Color(0xfff3ede0), fontSize: 20),
                   ),
-
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-                    },
-                    child: Text(
-                      'Ingresar',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                  ),
-
                 ),
+
                 SizedBox(
                   width: 20,
                   height: 130,
                 ),
-                Container(
-                  height: 50,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Color(0xffCEA660),
-                      border: Border.all(
-                        color: Color(0xff745D20),
-                        width: 3,
-                      ),
-                      borderRadius: BorderRadius.circular(20)
-                  ),
-
-                  child: FlatButton(
+               ElevatedButton(
+                    style: elevButtonStyle,
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
                     },
                     child: Text(
                       'Registrarse',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
+                      style: TextStyle(color: Color(0xfff3ede0), fontSize: 20),
                     ),
                   ),
-
-                ),
 
               ],
 
