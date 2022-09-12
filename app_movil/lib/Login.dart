@@ -154,7 +154,6 @@ class _Login extends State<Login> {
                   ),
                 ),
               ),
-<<<<<<< HEAD
              Flexible(
                   child: Center(
                     child: ElevatedButton(
@@ -167,35 +166,9 @@ class _Login extends State<Login> {
                     ),
                   ),
                 ),
-=======
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 1,
-                child: Container(
-                  height: 50,
-                  width: 250,
-                  decoration: BoxDecoration(
-                      color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
-                  child:  Center(
-                      child: FlatButton(
-                        onPressed: (){
-                          validate;
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (_) => ClienteServicios()));
-                        },
-                        child: Text(
-                          'Ingresar',
-                          style: TextStyle(color: Colors.white, fontSize: 25),
-                        ),
-                      ),
-                    ),
-                  ),
-              ),
->>>>>>> 2f71f254693f577c352cfe7534389f9ad0c2d88d
 
 
               Text('Aún no tienes una cuenta?'),
-<<<<<<< HEAD
 
               Flexible(
                 child:ElevatedButton(
@@ -204,12 +177,6 @@ class _Login extends State<Login> {
                     onPrimary: Color(0xfff3ede0),
                     shadowColor:  Colors.transparent,
                   ),
-=======
-              Flexible(
-                fit: FlexFit.tight,
-
-                child: FlatButton(
->>>>>>> 2f71f254693f577c352cfe7534389f9ad0c2d88d
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
                 },

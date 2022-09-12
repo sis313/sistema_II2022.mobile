@@ -1,7 +1,9 @@
 class Sucursal{
+  int id;
+  String nombre = "Name";
+  String direccion = "Direccion";
 
-  String nombre = '';
-  String direccion = '';
+  Sucursal(this.id, this.nombre, this.direccion);
 
-  Sucursal(this.nombre, this.direccion);
+
 }

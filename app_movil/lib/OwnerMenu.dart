@@ -18,22 +18,12 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
   //Datos de prueba para listado
   var negocios = [
-    Negocio('Nombre Negocio 1', [Sucursal('Sucursal 1', ''), Sucursal('Sucursal 2', '')]),
-    Negocio('Nombre Negocio 2', [Sucursal('Sucursal 1', '')]),
-    Negocio('Nombre Negocio 3', [Sucursal('Sucursal 1', '')]),
-    Negocio('Nombre Negocio 4', [Sucursal('Sucursal 1', '')]),
-    Negocio('Nombre Negocio 5', [Sucursal('Sucursal 1', '')]),
-    Negocio('Nombre Negocio 6', [Sucursal('Sucursal 1', '')]),
-    // Negocio('Nombre Negocio 7', [Sucursal('Sucursal 1', '')]),
-    // Negocio('Nombre Negocio 8', []),
-    // Negocio('Nombre Negocio 9', []),
-    // Negocio('Nombre Negocio 10', []),
-    // Negocio('Nombre Negocio 11', []),
-    // Negocio('Nombre Negocio 12', []),
-    // Negocio('Nombre Negocio 13', []),
-    // Negocio('Nombre Negocio 14', []),
-    // Negocio('Nombre Negocio 15', []),
-    // Negocio('Nombre Negocio 16', []),
+    Negocio(1, 'Nombre Negocio 1', [Sucursal(1, 'Sucursal 1', ''), Sucursal(2, 'Sucursal 2', '')]),
+    Negocio(2, 'Nombre Negocio 2', [Sucursal(3, 'Sucursal 1', '')]),
+    Negocio(3, 'Nombre Negocio 3', [Sucursal(4, 'Sucursal 1', '')]),
+    Negocio(4, 'Nombre Negocio 4', [Sucursal(5, 'Sucursal 1', '')]),
+    Negocio(5, 'Nombre Negocio 5', [Sucursal(6, 'Sucursal 1', '')]),
+    Negocio(6, 'Nombre Negocio 6', [Sucursal(7, 'Sucursal 1', '')]),
   ];
 
   @override
@@ -236,12 +226,20 @@ class _OwnerMenuState extends State<OwnerMenu> {
           children: [
             IconButton(
                 padding: EdgeInsets.zero,
-                onPressed: (){},
+                onPressed: (){
+                  setState(() {
+                    editarSucursal(negocios[0].sucursales[0]);
+                  });
+                },
                 icon: Icon(Icons.edit)
             ),
             IconButton(
                 padding: EdgeInsets.zero,
-                onPressed: (){},
+                onPressed: (){
+                  setState(() {
+                    eliminarSucursal();
+                  });
+                },
                 icon: Icon(Icons.delete_outline)
             )
           ],
@@ -260,5 +258,89 @@ class _OwnerMenuState extends State<OwnerMenu> {
         print('Seleccionado Salir');
         break;
     }
+  }
+
+  editarSucursal(Sucursal sucursal){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AlertDialog(
+                title: const Text('Editar Sucursal'),
+                content: Column(
+                  children: [
+                    const TextField(
+                      decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'ID',
+                        enabled: false,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    const TextField(
+                      decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'Nombre de la sucursal',
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    const TextField(
+                      decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                        hintText: 'Dirección',
+                      ),
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () {},
+                      child: const Text('Cancelar')
+                  ),
+                  TextButton(
+                      onPressed: () {},
+                      child: const Text('Editar')
+                  ),
+                ],
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  eliminarSucursal(){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AlertDialog(
+                title: const Text('Estás seguro?'),
+                content: Column(
+                  children: [
+                    Text("Esta acción no puede deshacerse"),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () {},
+                      child: const Text('Cancelar')
+                  ),
+                  TextButton(
+                      onPressed: () {},
+                      child: const Text('Eliminar')
+                  ),
+                ],
+              )
+            ],
+          );
+        }
+    );
   }
 }
