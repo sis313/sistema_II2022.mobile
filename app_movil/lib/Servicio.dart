@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-class servicio{
 
-  int id;
+class servicio {
+  String id;
   String _nombre;
   int _contacto;
   String _descripcion;
   String _tipo;
   String _estado;
-
-
+  bool favorito;
 
   servicio(this.id, this._nombre, this._contacto, this._descripcion, this._tipo,
-      this._estado);
+      this._estado, this.favorito);
 
   @override
   String toString() {

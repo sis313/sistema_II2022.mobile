@@ -1,3 +1,4 @@
+import 'package:app_movil/ClienteServicios.dart';
 import 'package:flutter/material.dart';
 import 'StartMenu.dart';
 
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
       title: 'Login',
       debugShowCheckedModeBanner: false,
-      home: StartMenu(),
+      home: ClienteServicios(),
     );
   }
 }
