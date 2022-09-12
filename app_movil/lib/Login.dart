@@ -154,7 +154,7 @@ class _Login extends State<Login> {
                   ),
                 ),
               ),
-<<<<<<< HEAD
+
              Flexible(
                   child: Center(
                     child: ElevatedButton(
@@ -167,7 +167,7 @@ class _Login extends State<Login> {
                     ),
                   ),
                 ),
-=======
+
               Flexible(
                 fit: FlexFit.tight,
                 flex: 1,
@@ -191,11 +191,11 @@ class _Login extends State<Login> {
                     ),
                   ),
               ),
->>>>>>> 2f71f254693f577c352cfe7534389f9ad0c2d88d
+
 
 
               Text('Aún no tienes una cuenta?'),
-<<<<<<< HEAD
+
 
               Flexible(
                 child:ElevatedButton(
@@ -204,12 +204,11 @@ class _Login extends State<Login> {
                     onPrimary: Color(0xfff3ede0),
                     shadowColor:  Colors.transparent,
                   ),
-=======
-              Flexible(
+
+              child: Flexible(
                 fit: FlexFit.tight,
 
                 child: FlatButton(
->>>>>>> 2f71f254693f577c352cfe7534389f9ad0c2d88d
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
                 },
@@ -217,7 +216,7 @@ class _Login extends State<Login> {
                   'Registrarse',
                   style: TextStyle(color: Color(0xfff3ede0), fontSize: 15),
                 ),
-              ),)
+              ),)))
             ],
           ),
         ),
