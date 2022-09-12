@@ -22,7 +22,7 @@ class _ClienteServicios extends State<ClienteServicios> {
     return Scaffold(
       drawer: MenuLateral(),
       appBar: AppBar(
-          title: Text('GeeksforGeeks'),
+          title: Text('Categorias'),
           backgroundColor: Color(0xff6B7A40),
 
       ), //AppBar
@@ -57,7 +57,13 @@ class _ClienteServicios extends State<ClienteServicios> {
                                             categorias[index].toString(), textAlign:  TextAlign.center,
                                             style: TextStyle(color: Colors.white,fontSize: 10),
                                           ),
-                                          Icon(icon[index].icon),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(primary: Color(0xffCEA660)),
+                                            child: Icon(icon[index].icon,color: Colors.black,),
+                                            onPressed: (){
+                                              //TODO categorias aca
+                                            },
+                                          )
                                         ],
                                       ),
                                     ),
