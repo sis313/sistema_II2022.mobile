@@ -84,7 +84,9 @@ class _OwnerMenuState extends State<OwnerMenu> {
                                         ),
                                         actions: [
                                           TextButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
                                               child: const Text('Cancelar')
                                           ),
                                           TextButton(
@@ -297,7 +299,9 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 ),
                 actions: [
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       child: const Text('Cancelar')
                   ),
                   TextButton(
@@ -329,7 +333,9 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 ),
                 actions: [
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       child: const Text('Cancelar')
                   ),
                   TextButton(

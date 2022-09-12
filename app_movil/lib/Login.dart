@@ -184,7 +184,8 @@ class _Login extends State<Login> {
                   'Registrarse',
                   style: TextStyle(color: Color(0xfff3ede0), fontSize: 15),
                 ),
-              ),)))
+              ),
+              )
             ],
           ),
         ),
