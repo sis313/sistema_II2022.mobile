@@ -177,7 +177,7 @@ class _Login extends State<Login> {
                   decoration: BoxDecoration(
                       color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
                   child:  Center(
-                      child: FlatButton(
+                      child: ElevatedButton(
                         onPressed: (){
                           validate;
                           Navigator.push(
@@ -208,7 +208,7 @@ class _Login extends State<Login> {
               child: Flexible(
                 fit: FlexFit.tight,
 
-                child: FlatButton(
+                child:ElevatedButton(
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
                 },
