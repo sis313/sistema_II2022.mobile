@@ -41,6 +41,14 @@ class MenuLateral extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: Icon(Icons.favorite_border),
+            title: Text("Favoritos2"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ClienteFavoritos()));
+            },
+          ),
+          ListTile(
             leading: Icon(Icons.arrow_back_sharp),
             title: Text("Salir"),
             onTap: () {
