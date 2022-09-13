@@ -52,7 +52,7 @@ class _SignUp extends State<SignUp> {
           children: <Widget>[
             Center(
               child: Text(
-                'SAF',
+                'Servi LP',
                 style: new TextStyle(
                   fontSize: 80,
                 ),

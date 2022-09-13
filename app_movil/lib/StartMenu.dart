@@ -45,7 +45,7 @@ class _StartMenu extends State<StartMenu> {
               padding: const EdgeInsets.all(5.0),
               child: Center(
                 child: Text(
-                  'SAF',
+                  'Servi LP',
                   style: new TextStyle(
                       fontSize: 80,
                       fontFamily: 'RobotoMono'
@@ -54,18 +54,7 @@ class _StartMenu extends State<StartMenu> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Text(
-                  'Search and Find',
-                  style: new TextStyle(
-                    fontSize: 50,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+
             Padding(
               padding: const EdgeInsets.only(top: 60.0),
               child: Center(
