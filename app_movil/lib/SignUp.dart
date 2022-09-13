@@ -24,7 +24,10 @@ class _SignUp extends State<SignUp> {
     final elevButtonStyle = ElevatedButton.styleFrom(
         primary: Color(0xff6B7A40),
         onPrimary: Color(0xfff3ede0),
-        padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(30.0),
+        ),
         shadowColor: Color(0xfff3ede0),
         elevation: 10
     );
@@ -54,12 +57,12 @@ class _SignUp extends State<SignUp> {
               child: Text(
                 'Servi LP',
                 style: new TextStyle(
-                  fontSize: 80,
+                  fontSize: 50,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.only(top: 60.0, bottom: 30),
               child: Center(
                 child: Container(
@@ -71,54 +74,56 @@ class _SignUp extends State<SignUp> {
                     child: Image.asset('assets/icono.png')),
               ),
             ),
+
+             */
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child:Form(
                   autovalidateMode: AutovalidateMode.always, key: formkey,
                   child: Column(
                       children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 15, bottom: 0),
-                            child: TextFormField(
-                              validator: MultiValidator([
-                                EmailValidator(errorText: "correo invalido"),
-                                RequiredValidator(errorText: "campo requerido")
-                              ]),
-                              decoration: InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xff6B7A40), width: 2.0),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xff745D20), width: 2.0),
-                                  ),
-                                  labelText: 'Correo',
-                                  hintText: 'Ingresa un direccion valida como abc@gmail.com'
-                              ),
-                            ),
-                      ),
-                      Padding(
+                        Padding(
                           padding: const EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 15, bottom: 0),
-                        child: TextFormField(
-                          validator: MultiValidator([
-                            RequiredValidator(errorText: "campo requerido"),
-                            MinLengthValidator(8, errorText: "Minimo 8 caracteres")
-                          ]
-                          ),
-                          obscureText: true,
-                          decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xff6B7A40), width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xff745D20), width: 2.0),
-                              ),
-                              labelText: 'Contraseña',
-                              hintText: 'Minimo 8 caracteres'
+                          child: TextFormField(
+                            validator: MultiValidator([
+                              EmailValidator(errorText: "correo invalido"),
+                              RequiredValidator(errorText: "campo requerido")
+                            ]),
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xff6B7A40), width: 2.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xff745D20), width: 2.0),
+                                ),
+                                labelText: 'Correo',
+                                hintText: 'Ingresa un direccion valida como abc@gmail.com'
+                            ),
                           ),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, top: 15, bottom: 0),
+                          child: TextFormField(
+                            validator: MultiValidator([
+                              RequiredValidator(errorText: "campo requerido"),
+                              MinLengthValidator(8, errorText: "Minimo 8 caracteres")
+                            ]
+                            ),
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xff6B7A40), width: 2.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xff745D20), width: 2.0),
+                                ),
+                                labelText: 'Contraseña',
+                                hintText: 'Minimo 8 caracteres'
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 15, bottom: 0),
@@ -141,7 +146,7 @@ class _SignUp extends State<SignUp> {
                               //hintText: 'Enter secure password'
                             ),
                           ),
-                      )
+                        )
                       ]
                   )
               ),
@@ -149,39 +154,40 @@ class _SignUp extends State<SignUp> {
             SizedBox(
               height: 50,
             ),
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: Color(0xff6B7A40), borderRadius: BorderRadius.circular(20)),
-              child: ElevatedButton(
+            ElevatedButton(
                 style: elevButtonStyle,
                 onPressed: validate,
                 child: Text(
                   'Registrar',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
-              ),
+
             ),
+
             SizedBox(
               height: 150,
             ),
-            Text('Ya tienes una cuenta?'),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
-                  onPrimary: Color(0xfff3ede0),
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  shadowColor:Colors.transparent
-              ),
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-              },
-              child: Text(
-                'Iniciar sesión',
-                style: TextStyle(color: Color(0xfff3ede0), fontSize: 15),
-              ),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Ya tienes una cuenta?"),
+                GestureDetector(
+                  child: const Text(" Iniciar sesión",
+                      style: TextStyle(
+                          color: Colors.white, decoration: TextDecoration.underline)
+                  ),
+                  onTap: () async {
+                    try {
+                      await  Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                    } catch (err) {
+                      debugPrint('Something bad happened');
+                    }
+                  },
+                )
+
+              ],
+            )
+
           ],
         ),
       ),

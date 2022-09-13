@@ -25,9 +25,13 @@ class _Login extends State<Login> {
     final elevButtonStyle = ElevatedButton.styleFrom(
         primary: Color(0xff6B7A40),
         onPrimary: Color(0xfff3ede0),
-        shadowColor: Color(0xfff3ede0),
+        shadowColor: Color(0xffCEA660),
         padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-        elevation: 10);
+        elevation: 10,
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(30.0),
+        ),
+    );
 
     return Scaffold(
       //backgroundColor: Color(0xfff3ede0),
@@ -67,16 +71,21 @@ class _Login extends State<Login> {
                       SizedBox(
                         height: 5.0,
                       ),
+                      Text(
+                        "Inicio de sesión",
+                        style: TextStyle(
+                          color: Color(0xfff3ede0),
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      )
                     ],
                   ),
                 ),
               ),
               Expanded(
                   flex: 5,
-                  child: Form(
-                    //autovalidateMode: AutovalidateMode.always,
-                    key: formkey,
-                    child: Container(
+                  child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: Color(0xfff3ede0).withOpacity(0.4),
@@ -86,131 +95,142 @@ class _Login extends State<Login> {
                           )),
                       child: Padding(
                         padding: const EdgeInsets.all(24.0),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TextFormField(
-                                validator: MultiValidator([
-                                  EmailValidator(errorText: "correo invalido"),
-                                  RequiredValidator(
-                                      errorText: "campo requerido")
-                                ]),
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Color(0xfff3ede0),
-                                  hintText: "Correo",
-                                  prefixIcon: Icon(
-                                    Icons.mail,
-                                    color: Colors.grey[600],
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xff6B7A40), width: 2.0),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xff745D20), width: 2.0),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.0,
-                              ),
-                              TextFormField(
-                                validator: MultiValidator([
-                                  RequiredValidator(
-                                      errorText: "campo requerido"),
-                                  MinLengthValidator(8,
-                                      errorText: "Minimo 8 caracteres")
-                                ]),
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Color(0xfff3ede0),
-                                  hintText: "Contreseña",
-                                  prefixIcon: Icon(
-                                    Icons.lock,
-                                    color: Colors.grey[600],
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xff6B7A40), width: 2.0),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xff745D20), width: 2.0),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    "Olvidaste tu contraseña",
-                                    textAlign: TextAlign.end,
-                                    style: TextStyle(
-                                      color: Color(0xff6B7A40),
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 50.0,
-                              ),
-                              Container(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  style: elevButtonStyle,
-                                  onPressed: validate,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 18.0),
-                                    child: Text(
-                                      "Ingresar",
-                                      style: TextStyle(
-                                        color: Color(0xfff3ede0),
-                                        fontSize: 18.0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 80.0,
-                              ),
-                              Row(
+                        child: Form(
+                          autovalidateMode: AutovalidateMode.always,
+                          key: formkey,
+                          child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Aún no tienes una cuenta?"),
-                                  ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.transparent,
-                                        onPrimary: Color(0xff6B7A40),
-                                        shadowColor: Colors.transparent,
+                                  TextFormField(
+                                    validator: MultiValidator([
+                                      EmailValidator(errorText: "correo invalido"),
+                                      RequiredValidator(
+                                          errorText: "campo requerido")
+                                    ]),
+                                    keyboardType: TextInputType.emailAddress,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Color(0xfff3ede0),
+                                      hintText: "Correo",
+                                      prefixIcon: Icon(
+                                        Icons.mail,
+                                        color: Colors.grey[600],
                                       ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    RoleMenu()));
-                                      },
-                                      child: Text("Registrate ahora")),
-                                ],
-                              ),
-                            ]),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xff6B7A40), width: 2.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xff745D20), width: 2.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  TextFormField(
+                                    validator: MultiValidator([
+                                      RequiredValidator(
+                                          errorText: "campo requerido"),
+                                      MinLengthValidator(8,
+                                          errorText: "Minimo 8 caracteres")
+                                    ]),
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Color(0xfff3ede0),
+                                      hintText: "Contreseña",
+                                      prefixIcon: Icon(
+                                        Icons.lock,
+                                        color: Colors.grey[600],
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xff6B7A40), width: 2.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xff745D20), width: 2.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Olvidaste tu contraseña",
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                          color: Color(0xff6B7A40),
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 50.0,
+                                  ),
+
+                                  Container(
+                                    child: ElevatedButton(
+                                      style: elevButtonStyle,
+                                      onPressed: validate,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0),
+                                        child: Text(
+                                          "Ingresar",
+                                          style: TextStyle(
+                                            color: Color(0xfff3ede0),
+                                            fontSize: 18.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 80.0,
+                                  ),
+                                  Expanded(
+                                    flex: 20,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text("Aún no tienes una cuenta?"),
+                                        GestureDetector(
+                                          child: const Text(" Registrate ahora",
+                                              style: TextStyle(
+                                                  color: Color(0xff6B7A40), decoration: TextDecoration.underline)
+                                          ),
+                                          onTap: () async {
+                                            try {
+                                              await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          RoleMenu()));
+                                            } catch (err) {
+                                              debugPrint('Something bad happened');
+                                            }
+                                          },
+                                        )
+
+                                      ],
+                                    ),
+                                  )
+                                ]),
+                          )
                       ),
                     ),
-                  ))
+                  )
             ]),
       ),
     );

@@ -16,8 +16,11 @@ class _StartMenu extends State<StartMenu> {
       primary: Color(0xff6B7A40),
       onPrimary: Color(0xfff3ede0),
       padding: EdgeInsets.all(20),
-      shadowColor: Color(0xfff3ede0),
-      elevation: 10
+      shadowColor: Color(0xffCEA660),
+      elevation: 10,
+      shape: new RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(30.0),
+      ),
     );
 
     return Scaffold(
@@ -42,12 +45,14 @@ class _StartMenu extends State<StartMenu> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.only(
+                top: 100
+              ),
               child: Center(
                 child: Text(
                   'Servi LP',
                   style: new TextStyle(
-                      fontSize: 80,
+                      fontSize: 60,
                       fontFamily: 'RobotoMono'
                   ),
                   textAlign: TextAlign.center,

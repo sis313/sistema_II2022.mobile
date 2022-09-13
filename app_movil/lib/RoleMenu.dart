@@ -15,8 +15,11 @@ class _RoleMenu extends State<RoleMenu> {
     final elevButtonStyle = ElevatedButton.styleFrom(
         primary: Color(0xff6B7A40),
         onPrimary: Color(0xfff3ede0),
-        padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-        shadowColor: Color(0xfff3ede0),
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+        shadowColor: Color(0xffCEA660),
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(30.0),
+        ),
         elevation: 10
     );
 
@@ -42,12 +45,12 @@ class _RoleMenu extends State<RoleMenu> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(top: 60),
               child: Center(
                 child: Text(
                   'Servi LP',
                   style: new TextStyle(
-                    fontSize: 80,
+                    fontSize: 60,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -69,7 +72,7 @@ class _RoleMenu extends State<RoleMenu> {
               child: Text(
                 'Quiero registrarme como...',
                 style: new TextStyle(
-                  fontSize: 40,
+                  fontSize: 30,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -103,21 +106,6 @@ class _RoleMenu extends State<RoleMenu> {
                   style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
               ),
-
-            SizedBox(
-              height: 30,
-            ),
-            ElevatedButton(
-                style: elevButtonStyle,
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => StartMenu()));
-                },
-                child: Text(
-                  'Volver',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
-                ),
-              ),
-
           ],
         )
       )
