@@ -31,19 +31,13 @@ class MenuLateral extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.account_box_outlined),
             title: Text("Perfil"),
-<<<<<<< HEAD
-            onTap: () {
-              //TODO perfil aca
-=======
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context) => Perfil()));
->>>>>>> Favoritos
             },
           ),
           ListTile(
             leading: Icon(Icons.favorite_border),
             title: Text("Favoritos"),
-<<<<<<< HEAD
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => ClienteFavoritos()));
@@ -55,10 +49,6 @@ class MenuLateral extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => ClienteFavoritos()));
-=======
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Favoritos()));
->>>>>>> Favoritos
             },
           ),
           ListTile(
