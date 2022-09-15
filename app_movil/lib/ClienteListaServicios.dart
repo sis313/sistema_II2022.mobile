@@ -14,9 +14,9 @@ class ClienteListaServicios extends StatefulWidget {
 class _ClienteListaServicios extends State<ClienteListaServicios> {
   _cargarFavoritos() async {
     servicios = [
-      servicio("1", 'panaderia', 213, 'holaa', 'panaderia', 'as', false),
-      servicio("2", 'panaderia', 213, 'holaa', 'panaderia', 'as', false),
-      servicio("3", 'panaderia', 213, 'holaa', 'panaderia', 'as', false)
+      servicio("1", 'panaderia', 213, 'holaa', 'panaderia', 'as', false, 0),
+      servicio("2", 'panaderia', 213, 'holaa', 'panaderia', 'as', false, 0),
+      servicio("3", 'panaderia', 213, 'holaa', 'panaderia', 'as', false, 0)
     ];
     final prefs = await SharedPreferences.getInstance();
     final List<String> items = prefs.getStringList("favoritos");
@@ -100,6 +100,27 @@ class _ClienteListaServicios extends State<ClienteListaServicios> {
                                               ? Icons.favorite
                                               : Icons.favorite_border,
                                           color: Colors.red,
+                                        ),
+                                        Row(
+                                          children: List.generate(
+                                            5,
+                                            (i) => InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  servicios[index]
+                                                      .calificacion = i + 1;
+                                                });
+                                              },
+                                              child: Icon(
+                                                i <
+                                                        servicios[index]
+                                                            .calificacion
+                                                    ? Icons.star
+                                                    : Icons.star_border,
+                                                color: Colors.yellow,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
