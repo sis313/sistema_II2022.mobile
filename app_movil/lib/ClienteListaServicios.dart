@@ -113,7 +113,7 @@ class _ClienteListaServicios extends State<ClienteListaServicios> {
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 4.0),
                                             child: Text(
-                                              "Ingresar",
+                                              "Comentarios",
                                               style: TextStyle(
                                                 color: Color(0xfff3ede0),
                                                 fontSize: 18.0,

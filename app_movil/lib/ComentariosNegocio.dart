@@ -1,105 +1,85 @@
 import 'package:flutter/material.dart';
-
-
-
 class ComentariosNegocio extends StatefulWidget {
-  ComentariosNegocio({Key key, this.title}) : super(key: key);
-  final String title;
+
 
   @override
-  _ComentariosNegocio createState() => _ComentariosNegocio();
+  State<ComentariosNegocio> createState() => _ComentariosNegocioState();
 }
 
-class _ComentariosNegocio extends State<ComentariosNegocio> {
+class _ComentariosNegocioState extends State<ComentariosNegocio> {
   TextEditingController _textFieldController = TextEditingController();
 
-  Future<void> _displayTextInputDialog(BuildContext context) async {
+  _displayDialog(BuildContext context) async {
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Comentarios'),
+            title: Text('Nuevo comentario'),
             content: TextField(
-              onChanged: (value) {
-                setState(() {
-                  valueText = value;
-                });
-              },
               controller: _textFieldController,
-              decoration: InputDecoration(hintText: "Comentario"),
+              decoration: InputDecoration(hintText: "Entrar comentario"),
             ),
-            actions: <Widget>[
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.red,
-                  textStyle:  TextStyle( color: Colors.white),),
-
-                child: Text('CANCEL'),
+            actions: [
+              new ElevatedButton(
+                child: new Text('Enviar'),
                 onPressed: () {
-                  setState(() {
-                    Navigator.pop(context);
-                  });
+                  Navigator.of(context).pop();
                 },
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.green,
-                  textStyle:  TextStyle( color: Colors.white),),
-
-                child: Text('OK'),
-                onPressed: () {
-                  setState(() {
-                    codeDialog = valueText;
-                    Navigator.pop(context);
-                  });
-                },
-              ),
-
+              )
             ],
           );
-        });
+        }
+    );
   }
-
-  String codeDialog;
-  String valueText;
+  Card miCard() {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      margin: EdgeInsets.all(15),
+      elevation: 10,
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            contentPadding: EdgeInsets.fromLTRB(15, 10, 25, 0),
+            title: Text('Titulo'),
+            subtitle: Text(
+                'Este es el subtitulo del card. Aqui podemos colocar descripción de este card.'),
+            leading: Icon(Icons.account_box_outlined),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              //ElevatedButton(onPressed: () => {}, child: Icon(Icons.edit)),
+              //ElevatedButton(onPressed: () => {}, child: Icon(Icons.delete)),
+            ],
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: (codeDialog == "123456") ? Colors.green : Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.teal,
-        title: Text('Alert Dialog'),
+        title: Text('Comentarios del negocio'),
+        backgroundColor: Color(0xff6B7A40),
       ),
       body: Center(
-        
         child: Column(
-          children: [
-        ListView.builder(
+            children: <Widget>[
+              miCard(),
+              FloatingActionButton(
+                child: Icon(Icons.add),
+                elevation: 50.0,
+                backgroundColor: Color(0xffCEA660),
+          onPressed: () => _displayDialog(context),
 
-        //itemCount: items.length,
-          itemBuilder: (context, index) {
 
-              return ListTile(
-                title: Text('User'),
-                subtitle: Text('comentario'),
-
-              );
-
-            },
-        ),
-            ElevatedButton.icon( icon: Icon(Icons.edit), onPressed: () {
-
-            },),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(primary:  Colors.teal,
-                textStyle:  TextStyle( color: Colors.white),),
-              onPressed: () {
-                _displayTextInputDialog(context);
-              },
-              child: Text('Press For Alert'),
-            ),
-          ],
+        ),],
         ),
       ),
     );
   }
+
 }
+
