@@ -8,24 +8,19 @@ class StartMenu extends StatefulWidget {
 }
 
 class _StartMenu extends State<StartMenu> {
+  double buttonWidth = 250;
+
   @override
-  //String color = HexColor.replaceAll('#', '0xff');
   Widget build(BuildContext context) {
 
     final elevButtonStyle = ElevatedButton.styleFrom(
-      primary: Color(0xff6B7A40),
-      onPrimary: Color(0xfff3ede0),
-      padding: EdgeInsets.all(20),
-      shadowColor: Color(0xffCEA660),
-      elevation: 10,
-      shape: new RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(30.0),
-      ),
+      primary: Colors.black,
+      padding: EdgeInsets.all(10),
     );
 
     return Scaffold(
-      //backgroundColor: Color(0xfff3ede0),
       body: Container(
+        /*
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -42,6 +37,8 @@ class _StartMenu extends State<StartMenu> {
               ]
           )
         ),
+         */
+
         child: Column(
           children: <Widget>[
             Padding(
@@ -49,68 +46,74 @@ class _StartMenu extends State<StartMenu> {
                 top: 100
               ),
               child: Center(
-                child: Text(
-                  'Servi LP',
-                  style: new TextStyle(
-                      fontSize: 60,
-                      fontFamily: 'RobotoMono'
-                  ),
-                  textAlign: TextAlign.center,
+                child: Text.rich(
+                  TextSpan(
+                    children: <TextSpan> [
+                      TextSpan(text: "Bienvenido a ", style: TextStyle(fontSize: 30)),
+                      TextSpan(text: "Mip", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+                      TextSpan(text: "!", style: TextStyle(fontSize: 30)),
+                    ]
+                  )
                 ),
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Center(
-                child: Container(
-                    width: 200,
-                    height: 150,
-                    /*decoration: BoxDecoration(
-                       // color: Colors.red,
-                        borderRadius: BorderRadius.circular(50.0)),*/
-                    child: Image(
-                      image: AssetImage('assets/icono.png'),
-                    )
+            SizedBox(
+              height: 50,
+            ),
+
+            Center(
+              child: Container(
+                  width: 150,
+                  height: 150,
+                  /*decoration: BoxDecoration(
+                     // color: Colors.red,
+                      borderRadius: BorderRadius.circular(50.0)),*/
+                  child: Image(
+                    image: AssetImage('assets/icono.png'),
+                  )
+              ),
+            ),
+
+            SizedBox(
+              height: 50,
+            ),
+
+            Container(
+              width: 250,
+              child: ElevatedButton(
+                style: elevButtonStyle,
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                },
+                child: Text(
+                  'Inicia sesión',
+                  style: TextStyle(color: Colors.white, fontSize: 15),
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                ElevatedButton(
+
+            SizedBox(
+              height: 5,
+            ),
+
+            Container(
+              width: 250,
+              child: ElevatedButton(
                   style: elevButtonStyle,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
                   },
                   child: Text(
-                    'Ingresar',
-                    style: TextStyle(color: Color(0xfff3ede0), fontSize: 20),
+                    'Regístrate',
+                    style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
-                ),
-
-                SizedBox(
-                  width: 20,
-                  height: 130,
-                ),
-               ElevatedButton(
-                    style: elevButtonStyle,
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
-                    },
-                    child: Text(
-                      'Registrarse',
-                      style: TextStyle(color: Color(0xfff3ede0), fontSize: 20),
-                    ),
-                  ),
-
-              ],
-
+              ),
             ),
 
           ],
         ),
-      )
+      ),
     );
   }
 }
