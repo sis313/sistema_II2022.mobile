@@ -11,7 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login',
+      title: 'Mip',
+      theme: ThemeData(
+        primaryColor: Colors.black
+      ),
       debugShowCheckedModeBanner: false,
       home: StartMenu(),
     );
