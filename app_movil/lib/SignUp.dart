@@ -22,20 +22,14 @@ class _SignUp extends State<SignUp> {
   Widget build(BuildContext context) {
 
     final elevButtonStyle = ElevatedButton.styleFrom(
-        primary: Color(0xff6B7A40),
-        onPrimary: Color(0xfff3ede0),
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(30.0),
-        ),
-        shadowColor: Color(0xfff3ede0),
-        elevation: 10
+        primary: Colors.orange,
+        padding: EdgeInsets.all(10),
     );
 
     return Scaffold(
-      //backgroundColor: Color(0xfff3ede0),
       body: Container(
         decoration: BoxDecoration(
+          /*
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -50,145 +44,155 @@ class _SignUp extends State<SignUp> {
                   Color(0xff6B7A40)
                 ]
             )
+
+           */
         ),
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Text(
-                'Servi LP',
-                style: new TextStyle(
-                  fontSize: 50,
-                ),
-                textAlign: TextAlign.center,
-              ),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width,
+              maxHeight: MediaQuery.of(context).size.height,
             ),
-            /*Padding(
-              padding: const EdgeInsets.only(top: 60.0, bottom: 30),
-              child: Center(
-                child: Container(
-                    width: 200,
-                    height: 150,
-                    /*decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(50.0)),*/
-                    child: Image.asset('assets/icono.png')),
-              ),
-            ),
-
-             */
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child:Form(
-                  autovalidateMode: AutovalidateMode.always, key: formkey,
-                  child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15.0, right: 15.0, top: 15, bottom: 0),
-                          child: TextFormField(
-                            validator: MultiValidator([
-                              EmailValidator(errorText: "correo invalido"),
-                              RequiredValidator(errorText: "campo requerido")
-                            ]),
-                            decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xff6B7A40), width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xff745D20), width: 2.0),
-                                ),
-                                labelText: 'Correo',
-                                hintText: 'Ingresa un direccion valida como abc@gmail.com'
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15.0, right: 15.0, top: 15, bottom: 0),
-                          child: TextFormField(
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: "campo requerido"),
-                              MinLengthValidator(8, errorText: "Minimo 8 caracteres")
-                            ]
-                            ),
-                            obscureText: true,
-                            decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xff6B7A40), width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xff745D20), width: 2.0),
-                                ),
-                                labelText: 'Contraseña',
-                                hintText: 'Minimo 8 caracteres'
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15.0, right: 15.0, top: 15, bottom: 0),
-                          //padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: TextFormField(
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: "campo requerido"),
-                              MinLengthValidator(8, errorText: "Minimo 8 caracteres")
-                            ]
-                            ),
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xff6B7A40), width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xff745D20), width: 2.0),
-                              ),
-                              labelText: 'Confirmar contraseña',
-                              //hintText: 'Enter secure password'
-                            ),
-                          ),
-                        )
-                      ]
-                  )
-              ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            ElevatedButton(
-                style: elevButtonStyle,
-                onPressed: validate,
-                child: Text(
-                  'Registrar',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-
-            ),
-
-            SizedBox(
-              height: 150,
-            ),
-            Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Ya tienes una cuenta?"),
-                GestureDetector(
-                  child: const Text(" Iniciar sesión",
-                      style: TextStyle(
-                          color: Colors.white, decoration: TextDecoration.underline)
+              children: <Widget>[
+                Center(
+                  child: Text(
+                    'Nuevo usuario',
+                    style: new TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  onTap: () async {
-                    try {
-                      await  Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-                    } catch (err) {
-                      debugPrint('Something bad happened');
-                    }
-                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text("Bienvenido a nuestra familia!"),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child:Form(
+                      autovalidateMode: AutovalidateMode.always, key: formkey,
+                      child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0, top: 15, bottom: 0),
+                              child: TextFormField(
+                                validator: MultiValidator([
+                                  EmailValidator(errorText: "correo invalido"),
+                                  RequiredValidator(errorText: "campo requerido")
+                                ]),
+                                decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                    ),
+                                    labelText: 'Correo',
+                                    hintText: 'Ingresa un direccion valida'
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0, top: 15, bottom: 0),
+                              child: TextFormField(
+                                validator: MultiValidator([
+                                  RequiredValidator(errorText: "campo requerido"),
+                                  MinLengthValidator(8, errorText: "Minimo 8 caracteres")
+                                ]
+                                ),
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                    ),
+                                    labelText: 'Contraseña',
+                                    hintText: 'Minimo 8 caracteres'
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0, top: 15, bottom: 0),
+                              //padding: EdgeInsets.symmetric(horizontal: 15),
+                              child: TextFormField(
+                                validator: MultiValidator([
+                                  RequiredValidator(errorText: "campo requerido"),
+                                  MinLengthValidator(8, errorText: "Minimo 8 caracteres")
+                                ]
+                                ),
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                  ),
+                                  labelText: 'Confirmar contraseña',
+                                  //hintText: 'Enter secure password'
+                                ),
+                              ),
+                            )
+                          ]
+                      )
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: 250,
+                  child: ElevatedButton(
+                      style: elevButtonStyle,
+                      onPressed: validate,
+                      child: Text(
+                        'Registrar',
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
+
+                  ),
+                ),
+
+                SizedBox(
+                  height: 40,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Ya tienes una cuenta?"),
+                    GestureDetector(
+                      child: const Text(" Iniciar sesión",
+                          style: TextStyle(
+                              color: Colors.orange, decoration: TextDecoration.underline)
+                      ),
+                      onTap: () async {
+                        try {
+                          await  Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                        } catch (err) {
+                          debugPrint('Something bad happened');
+                        }
+                      },
+                    )
+
+                  ],
                 )
 
               ],
-            )
-
-          ],
+            ),
+          ),
         ),
       ),
     );
