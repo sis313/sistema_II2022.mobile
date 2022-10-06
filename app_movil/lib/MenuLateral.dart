@@ -1,5 +1,8 @@
 import 'package:app_movil/ClienteFavoritos.dart';
 import 'package:flutter/material.dart';
+import 'package:app_movil/Perfil.dart';
+
+import 'Favoritos.dart';
 
 class MenuLateral extends StatelessWidget {
   @override
@@ -28,8 +31,8 @@ class MenuLateral extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.account_box_outlined),
             title: Text("Perfil"),
-            onTap: () {
-              //TODO perfil aca
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Perfil()));
             },
           ),
           ListTile(

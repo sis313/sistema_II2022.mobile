@@ -14,9 +14,9 @@ class ClienteFavoritos extends StatefulWidget {
 class _ClienteFavoritos extends State<ClienteFavoritos> {
   _cargarFavoritos() async {
     var serviciosAux = [
-      servicio("1", 'panaderia', 213, 'holaa', 'panaderia', 'as', false),
-      servicio("2", 'panaderia', 213, 'holaa', 'panaderia', 'as', false),
-      servicio("3", 'panaderia', 213, 'holaa', 'panaderia', 'as', false)
+      servicio("1", 'panaderia', 213, 'holaa', 'panaderia', 'as', false, 0),
+      servicio("2", 'panaderia', 213, 'holaa', 'panaderia', 'as', false, 0),
+      servicio("3", 'panaderia', 213, 'holaa', 'panaderia', 'as', false, 0)
     ];
     final prefs = await SharedPreferences.getInstance();
     final List<String> items = prefs.getStringList("favoritos");

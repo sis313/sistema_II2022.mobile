@@ -23,14 +23,14 @@ class _Login extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final elevButtonStyle = ElevatedButton.styleFrom(
-        primary: Color(0xff6B7A40),
-        onPrimary: Color(0xfff3ede0),
-        shadowColor: Color(0xffCEA660),
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-        elevation: 10,
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(30.0),
-        ),
+      primary: Color(0xff6B7A40),
+      onPrimary: Color(0xfff3ede0),
+      shadowColor: Color(0xffCEA660),
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+      elevation: 10,
+      shape: new RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(30.0),
+      ),
     );
 
     return Scaffold(
@@ -230,11 +230,12 @@ class _Login extends State<Login> {
                                       ],
                                     ),
                                   )
-                                ]),
-                          )
-                      ),
-                    ),
-                  )
+
+                            ]),
+                      )
+                  ),
+                ),
+              )
             ]),
       ),
     );

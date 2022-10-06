@@ -8,9 +8,10 @@ class servicio {
   String _tipo;
   String _estado;
   bool favorito;
+  int calificacion;
 
   servicio(this.id, this._nombre, this._contacto, this._descripcion, this._tipo,
-      this._estado, this.favorito);
+      this._estado, this.favorito, this.calificacion);
 
   @override
   String toString() {
