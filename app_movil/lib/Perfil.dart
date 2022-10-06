@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'ClienteServicios.dart';
+import 'Inicio.dart';
 
 
 class Perfil extends StatelessWidget {
@@ -33,7 +34,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             color: Colors.green,
           ),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ClienteServicios()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
           },
         ),
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'ClienteServicios.dart';
+import 'MenuLateral.dart';
 void main() => runApp(MaterialApp(home: Home()));
 
 class Home extends StatefulWidget {
@@ -12,11 +13,15 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MenuLateral(),
+      appBar: AppBar(title: Text("hola"),
+          backgroundColor:  Colors.green,
+          elevation: 1),
       backgroundColor: Color(0xffffffff),
       body: Column(
         children: <Widget>[
           SizedBox(
-            height: 110,
+            height: 10,
           ),
           Padding(
             padding: EdgeInsets.only(left: 16, right: 16),

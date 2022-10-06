@@ -5,24 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5d78a1b-87b9-4061-9f47-daac2e17a4c0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app_movil/assets/barrio.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app_movil/assets/farmacia.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app_movil/assets/hospital.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app_movil/assets/notification.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app_movil/assets/panaderia.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app_movil/assets/supermercado.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app_movil/assets/veterinaria.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app_movil/lib/Inicio.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app_movil/lib/ClienteServicios.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/lib/ClienteServicios.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app_movil/lib/Login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/lib/Login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sisdev.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sistema_II2022.mobile.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_movil/lib/Inicio.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/lib/Inicio.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_movil/lib/MenuLateral.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/lib/MenuLateral.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_movil/lib/Perfil.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/lib/Perfil.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app_movil/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app_movil/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -43,13 +55,18 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app_movil/assets" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app_movil" />
+    <property name="project.structure.last.edited" value="Dependencies" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
