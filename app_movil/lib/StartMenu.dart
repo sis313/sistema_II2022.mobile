@@ -42,9 +42,6 @@ class _StartMenu extends State<StartMenu> {
             child: Container(
                 width: 150,
                 height: 150,
-                /*decoration: BoxDecoration(
-                   // color: Colors.red,
-                    borderRadius: BorderRadius.circular(50.0)),*/
                 child: Image(
                   image: AssetImage('assets/icono.png'),
                 )
