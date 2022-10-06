@@ -27,7 +27,7 @@ class _StartMenu extends State<StartMenu> {
               TextSpan(
                 children: <TextSpan> [
                   TextSpan(text: "Bienvenido a ", style: TextStyle(fontSize: 30)),
-                  TextSpan(text: "Mip", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+                  TextSpan(text: "Mip", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.orange)),
                   TextSpan(text: "!", style: TextStyle(fontSize: 30)),
                 ]
               )
