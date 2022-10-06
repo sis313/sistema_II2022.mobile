@@ -3,112 +3,127 @@ import 'package:app_movil/RoleMenu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_movil/MenuLateral.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'Servicio.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-class ClienteServicios extends StatefulWidget {
-  @override
-  _ClienteServicios createState() => _ClienteServicios();
-}
+class ClienteServicios extends StatelessWidget {
+  Items item1 = new Items(
+      title: "Supermercados",
+      subtitle: "Comida,otros",
+      event: "15 encontrados",
+      img: "assets/supermercado.png");
 
-class _ClienteServicios extends State<ClienteServicios> {
-  _cargarFavoritos() {}
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  Items item2 = new Items(
+    title: "Hospitales",
+    subtitle: "Bocali, Apple",
+    event: "15 encontrados",
+    img: "assets/hospital.png",
+  );
+  Items item3 = new Items(
+    title: "Panaderias",
+    subtitle: "Lucy Mao going to Office",
+    event: "15 encontrados",
+    img: "assets/panaderia.png",
+  );
+  Items item4 = new Items(
+    title: "Veterinaria",
+    subtitle: "Rose favirited your Post",
+    event: "15 encontrados",
+    img: "assets/veterinaria.png",
+  );
+  Items item5 = new Items(
+    title: "Farmacias",
+    subtitle: "Homework, Design",
+    event: "15 encontrados",
+    img: "assets/farmacia.png",
+  );
+  Items item6 = new Items(
+    title: "Tiendas de Barrio",
+    subtitle: "",
+    event: "15 encontrados",
+    img: "assets/barrio.png",
+  );
 
   @override
   Widget build(BuildContext context) {
-    List<servicio> _vlam;
-    List<String> categorias = [
-      'Hospitales',
-      'Restaurantes',
-      'entretenimiento',
-      'Educación',
-      'Bares'
-    ];
-    List<Icon> icon = [
-      Icon(Icons.local_hospital),
-      Icon(Icons.restaurant),
-      Icon(Icons.movie_creation_outlined),
-      Icon(Icons.account_balance),
-      Icon(Icons.local_drink)
-    ];
-    return Scaffold(
-      drawer: MenuLateral(),
-      appBar: AppBar(
-        title: Text('Categorias 2'),
-        backgroundColor: Color(0xff6B7A40),
-      ), //AppBar
-      //backgroundColor: Color(0xfff3ede0),
-      body: Container(
-          child: Padding(
-        padding: const EdgeInsets.all(14.0),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: categorias.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        print("press button");
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ClienteListaServicios()));
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Flexible(
-                                child: Container(
-                                  height: 100,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xffCEA660),
-                                  ),
-                                  child: FittedBox(
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            categorias[index].toString(),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10),
-                                          ),
-                                          Icon(
-                                            icon[index].icon,
-                                            color: Colors.black,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 150,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  }),
-            )
-          ], //<Widget>[]
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-        ), //Column
-      ) //Padding
+    List<Items> myList = [item1, item2, item3, item4, item5, item6];
+    //
+    return Flexible(
+
+      child: GridView.count(
+
+      childAspectRatio: 1.0,
+      padding: EdgeInsets.only(left: 16, right: 16),
+      crossAxisCount: 2,
+      crossAxisSpacing: 18,
+      mainAxisSpacing: 18,
+      children: myList.map((data) {
+        return GestureDetector(
+          onTap:  () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>ClienteListaServicios()));
+        },
+          child: Container(
+            decoration: BoxDecoration(
+                color: Color(0xffd3ae5e), borderRadius: BorderRadius.circular(10)),
+            child: Column(
+
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                Image.asset(
+                  data.img,
+                  width: 42,
+                ),
+                SizedBox(
+                  height: 14,
+                ),
+                Text(
+                  data.title,
+                  style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600)),
+
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  data.subtitle,
+                  style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                          color: Colors.white38,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600)),
+                ),
+                SizedBox(
+                  height: 14,
+                ),
+                Text(
+                  data.event,
+                  style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600)),
+                ),
+
+              ],
+            ),
           ),
+        );
+      }).toList()),
+
     );
   }
+}
+
+class Items {
+  String title;
+  String subtitle;
+  String event;
+  String img;
+  Items({this.title, this.subtitle, this.event, this.img});
 }

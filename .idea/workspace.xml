@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a5d78a1b-87b9-4061-9f47-daac2e17a4c0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app_movil/assets/barrio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_movil/assets/farmacia.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_movil/assets/hospital.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_movil/assets/notification.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_movil/assets/panaderia.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_movil/assets/supermercado.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_movil/assets/veterinaria.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_movil/lib/Inicio.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_movil/lib/ClienteServicios.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/lib/ClienteServicios.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_movil/lib/Login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/lib/Login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_movil/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_movil/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app_movil/pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2FjmDwtDLV6yAZmr3AEeHatid4J" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app_movil/assets" />
+    <property name="settings.editor.selected.configurable" value="dart.settings" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Oney\uiux\app_movil\assets" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Flutter.main.dart">
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <option name="filePath" value="$PROJECT_DIR$/app_movil/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart (1)" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/app_movil/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/app_movil/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/app_movil/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Dart Command Line App.main.dart (1)" />
+      <item itemvalue="Dart Command Line App.main.dart" />
+      <item itemvalue="Flutter.main.dart" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a5d78a1b-87b9-4061-9f47-daac2e17a4c0" name="Changes" comment="" />
+      <created>1665013752483</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665013752483</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
