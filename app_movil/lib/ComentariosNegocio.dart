@@ -62,7 +62,7 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Comentarios del negocio'),
-        backgroundColor: Color(0xff6B7A40),
+        backgroundColor: Colors.orange,
       ),
       body: Center(
         child: Column(

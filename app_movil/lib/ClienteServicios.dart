@@ -65,7 +65,7 @@ class ClienteServicios extends StatelessWidget {
         },
           child: Container(
             decoration: BoxDecoration(
-                color: Color(0xffd3ae5e), borderRadius: BorderRadius.circular(10)),
+                color: Color(0xff8b9d43), borderRadius: BorderRadius.circular(10)),
             child: Column(
 
               mainAxisAlignment: MainAxisAlignment.center,

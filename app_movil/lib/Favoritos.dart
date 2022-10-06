@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
 import 'ClienteServicios.dart';
+import 'MenuLateral.dart';
 
 
 void main() => runApp(Favoritos());
@@ -83,7 +84,7 @@ class RandWordsState extends State<RandWords> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: Colors.green,
+              color: Colors.orange,
             ),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ClienteServicios()));
@@ -96,9 +97,8 @@ class RandWordsState extends State<RandWords> {
 
 
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: Text('Mis Favoritos'),
-
-      ),
+      drawer: MenuLateral(),
+      appBar: AppBar(title: Text("Mis Favoritos"),
+          backgroundColor: Colors.orange ),
       body: _buildList());
 }

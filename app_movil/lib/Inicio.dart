@@ -14,8 +14,8 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MenuLateral(),
-      appBar: AppBar(title: Text("hola"),
-          backgroundColor:  Colors.green,
+      appBar: AppBar(title: Text("Inicio"),
+          backgroundColor:  Colors.orangeAccent,
           elevation: 1),
       backgroundColor: Color(0xffffffff),
       body: Column(

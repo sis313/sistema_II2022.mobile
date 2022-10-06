@@ -1,4 +1,5 @@
 import 'package:app_movil/ClienteFavoritos.dart';
+import 'package:app_movil/StartMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:app_movil/Perfil.dart';
 
@@ -30,7 +31,7 @@ class MenuLateral extends StatelessWidget {
                     image: AssetImage('assets/direccion1.gif'))),
           ),
           ListTile(
-            leading: Icon(Icons.favorite_border),
+            leading: Icon(Icons.home),
             title: Text("Home"),
             onTap: () {
               Navigator.of(context).push(
@@ -52,19 +53,13 @@ class MenuLateral extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => Favoritos()));
             },
           ),
-          ListTile(
-            leading: Icon(Icons.favorite_border),
-            title: Text("Favoritos2"),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ClienteFavoritos()));
-            },
-          ),
+
           ListTile(
             leading: Icon(Icons.arrow_back_sharp),
             title: Text("Salir"),
             onTap: () {
-              //TODO salir aca
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => StartMenu()));
             },
           )
         ],
