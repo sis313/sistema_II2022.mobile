@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
+import 'Mapa.dart';
+
 class Login extends StatefulWidget {
   @override
   _Login createState() => _Login();
@@ -182,7 +184,16 @@ class _Login extends State<Login> {
                               Container(
                                 child: ElevatedButton(
                                   style: elevButtonStyle,
-                                  onPressed: validate,
+                                  onPressed: /*validate*/() async{
+                                    try {
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => MapSample()));
+                                    } catch (err) {
+                                      debugPrint('Something bad happened');
+                                    }
+                                  },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0),
