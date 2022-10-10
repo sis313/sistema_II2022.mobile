@@ -178,7 +178,6 @@ class _Login extends State<Login> {
                               SizedBox(
                                 height: 50.0,
                               ),
-
                               Container(
                                 child: ElevatedButton(
                                   style: elevButtonStyle,
@@ -208,8 +207,9 @@ class _Login extends State<Login> {
                                     GestureDetector(
                                       child: const Text(" Registrate ahora",
                                           style: TextStyle(
-                                              color: Color(0xff6B7A40), decoration: TextDecoration.underline)
-                                      ),
+                                              color: Color(0xff6B7A40),
+                                              decoration:
+                                                  TextDecoration.underline)),
                                       onTap: () async {
                                         try {
                                           await Navigator.push(
@@ -222,13 +222,11 @@ class _Login extends State<Login> {
                                         }
                                       },
                                     )
-
                                   ],
                                 ),
                               )
                             ]),
-                      )
-                  ),
+                      )),
                 ),
               )
             ]),

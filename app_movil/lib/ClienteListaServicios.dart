@@ -2,6 +2,7 @@ import 'package:app_movil/RoleMenu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_movil/MenuLateral.dart';
+import 'ComentariosNegocio.dart';
 import 'Servicio.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -100,6 +101,25 @@ class _ClienteListaServicios extends State<ClienteListaServicios> {
                                               ? Icons.favorite
                                               : Icons.favorite_border,
                                           color: Colors.red,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ComentariosNegocio()));
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 4.0),
+                                            child: Text(
+                                              "Comentarios",
+                                              style: TextStyle(
+                                                color: Color(0xfff3ede0),
+                                                fontSize: 18.0,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                         Row(
                                           children: List.generate(
