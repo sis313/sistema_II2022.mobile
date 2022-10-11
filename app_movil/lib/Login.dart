@@ -88,85 +88,90 @@ class _Login extends State<Login> {
                   ),
                 ),
                 Expanded(
-                    flex: 5,
-                    child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: Color(0xfff3ede0),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.0),
-                              topRight: Radius.circular(30.0),
-                            )),
-                        child: Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Form(
-                            autovalidateMode: AutovalidateMode.always,
-                            key: formkey,
-                            child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TextFormField(
-                                      validator: MultiValidator([
-                                        EmailValidator(errorText: "correo invalido"),
-                                        RequiredValidator(
-                                            errorText: "campo requerido")
-                                      ]),
-                                      keyboardType: TextInputType.emailAddress,
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Color(0xfff3ede0),
-                                        hintText: "Correo",
-                                        prefixIcon: Icon(
-                                          Icons.mail,
-                                          color: Colors.grey[600],
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.orangeAccent, width: 2.0),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.orangeAccent, width: 2.0),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                      ),
+                  flex: 5,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Color(0xfff3ede0),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30.0),
+                          topRight: Radius.circular(30.0),
+                        )),
+                    child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Form(
+                          autovalidateMode: AutovalidateMode.always,
+                          key: formkey,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextFormField(
+                                  validator: MultiValidator([
+                                    EmailValidator(
+                                        errorText: "correo invalido"),
+                                    RequiredValidator(
+                                        errorText: "campo requerido")
+                                  ]),
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Color(0xfff3ede0),
+                                    hintText: "Correo",
+                                    prefixIcon: Icon(
+                                      Icons.mail,
+                                      color: Colors.grey[600],
                                     ),
-                                    SizedBox(
-                                      height: 20.0,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.orangeAccent,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    TextFormField(
-                                      validator: MultiValidator([
-                                        RequiredValidator(
-                                            errorText: "campo requerido"),
-                                        MinLengthValidator(8,
-                                            errorText: "Minimo 8 caracteres")
-                                      ]),
-                                      obscureText: true,
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Color(0xfff3ede0),
-                                        hintText: "Contreseña",
-                                        prefixIcon: Icon(
-                                          Icons.lock,
-                                          color: Colors.grey[600],
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.orangeAccent, width: 2.0),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.orangeAccent, width: 2.0),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                      ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.orangeAccent,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    SizedBox(
-                                      height: 10.0,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20.0,
+                                ),
+                                TextFormField(
+                                  validator: MultiValidator([
+                                    RequiredValidator(
+                                        errorText: "campo requerido"),
+                                    MinLengthValidator(8,
+                                        errorText: "Minimo 8 caracteres")
+                                  ]),
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Color(0xfff3ede0),
+                                    hintText: "Contreseña",
+                                    prefixIcon: Icon(
+                                      Icons.lock,
+                                      color: Colors.grey[600],
                                     ),
-                                    /*
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.orangeAccent,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.orangeAccent,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                /*
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
@@ -181,77 +186,65 @@ class _Login extends State<Login> {
                                       ],
                                     ),
                                      */
-                                    SizedBox(
-                                      height: 50.0,
-                                    ),
-
-                                    Container(
-                                      child: ElevatedButton(
-                                        style: elevButtonStyle,
-                                        onPressed: (){
-                                          validate;
-                                          Navigator.of(context).push(MaterialPageRoute(
+                                SizedBox(
+                                  height: 50.0,
+                                ),
+                                Container(
+                                  child: ElevatedButton(
+                                    style: elevButtonStyle,
+                                    onPressed: () {
+                                      validate;
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
                                               builder: (context) => Home()));
-                                      },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 4.0),
-                                          child: Text(
-                                            "Ingresar",
-                                            style: TextStyle(
-                                              color: Color(0xfff3ede0),
-                                              fontSize: 18.0,
-                                            ),
-                                          ),
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Text(
+                                        "Ingresar",
+                                        style: TextStyle(
+                                          color: Color(0xfff3ede0),
+                                          fontSize: 18.0,
                                         ),
                                       ),
                                     ),
-                                    Expanded(
-                                      flex: 20,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text("Aún no tienes una cuenta?"),
-                                          GestureDetector(
-                                            child: const Text(" Registrate ahora",
-                                                style: TextStyle(
-                                                    color: Colors.orange, decoration: TextDecoration.underline)
-                                            ),
-                                            onTap: () async {
-                                              try {
-                                                await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            RoleMenu()));
-                                              } catch (err) {
-                                                debugPrint('Something bad happened');
-                                              }
-                                            },
-                                          )
-
-                                        ],
-                                      ),
-                                    )
-<<<<<<< HEAD
-
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("Aún no tienes una cuenta?"),
+                                      GestureDetector(
+                                        child: const Text(" Registrate ahora",
+                                            style: TextStyle(
+                                                color: Colors.orange,
+                                                decoration:
+                                                    TextDecoration.underline)),
+                                        onTap: () async {
+                                          try {
+                                            await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        RoleMenu()));
+                                          } catch (err) {
+                                            debugPrint(
+                                                'Something bad happened');
+                                          }
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                )
                               ]),
-                        )
-                    ),
+                        )),
                   ),
                 )
               ]),
         ),
-=======
-                                  ],
-                                ),
-                              )
-                            ]),
-                      )),
-                ),
-              )
-            ]),
->>>>>>> a144c7f8c2d5f8fc9bdb4db0041b3ea9629e05b1
       ),
     );
   }

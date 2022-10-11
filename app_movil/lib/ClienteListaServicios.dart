@@ -1,84 +1,79 @@
-import 'package:app_movil/Favoritos.dart';
+import 'package:app_movil/RoleMenu.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:app_movil/MenuLateral.dart';
 import 'ComentariosNegocio.dart';
+import 'Servicio.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Product {
-  final image;
-  final name;
-  final price;
-
-  Product(this.image, this.name, this.price);
+class ClienteListaServicios extends StatefulWidget {
+  @override
+  _ClienteListaServicios createState() => _ClienteListaServicios();
 }
 
-class ClienteListaServicios extends StatelessWidget {
-  List products = [
-    Product(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdygFdB_FfadQmmrDZUgLeJTILZBTU0d9Ffs3mLpYSh2rulaJo&usqp=CAU',
-        'Tienda 1',
-        5),
-    Product(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdygFdB_FfadQmmrDZUgLeJTILZBTU0d9Ffs3mLpYSh2rulaJo&usqp=CAU',
-        'Tienda 2',
-        4),
-  ];
+class _ClienteListaServicios extends State<ClienteListaServicios> {
+  _cargarFavoritos() async {
+    servicios = [
+      servicio("1", 'panaderia', 213, 'holaa', 'panaderia', 'as', false, 0),
+      servicio("2", 'panaderia', 213, 'holaa', 'panaderia', 'as', false, 0),
+      servicio("3", 'panaderia', 213, 'holaa', 'panaderia', 'as', false, 0)
+    ];
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> items = prefs.getStringList("favoritos");
+    if (items != null) {
+      for (var fav in items) {
+        for (var serv in servicios) {
+          if (serv.id == fav) {
+            serv.favorito = true;
+            break;
+          }
+        }
+      }
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    _cargarFavoritos();
+    super.initState();
+  }
+
+  List<servicio> servicios = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff6f7f9),
-      appBar: AppBar(title: Text("Mis Tiendas"),
-          backgroundColor:  Colors.orangeAccent ),
-      body: ListView(
-
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-            height: 20,
-
-          ),
-
-
-
-          Column(
-              children: products
-                  .map(
-                    (e) => GestureDetector(
-
-
-                          onTap:  () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>ComentariosNegocio()));
-                          },
-
-
-                      child: Container(
-                  margin:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(13),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey[200],
-                            blurRadius: 10,
-                            spreadRadius: 3,
-                            offset: Offset(3, 4))
-                      ],
-                  ),
-
-                  child: ListTile(
-                      leading: Image.network(
-                        e.image,
-                        fit: BoxFit.cover,
-                        width: 90,
-                        height: 100,
-                      ),
-                      title: Text(
-                        e.name,
-                        style: TextStyle(fontSize: 25),
-                      ),
-                      subtitle: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      drawer: MenuLateral(),
+      appBar: AppBar(
+        title: Text('Categorias'),
+        backgroundColor: Color(0xff6B7A40),
+      ), //AppBar
+      //backgroundColor: Color(0xfff3ede0),
+      body: Container(
+          child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                  itemCount: servicios.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () async {
+                        print("press servicio");
+                        final prefs = await SharedPreferences.getInstance();
+                        List<String> fav = [];
+                        servicios[index].favorito = !servicios[index].favorito;
+                        for (var serv in servicios) {
+                          if (serv.favorito) {
+                            fav.add(serv.id);
+                          }
+                        }
+                        await prefs.setStringList("favoritos", fav);
+                        setState(() {});
+                      },
+                      child: Column(
                         children: <Widget>[
                           Row(
                             children: <Widget>[
@@ -150,20 +145,24 @@ class ClienteListaServicios extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  child:  Icon(Icons.favorite_border),
-
-                              )
-                          ),
+                                ),
+                              )),
+                              SizedBox(
+                                height: 150,
+                              ),
+                            ],
+                          )
                         ],
                       ),
-                  ),
-                ),
-                    ),
-              )
-                  .toList())
-
-        ],
-      ),
+                    );
+                  }),
+            )
+          ], //<Widget>[]
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+        ), //Column
+      ) //Padding
+          ),
     );
   }
 }

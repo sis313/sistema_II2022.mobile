@@ -35,41 +35,40 @@ class MenuLateral extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text("Home"),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Home()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Home()));
             },
           ),
           ListTile(
             leading: Icon(Icons.account_box_outlined),
             title: Text("Perfil"),
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Perfil()));
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Perfil()));
             },
           ),
           ListTile(
             leading: Icon(Icons.favorite_border),
             title: Text("Favoritos"),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Favoritos()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Favoritos()));
             },
           ),
-
           ListTile(
             leading: Icon(Icons.arrow_back_sharp),
             title: Text("Mapa"),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => MapSample()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => MapSample()));
             },
-          )
-
+          ),
           ListTile(
             leading: Icon(Icons.arrow_back_sharp),
             title: Text("Salir"),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => StartMenu()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => StartMenu()));
             },
           )
         ],
