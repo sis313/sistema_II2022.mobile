@@ -5,6 +5,7 @@ import 'package:app_movil/Perfil.dart';
 
 import 'Favoritos.dart';
 import 'Inicio.dart';
+import 'Mapa.dart';
 
 class MenuLateral extends StatelessWidget {
   @override
@@ -53,6 +54,15 @@ class MenuLateral extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => Favoritos()));
             },
           ),
+
+          ListTile(
+            leading: Icon(Icons.arrow_back_sharp),
+            title: Text("Mapa"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => MapSample()));
+            },
+          )
 
           ListTile(
             leading: Icon(Icons.arrow_back_sharp),
