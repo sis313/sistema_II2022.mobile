@@ -80,19 +80,75 @@ class ClienteListaServicios extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text("\Estrellas :" + e.price.toString()),
-                          SizedBox(height: 10),
-
-
-                          GestureDetector(
-
-                              onTap:  () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) =>Favoritos()));
-                              },
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 1.0,
-
+                          Row(
+                            children: <Widget>[
+                              Flexible(
+                                  child: Container(
+                                height: 100,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(0xffCEA660),
+                                ),
+                                child: FittedBox(
+                                  child: Container(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          servicios[index].nombre,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10),
+                                        ),
+                                        Icon(
+                                          servicios[index].favorito
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          color: Colors.red,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ComentariosNegocio()));
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 4.0),
+                                            child: Text(
+                                              "Comentarios",
+                                              style: TextStyle(
+                                                color: Color(0xfff3ede0),
+                                                fontSize: 18.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          children: List.generate(
+                                            5,
+                                            (i) => InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  servicios[index]
+                                                      .calificacion = i + 1;
+                                                });
+                                              },
+                                              child: Icon(
+                                                i <
+                                                        servicios[index]
+                                                            .calificacion
+                                                    ? Icons.star
+                                                    : Icons.star_border,
+                                                color: Colors.yellow,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   child:  Icon(Icons.favorite_border),
 

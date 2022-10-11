@@ -231,6 +231,7 @@ class _Login extends State<Login> {
                                         ],
                                       ),
                                     )
+<<<<<<< HEAD
 
                               ]),
                         )
@@ -239,6 +240,16 @@ class _Login extends State<Login> {
                 )
               ]),
         ),
+=======
+                                  ],
+                                ),
+                              )
+                            ]),
+                      )),
+                ),
+              )
+            ]),
+>>>>>>> a144c7f8c2d5f8fc9bdb4db0041b3ea9629e05b1
       ),
     );
   }

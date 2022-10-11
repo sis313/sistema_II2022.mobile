@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+
 class ComentariosNegocio extends StatefulWidget {
-
-
   @override
   State<ComentariosNegocio> createState() => _ComentariosNegocioState();
 }
@@ -28,9 +27,9 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
               )
             ],
           );
-        }
-    );
+        });
   }
+
   Card miCard() {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -48,8 +47,8 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              //ElevatedButton(onPressed: () => {}, child: Icon(Icons.edit)),
-              //ElevatedButton(onPressed: () => {}, child: Icon(Icons.delete)),
+              ElevatedButton(onPressed: () => {}, child: Icon(Icons.edit)),
+              ElevatedButton(onPressed: () => {}, child: Icon(Icons.delete)),
             ],
           )
         ],
@@ -66,20 +65,17 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
       ),
       body: Center(
         child: Column(
-            children: <Widget>[
-              miCard(),
-              FloatingActionButton(
-                child: Icon(Icons.add),
-                elevation: 50.0,
-                backgroundColor: Color(0xffCEA660),
-          onPressed: () => _displayDialog(context),
-
-
-        ),],
+          children: <Widget>[
+            miCard(),
+            FloatingActionButton(
+              child: Icon(Icons.add),
+              elevation: 50.0,
+              backgroundColor: Color(0xffCEA660),
+              onPressed: () => _displayDialog(context),
+            ),
+          ],
         ),
       ),
     );
   }
-
 }
-
