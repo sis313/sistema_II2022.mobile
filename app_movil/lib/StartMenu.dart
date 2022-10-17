@@ -1,4 +1,6 @@
+import 'package:app_movil/servers/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'Login.dart';
 import 'RoleMenu.dart';
 
@@ -85,6 +87,13 @@ class _StartMenu extends State<StartMenu> {
           ),
 
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          String response = Provider.of<BoActiveProvider>(context, listen: false).getCity() as String;
+          print("Response from client: $response");
+        },
+        child: Icon(Icons.account_tree_sharp),
       ),
     );
   }
