@@ -3,20 +3,19 @@ import 'package:http/http.dart' as http;
 
 class BoActiveProvider extends ChangeNotifier {
   // Static data
-  final String apiURL = "https://serviceprojectspring.herokuapp.com";
+  final String apiURL = "serviceprojectspring.herokuapp.com";
 
   // Return data
   String cityResponse;
 
   // Methods
-  Future<String> getCity() async {
+  void getCity() async {
+    print("Haciendo peticion...");
     var url = Uri.https(apiURL, 'api/city');
     final response = await http.get(url);
+    print("Response listo!");
 
-    print("Response status: ${response.statusCode}");
-    print("Response body: ${response.body}");
-
-    cityResponse = response.toString();
-    return cityResponse;
+    print("Response status: ${response.statusCode}"); // retorna un numero
+    print("Response body: ${response.body}"); // retorna una lista
   }
 }

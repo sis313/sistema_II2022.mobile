@@ -90,8 +90,10 @@ class _StartMenu extends State<StartMenu> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          String response = Provider.of<BoActiveProvider>(context, listen: false).getCity() as String;
-          print("Response from client: $response");
+          print("==============================");
+          print("Calling provider...");
+          Provider.of<BoActiveProvider>(context, listen: false).getCity();
+          // print("Response from client: $response");
         },
         child: Icon(Icons.account_tree_sharp),
       ),
