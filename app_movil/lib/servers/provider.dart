@@ -18,4 +18,42 @@ class BoActiveProvider extends ChangeNotifier {
     print("Response status: ${response.statusCode}"); // retorna un numero
     print("Response body: ${response.body}"); // retorna una lista
   }
+
+
+  void getMunicipio() async {
+    print("Haciendo peticion...");
+    var url = Uri.https(apiURL, 'api/municipalities');
+    final response = await http.get(url);
+    print("furula!");
+
+    print("Response status: ${response.statusCode}"); // retorna un numero
+    print("Response body: ${response.body}"); // retorna una lista
+  }
+  void getComent() async {
+    print("Haciendo peticion...");
+    var url = Uri.https(apiURL, '/api/comment');
+    final response = await http.get(url);
+    print("furula!");
+
+    print("Response status: ${response.statusCode}"); // retorna un numero
+    print("Response body: ${response.body}"); // retorna una lista
+  }
+  void getRanting() async {
+    print("Haciendo peticion...");
+    var url = Uri.https(apiURL, '/api/rating');
+    final response = await http.get(url);
+    print("furula!");
+
+    print("Response status: ${response.statusCode}"); // retorna un numero
+    print("Response body: ${response.body}"); // retorna una lista
+  }
+  void getByIDMunicipio(int id) async {
+    print("Haciendo peticion...");
+    var url = Uri.https(apiURL, 'api/municipalities/$id');
+    final response = await http.get(url);
+    print("furula!");
+
+    print("Response status: ${response.statusCode}"); // retorna un numero
+    print("Response body: ${response.body}"); // retorna una lista
+  }
 }

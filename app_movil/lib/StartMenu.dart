@@ -92,7 +92,17 @@ class _StartMenu extends State<StartMenu> {
         onPressed: (){
           print("==============================");
           print("Calling provider...");
-          Provider.of<BoActiveProvider>(context, listen: false).getCity();
+         // Provider.of<BoActiveProvider>(context, listen: false).getCity();
+          print("==============================");
+          print("Calling provider...");
+          //Provider.of<BoActiveProvider>(context, listen: false).getComent();
+          print("==============================");
+          print("Calling provider...");
+          //Provider.of<BoActiveProvider>(context, listen: false).getMunicipio();
+          print("==============================");
+          print("Calling provider...");
+         // Provider.of<BoActiveProvider>(context, listen: false).getRanting();
+          Provider.of<BoActiveProvider>(context, listen: false).getByIDMunicipio(2);
           // print("Response from client: $response");
         },
         child: Icon(Icons.account_tree_sharp),
