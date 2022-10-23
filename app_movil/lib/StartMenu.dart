@@ -27,7 +27,7 @@ class _StartMenu extends State<StartMenu> {
               TextSpan(
                 children: <TextSpan> [
                   TextSpan(text: "Bienvenido a ", style: TextStyle(fontSize: 30)),
-                  TextSpan(text: "Mip", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.orange)),
+                  TextSpan(text: "BoaActive", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Color(0xffa7d676))),
                   TextSpan(text: "!", style: TextStyle(fontSize: 30)),
                 ]
               )
@@ -43,7 +43,7 @@ class _StartMenu extends State<StartMenu> {
                 width: 150,
                 height: 150,
                 child: Image(
-                  image: AssetImage('assets/icono.png'),
+                  image: AssetImage('assets/Logo_BOActive.png'),
                 )
             ),
           ),
@@ -55,14 +55,22 @@ class _StartMenu extends State<StartMenu> {
           Container(
             width: 250,
             child: ElevatedButton(
-              style: elevButtonStyle,
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
               },
               child: Text(
                 'Inicia sesión',
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                style: TextStyle(color: Color(0xff000000), fontSize: 15),
               ),
+    style: ButtonStyle(
+    backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+    ),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+                side: BorderSide(color: Color(0xffa7d676))
+            )
+        )),
             ),
           ),
 
@@ -73,14 +81,25 @@ class _StartMenu extends State<StartMenu> {
           Container(
             width: 250,
             child: ElevatedButton(
-                style: elevButtonStyle,
+
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
                 },
                 child: Text(
                   'Regístrate',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
+                  style: TextStyle(color: Color(0xff000000), fontSize: 15),
+
                 ),
+
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Color(0xfffbc78d)
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: Color(0xfffbc78d))
+                        )
+                    )),
             ),
           ),
 

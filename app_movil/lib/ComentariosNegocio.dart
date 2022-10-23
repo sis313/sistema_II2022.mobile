@@ -20,10 +20,13 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
             ),
             actions: [
               new ElevatedButton(
-                child: new Text('Enviar'),
+                child: new Text('Guardar'), style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+          )),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+
               )
             ],
           );
@@ -45,10 +48,17 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
             leading: Icon(Icons.account_box_outlined),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              ElevatedButton(onPressed: () => {}, child: Icon(Icons.edit)),
-              ElevatedButton(onPressed: () => {}, child: Icon(Icons.delete)),
+              ElevatedButton(onPressed: () => {}, child: Icon(Icons.edit) ,
+                  style: ButtonStyle(
+    backgroundColor: MaterialStateProperty.all(Color(0xff85cbcc)),
+                  )),
+              ElevatedButton(onPressed: () => {}, child: Icon(Icons.delete),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Color(0xffe72b3e)),
+                  )
+              ),
             ],
           )
         ],
@@ -61,7 +71,7 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Comentarios del negocio'),
-        backgroundColor: Colors.orange,
+        backgroundColor: Color(0xffa7d676),
       ),
       body: Center(
         child: Column(
@@ -70,7 +80,7 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
             FloatingActionButton(
               child: Icon(Icons.add),
               elevation: 50.0,
-              backgroundColor: Color(0xffCEA660),
+              backgroundColor: Color(0xfffbc78d),
               onPressed: () => _displayDialog(context),
             ),
           ],

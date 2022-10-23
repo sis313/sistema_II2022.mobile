@@ -25,9 +25,8 @@ class _Login extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final elevButtonStyle = ElevatedButton.styleFrom(
-      primary: Colors.orange,
-      onPrimary: Color(0xfff3ede0),
-      shadowColor: Color(0xffCEA660),
+      primary: Color(0xffa7d676),
+
       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
       elevation: 10,
       shape: new RoundedRectangleBorder(
@@ -46,7 +45,7 @@ class _Login extends State<Login> {
           ),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.orange, Colors.amber],
+              colors: [Color(0xffa7d676),Color(0xff85cbcc)],
               begin: Alignment.topLeft,
               end: Alignment.topRight,
             ),
@@ -67,7 +66,7 @@ class _Login extends State<Login> {
                         Text(
                           "Iniciar Sesión",
                           style: TextStyle(
-                            color: Color(0xfff3ede0),
+                            color: Color(0xffffffff),
                             fontSize: 42.0,
                             fontWeight: FontWeight.w800,
                           ),
@@ -92,13 +91,13 @@ class _Login extends State<Login> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Color(0xfff3ede0),
+                        color: Color(0xffffffff),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30.0),
                           topRight: Radius.circular(30.0),
                         )),
                     child: Padding(
-                        padding: const EdgeInsets.all(24.0),
+                        padding: const EdgeInsets.all(40.0),
                         child: Form(
                           autovalidateMode: AutovalidateMode.always,
                           key: formkey,
@@ -115,7 +114,7 @@ class _Login extends State<Login> {
                                   keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Color(0xfff3ede0),
+                                    fillColor: Color(0xffffffff),
                                     hintText: "Correo",
                                     prefixIcon: Icon(
                                       Icons.mail,
@@ -123,13 +122,13 @@ class _Login extends State<Login> {
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Colors.orangeAccent,
+                                          color: Color(0xffa7d676),
                                           width: 2.0),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Colors.orangeAccent,
+                                          color: Color(0xffa7d676),
                                           width: 2.0),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
@@ -148,7 +147,7 @@ class _Login extends State<Login> {
                                   obscureText: true,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Color(0xfff3ede0),
+                                    fillColor: Color(0xffffffff),
                                     hintText: "Contreseña",
                                     prefixIcon: Icon(
                                       Icons.lock,
@@ -156,13 +155,13 @@ class _Login extends State<Login> {
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Colors.orangeAccent,
+                                          color: Color(0xffa7d676),
                                           width: 2.0),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Colors.orangeAccent,
+                                          color: Color(0xffa7d676),
                                           width: 2.0),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
@@ -220,7 +219,7 @@ class _Login extends State<Login> {
                                       GestureDetector(
                                         child: const Text(" Registrate ahora",
                                             style: TextStyle(
-                                                color: Colors.orange,
+                                                color: Color(0xfffbc78d),
                                                 decoration:
                                                     TextDecoration.underline)),
                                         onTap: () async {

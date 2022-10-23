@@ -47,7 +47,7 @@ class _RoleMenu extends State<RoleMenu> {
                 style: new TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: Colors.orange
+                  color: Color(0xffa7d676)
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -71,7 +71,15 @@ class _RoleMenu extends State<RoleMenu> {
               child: Container(
                 width: 250,
                 child: ElevatedButton(
-                    style: elevButtonStyle,
+                    style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Color(0xfff9e2ae)
+              ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Color(0xfff9e2ae))
+                    )
+                )),
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
                     },
@@ -88,7 +96,15 @@ class _RoleMenu extends State<RoleMenu> {
             Container(
               width: 250,
               child: ElevatedButton(
-                  style: elevButtonStyle,
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Color(0xff85cbcc)
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: Color(0xff85cbcc))
+                        )
+                    )),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => OwnerMenu()));
                   },

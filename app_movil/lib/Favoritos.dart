@@ -84,7 +84,7 @@ class RandWordsState extends State<RandWords> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: Colors.orange,
+              color: Color(0xffa7d676),
             ),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ClienteServicios()));

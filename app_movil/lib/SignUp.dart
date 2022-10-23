@@ -21,10 +21,7 @@ class _SignUp extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
 
-    final elevButtonStyle = ElevatedButton.styleFrom(
-        primary: Colors.orange,
-        padding: EdgeInsets.all(10),
-    );
+
 
     return Scaffold(
       body: Container(
@@ -63,7 +60,7 @@ class _SignUp extends State<SignUp> {
                     style: new TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Colors.orange
+                      color: Color(0xffa7d676)
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -91,10 +88,10 @@ class _SignUp extends State<SignUp> {
                                 ]),
                                 decoration: InputDecoration(
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                      borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                      borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
                                     ),
                                     labelText: 'Correo',
                                     hintText: 'Ingresa un direccion valida'
@@ -113,10 +110,10 @@ class _SignUp extends State<SignUp> {
                                 obscureText: true,
                                 decoration: InputDecoration(
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                      borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                      borderSide: BorderSide(color:Color(0xfffbc78d), width: 2.0),
                                     ),
                                     labelText: 'Contraseña',
                                     hintText: 'Minimo 8 caracteres'
@@ -136,10 +133,10 @@ class _SignUp extends State<SignUp> {
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                    borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                                    borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
                                   ),
                                   labelText: 'Confirmar contraseña',
                                   //hintText: 'Enter secure password'
@@ -156,7 +153,15 @@ class _SignUp extends State<SignUp> {
                 Container(
                   width: 250,
                   child: ElevatedButton(
-                      style: elevButtonStyle,
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Color(0xfffbc78d)
+                        ),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(color: Color(0xfffbc78d))
+                            )
+                        )),
                       onPressed: validate,
                       child: Text(
                         'Registrar',
@@ -176,7 +181,7 @@ class _SignUp extends State<SignUp> {
                     GestureDetector(
                       child: const Text(" Iniciar sesión",
                           style: TextStyle(
-                              color: Colors.orange, decoration: TextDecoration.underline)
+                              color: Color(0xff85cbcc), decoration: TextDecoration.underline)
                       ),
                       onTap: () async {
                         try {
