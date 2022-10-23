@@ -54,7 +54,7 @@ class RandWordsState extends State<RandWords> {
     return ListTile(
         title: Text(pair.asPascalCase, style: TextStyle(fontSize: 18.0)),
         trailing: Icon(alreadyadd ? Icons.star_rate : Icons.star,
-            color: alreadyadd ? null : Colors.green),
+            color: alreadyadd ? null : Color(0xfff6dd34)),
         onTap: () {
           setState(() {
             if (alreadyadd) {
@@ -99,6 +99,6 @@ class RandWordsState extends State<RandWords> {
   Widget build(BuildContext context) => Scaffold(
       drawer: MenuLateral(),
       appBar: AppBar(title: Text("Mis Favoritos"),
-          backgroundColor: Colors.orange ),
+          backgroundColor: Color(0xffa7d676) ),
       body: _buildList());
 }

@@ -20,16 +20,10 @@ class MenuLateral extends StatelessWidget {
               style: TextStyle(color: Colors.black),
             ),
             accountEmail: Text('Correo', style: TextStyle(color: Colors.black)),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                  child: Image.asset(
-                'assets/usuario.png',
-                fit: BoxFit.cover,
-              )),
-            ),
+
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/direccion1.gif'))),
+                    image: AssetImage('assets/banner.png'))),
           ),
           ListTile(
             leading: Icon(Icons.home),
@@ -56,7 +50,7 @@ class MenuLateral extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.arrow_back_sharp),
+            leading: Icon(Icons.map_sharp),
             title: Text("Mapa"),
             onTap: () {
               Navigator.of(context)

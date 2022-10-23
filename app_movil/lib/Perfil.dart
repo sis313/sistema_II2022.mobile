@@ -26,12 +26,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: Text("Mi perfil"),
+        backgroundColor: Color(0xffa7d676),
         elevation: 1,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.green,
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
@@ -90,7 +91,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               width: 4,
                               color: Theme.of(context).scaffoldBackgroundColor,
                             ),
-                            color: Colors.green,
+                            color: Color(0xfff9e2ae),
                           ),
                           child: Icon(
                             Icons.edit,
@@ -111,35 +112,50 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 height: 35,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  OutlinedButton(
-                    // padding: EdgeInsets.symmetric(horizontal: 50),
-                    // shape: RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.circular(20)),
-                    onPressed: () {},
-                    child: Text("CANCEL",
+                  ElevatedButton(
+
+                      onPressed: () {},
+
+                      child: Text(
+                        "Cancelar",
                         style: TextStyle(
                             fontSize: 14,
-                            letterSpacing: 2.2,
-                            color: Colors.black)),
+                            // letterSpacing: 2.2,
+                            color: Colors.white),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Color(0xff85cbcc)
+                          ),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Color(0xff85cbcc))
+                              )
+                          ))
                   ),
+
                   ElevatedButton(
 
                     onPressed: () {},
-                    // color: Colors.green,
-                    // padding: EdgeInsets.symmetric(horizontal: 50),
-                    // elevation: 2,
-                    // shape: RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.circular(20)),
+
                     child: Text(
                       "Guardar",
                       style: TextStyle(
                           fontSize: 14,
-
-                          letterSpacing: 2.2,
+                          // letterSpacing: 2.2,
                           color: Colors.white),
                     ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Color(0xfffbc78d)
+                          ),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Color(0xfffbc78d))
+                              )
+                          ))
                   )
                 ],
               )

@@ -33,13 +33,14 @@ class ServicioDetail extends StatelessWidget {
     return Scaffold(
       backgroundColor:Color(0xfff6f7f9),
       appBar: AppBar(
+          title: Text("Detalle"),
         backgroundColor: Color(0xffa7d676),
         elevation: 0,
         leading: IconButton(
           onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>ClienteListaServicios()));},
           icon: const Icon(
-            Ionicons.chevron_back,
-            color: Colors.black,
+            Icons.arrow_back,
+            color: Colors.white,
           ),
         ),
         actions: [
@@ -48,7 +49,7 @@ class ServicioDetail extends StatelessWidget {
             },
             icon: const Icon(
               Ionicons.chatbox,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
         ],
@@ -79,20 +80,14 @@ class ServicioDetail extends StatelessWidget {
                       children: [
                         Text(
                           'Tipo de servicio',
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                            color: Colors.grey,
-                          ),
+                          style: TextStyle(fontSize: 15.0,color: Colors.grey),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'NOmbre de serviciP',
-                              style: GoogleFonts.poppins(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: TextStyle(fontSize: 22.0),
                             ),
 
                           ],
@@ -100,10 +95,7 @@ class ServicioDetail extends StatelessWidget {
                         const SizedBox(height: 10),
                         Text(
                           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque auctor consectetur tortor vitae interdum.',
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                            color: Colors.grey,
-                          ),
+                          style: TextStyle(fontSize: 16.0,color: Colors.grey),
                         ),
                       ],
                     ),

@@ -60,7 +60,7 @@ class _StartMenu extends State<StartMenu> {
               },
               child: Text(
                 'Inicia sesión',
-                style: TextStyle(color: Color(0xff000000), fontSize: 15),
+                style: TextStyle(color: Color(0xffffffff), fontSize: 15),
               ),
     style: ButtonStyle(
     backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
@@ -87,7 +87,7 @@ class _StartMenu extends State<StartMenu> {
                 },
                 child: Text(
                   'Regístrate',
-                  style: TextStyle(color: Color(0xff000000), fontSize: 15),
+                  style: TextStyle(color: Color(0xffffffff), fontSize: 15),
 
                 ),
 

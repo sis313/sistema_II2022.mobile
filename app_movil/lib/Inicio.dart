@@ -15,7 +15,7 @@ class HomeState extends State<Home> {
     return Scaffold(
       drawer: MenuLateral(),
       appBar: AppBar(title: Text("Inicio"),
-          backgroundColor:  Colors.orangeAccent,
+          backgroundColor:  Color(0xffa7d676),
           elevation: 1),
       backgroundColor: Color(0xffffffff),
       body: Column(

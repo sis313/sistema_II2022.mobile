@@ -85,7 +85,7 @@ class _RoleMenu extends State<RoleMenu> {
                     },
                     child: Text(
                       'Cliente',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                      style: TextStyle(color: Colors.black38, fontSize: 15),
                     ),
                   ),
               ),
@@ -110,7 +110,7 @@ class _RoleMenu extends State<RoleMenu> {
                   },
                   child: Text(
                     'Negocio',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
+                    style: TextStyle(color: Colors.black38, fontSize: 15),
                   ),
                 ),
             ),

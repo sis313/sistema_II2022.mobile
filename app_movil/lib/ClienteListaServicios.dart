@@ -2,6 +2,8 @@ import 'package:app_movil/Favoritos.dart';
 import 'package:flutter/material.dart';
 
 import 'ComentariosNegocio.dart';
+import 'Inicio.dart';
+import 'MenuLateral.dart';
 import 'ServicioDetail.dart';
 
 class Product {
@@ -27,8 +29,23 @@ class ClienteListaServicios extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xfff6f7f9),
-      appBar: AppBar(title: Text("Mis Tiendas"),
-          backgroundColor:  Color(0xffa7d676) ),
+      drawer: MenuLateral(),
+        appBar: AppBar(
+          title: Text("Servicios "),
+          backgroundColor: Color(0xffa7d676),
+          elevation: 1,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+            },
+          ),
+
+        ),
+
       body: ListView(
 
         children: <Widget>[
