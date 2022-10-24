@@ -1,0 +1,8 @@
+### Get city
+GET https://serviceprojectspring.herokuapp.com/api/city
+
+
+###
+##### READ A BUSINESS BY USER ID
+GET https://serviceprojectspring.herokuapp.com/api/business/?userId=1
+Content-Type: application/json

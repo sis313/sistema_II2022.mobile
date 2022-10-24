@@ -14,7 +14,6 @@ class _StartMenu extends State<StartMenu> {
 
   @override
   Widget build(BuildContext context) {
-
     final elevButtonStyle = ElevatedButton.styleFrom(
       primary: Colors.black,
       padding: EdgeInsets.all(10),
@@ -25,41 +24,38 @@ class _StartMenu extends State<StartMenu> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Center(
-            child: Text.rich(
+            child: Text.rich(TextSpan(children: <TextSpan>[
+              TextSpan(text: "Bienvenido a ", style: TextStyle(fontSize: 30)),
               TextSpan(
-                children: <TextSpan> [
-                  TextSpan(text: "Bienvenido a ", style: TextStyle(fontSize: 30)),
-                  TextSpan(text: "Mip", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.orange)),
-                  TextSpan(text: "!", style: TextStyle(fontSize: 30)),
-                ]
-              )
-            ),
+                  text: "Mip",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.orange)),
+              TextSpan(text: "!", style: TextStyle(fontSize: 30)),
+            ])),
           ),
-
           SizedBox(
             height: 50,
           ),
-
           Center(
             child: Container(
                 width: 150,
                 height: 150,
                 child: Image(
                   image: AssetImage('assets/icono.png'),
-                )
-            ),
+                )),
           ),
-
           SizedBox(
             height: 50,
           ),
-
           Container(
             width: 250,
             child: ElevatedButton(
               style: elevButtonStyle,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Login()));
               },
               child: Text(
                 'Inicia sesión',
@@ -67,43 +63,36 @@ class _StartMenu extends State<StartMenu> {
               ),
             ),
           ),
-
           SizedBox(
             height: 5,
           ),
-
           Container(
             width: 250,
             child: ElevatedButton(
-                style: elevButtonStyle,
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
-                },
-                child: Text(
-                  'Regístrate',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
+              style: elevButtonStyle,
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => RoleMenu()));
+              },
+              child: Text(
+                'Regístrate',
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
             ),
           ),
-
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           print("==============================");
           print("Calling provider...");
-         // Provider.of<BoActiveProvider>(context, listen: false).getCity();
-          print("==============================");
-          print("Calling provider...");
+          Provider.of<BoActiveProvider>(context, listen: false).getCity();
           //Provider.of<BoActiveProvider>(context, listen: false).getComent();
-          print("==============================");
-          print("Calling provider...");
           //Provider.of<BoActiveProvider>(context, listen: false).getMunicipio();
-          print("==============================");
-          print("Calling provider...");
-         // Provider.of<BoActiveProvider>(context, listen: false).getRanting();
-          Provider.of<BoActiveProvider>(context, listen: false).getByIDMunicipio(2);
-          // print("Response from client: $response");
+          // print("==============================");
+          // print("Calling provider...");
+          // Provider.of<BoActiveProvider>(context, listen: false).getRanting();
+          // Provider.of<BoActiveProvider>(context, listen: false).getByIDMunicipio(2);
         },
         child: Icon(Icons.account_tree_sharp),
       ),
