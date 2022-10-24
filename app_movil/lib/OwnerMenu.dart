@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:geocoder/geocoder.dart';
+
 import 'DTO/Negocio.dart';
 import 'DTO/Sucursal.dart';
 
@@ -10,11 +13,33 @@ class OwnerMenu extends StatefulWidget {
 
 class _OwnerMenuState extends State<OwnerMenu> {
 
-  //Valor que se mostrara al inicio en el dropdaown menu
-  String value = '';
+  final controllerSucursal = TextEditingController();
+  final ctrollerNegocioName = TextEditingController();
+  final ctrollerNegocioDesc = TextEditingController();
 
+  //Datos de ubicacion
+  String zona = "";
+  String municipio = "";
+  String ciudad = "";
+
+  //Hora de apertura
+  TimeOfDay openTime = TimeOfDay.now();
+
+  //Hora de apertura
+  TimeOfDay closeTime = TimeOfDay.now();
+
+  //Valor que se mostrara al inicio en el dropdown menu
+  String valueCategorias;
   //Datos de prueba para dropdown
-  var categorias = ['', 'Categoria 1', 'Categoria 2', 'Categoria 3'];
+  var vectorCategorias = ['[Seleccione una opcion]*',
+                          'Lunes a Viernes',
+                          'Lunes a Sabado',
+                          'Toda la semana'];
+
+  //Valor que se mostrara al inicio en el dropdown menu
+  String valueAtencion = '[Seleccione una opcion]*';
+  //Datos de prueba para dropdown
+  var vectorAtencion = ['[Seleccione una opcion]*', 'Categoria 1', 'Categoria 2', 'Categoria 3'];
 
   //Datos de prueba para listado
   var negocios = [
@@ -48,53 +73,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      AlertDialog(
-                                        title: const Text('Nuevo Negocio'),
-                                        content: Column(
-                                          children: [
-                                            const TextField(
-                                              decoration: InputDecoration(
-                                                border: UnderlineInputBorder(),
-                                                labelText: 'Nombre de Negocio',
-                                              ),
-                                            ),
-                                            SizedBox(height: 10),
-                                            const TextField(
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                hintText: 'Descripcion',
-                                              ),
-                                            ),
-                                            DropdownButton<String>(
-                                                value: value,
-                                                items: categorias.map(
-                                                        (String e) =>
-                                                        DropdownMenuItem<String>(
-                                                            value: e,
-                                                            child: Text(e)
-                                                        )
-                                                ).toList(),
-                                                onChanged: (String value) {
-                                                  setState(() {
-                                                    this.value = value;
-                                                  });
-                                                }
-                                            )
-                                          ],
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('Cancelar')
-                                          ),
-                                          TextButton(
-                                              onPressed: () {},
-                                              child: const Text('Registrar')
-                                          ),
-                                        ],
-                                      )
+                                      anadirNegocio()
                                     ],
                                   );
                                 }
@@ -134,7 +113,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
     return widgets;
   }
-
+/*-------------------------------------*/
+/*WIDGETS PARA EL LISTADO*/
   Widget negocio(Negocio negocio){
 
     String nombre = negocio.nombre.toString();
@@ -195,7 +175,18 @@ class _OwnerMenuState extends State<OwnerMenu> {
             itemBuilder: (_, index){
               return sucursal(negocio.sucursales[index]);
             })
-            : SizedBox(height: 0))
+            : SizedBox(height: 0)
+        ),
+        (negocio.wState ?
+        TextButton(
+          child: Text("Añadir Sucursal"),
+          onPressed: (){
+            setState(() {
+              print("Añadir sucursal");
+              anadirSucursal_1();
+            });
+          },
+        ) : SizedBox(height: 0)),
       ],
     );
   }
@@ -249,6 +240,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
       ],
     );
   }
+/*-------------------------------------*/
 
   void _onSelected(BuildContext context, int item){
     switch(item){
@@ -260,6 +252,276 @@ class _OwnerMenuState extends State<OwnerMenu> {
         print('Seleccionado Salir');
         break;
     }
+  }
+/*-------------------------------------*/
+/*WIDGETS PARA FORMULARIOS*/
+  Widget anadirNegocio(){
+    GlobalKey<FormState> formkeyName = GlobalKey<FormState>();
+    GlobalKey<FormState> formkeyOpcn = GlobalKey<FormState>();
+
+    return AlertDialog(
+      title: const Text('Nuevo Negocio'),
+      content: Form(
+          child: Column(
+            children: [
+              TextFormField(
+                controller: ctrollerNegocioName,
+                autovalidateMode: AutovalidateMode.always,
+                key: formkeyName,
+                validator: MultiValidator([
+                  RequiredValidator(
+                      errorText: "Campo Requerido"
+                  ),
+                ]),
+                decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Nombre de Negocio *',
+                ),
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: ctrollerNegocioDesc,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Descripcion',
+                ),
+              ),
+              DropdownButtonFormField<String>(
+                  validator: (value) => value == null?
+                  'Campo requerido' : null,
+                  value: valueCategorias,
+                  items: ['Categoria 1', 'Categoria 2', 'Categoria 3'].map(
+                          (String e) =>
+                          DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e)
+                          )
+                  ).toList(),
+                  onChanged: (String value) {
+                      setState(() {
+                        this.valueCategorias = value;
+                      });
+                  }
+              )
+            ],
+          ),
+      ),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancelar')
+        ),
+        TextButton(
+            onPressed: () {
+              print(ctrollerNegocioName.text);
+              print(ctrollerNegocioDesc.text);
+              print(valueCategorias);
+            },
+            child: const Text('Registrar')
+        ),
+      ],
+    );
+  }
+
+  anadirSucursal_1(){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AlertDialog(
+                title: const Text('Nueva Sucursal'),
+                content: StatefulBuilder(
+                  builder: (BuildContext c, StateSetter setState){
+                    return Column(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Abre a las : ${openTime.hour}:${openTime.minute}",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                const SizedBox(width: 16),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      TimeOfDay newTime = openTime;
+                                      newTime = await showTimePicker(
+                                          context: context,
+                                          initialTime: openTime
+                                      );
+
+                                      if(newTime == null) return;
+
+                                      setState(() {
+                                        openTime = newTime;
+
+                                        if(openTime.hour >= closeTime.hour)
+                                          closeTime = openTime;
+                                      });
+                                    },
+                                    child: Text("Cambiar")
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Cierra a las : ${closeTime.hour}:${closeTime.minute}",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                const SizedBox(width: 16),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      TimeOfDay newTime = closeTime;
+                                      newTime = await showTimePicker(
+                                          context: context,
+                                          initialTime: closeTime
+                                      );
+                                      setState(() {
+                                        if(newTime == null ||
+                                            (openTime.hour == newTime.hour &&
+                                                openTime.minute > newTime.minute) ||
+                                            openTime.hour > newTime.hour)
+                                          closeTime = openTime;
+                                        else
+                                          closeTime = newTime;
+                                      });
+                                    },
+                                    child: Text("Cambiar")
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        DropdownButton<String>(
+                            value: valueAtencion,
+                            items: ['Lunes a Viernes',
+                                    'Lunes a Sabado',
+                                    'Toda la semana'].map(
+                                    (String e) =>
+                                    DropdownMenuItem<String>(
+                                        value: e,
+                                        child: Text(e)
+                                    )
+                            ).toList(),
+                            onChanged: (String value) {
+                              setState(() {
+                                this.valueAtencion = value;
+                              });
+                            }
+                        )
+                      ],
+                    );
+                  },
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancelar')
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        anadirSucursal_2();
+                      },
+                      child: const Text('Continuar')
+                  ),
+                ],
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  anadirSucursal_2(){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AlertDialog(
+                title: const Text('Nueva Sucursal'),
+                content: StatefulBuilder(
+                  builder: (BuildContext c, StateSetter setState){
+                    return Column(
+                      children: [
+                        TextField(
+                          controller: controllerSucursal,
+                          decoration: InputDecoration(
+                            border: UnderlineInputBorder(),
+                            labelText: 'Direccion',
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        TextButton(
+                          child: Text("Buscar"),
+                          onPressed: () async {
+                            var addresses = await Geocoder.local.findAddressesFromQuery(controllerSucursal.text);
+
+                            var first = addresses.first;
+                            setState(() {
+                              zona = first.subLocality;
+                              municipio = first.adminArea;
+                              ciudad = first.locality;
+
+                              print("Direccion: ${first.addressLine}");
+                              print("AdminArea: ${first.adminArea}");//Municipio
+                              print("CountryName: ${first.countryName}");
+                              print("FeatureName: ${first.featureName}");
+                              print("Localidad: ${first.locality}"); //Ciudad
+                              print("SubAdminArea: ${first.subAdminArea}");//Provincia
+                              print("SubLocality: ${first.subLocality}"); //Zona
+                              print("SubThoroughfare: ${first.subThoroughfare}");
+                              print("Thoroughfare: ${first.thoroughfare}");
+                            });
+                          },
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Zona: ${zona}"),
+                            Text("Munic.: ${municipio}"),
+                            Text("Ciudad: ${ciudad}"),
+                          ],
+                        )
+                      ],
+                    );
+                  },
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        },
+                      child: const Text('Cancelar')
+                  ),
+                  TextButton(
+                      onPressed: () {},
+                      child: const Text('Continuar')
+                  ),
+                ],
+              )
+            ],
+          );
+        }
+    );
   }
 
   editarSucursal(Sucursal sucursal){
