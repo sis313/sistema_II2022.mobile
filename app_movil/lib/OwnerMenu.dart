@@ -28,18 +28,17 @@ class _OwnerMenuState extends State<OwnerMenu> {
   //Hora de apertura
   TimeOfDay closeTime = TimeOfDay.now();
 
+  //Datos de prueba para dropdown
+  var vectorCategorias  = ['Categoria 1', 'Categoria 2', 'Categoria 3'];
   //Valor que se mostrara al inicio en el dropdown menu
   String valueCategorias;
-  //Datos de prueba para dropdown
-  var vectorCategorias = ['[Seleccione una opcion]*',
-                          'Lunes a Viernes',
-                          'Lunes a Sabado',
-                          'Toda la semana'];
 
   //Valor que se mostrara al inicio en el dropdown menu
-  String valueAtencion = '[Seleccione una opcion]*';
+  String valueAtencion;
   //Datos de prueba para dropdown
-  var vectorAtencion = ['[Seleccione una opcion]*', 'Categoria 1', 'Categoria 2', 'Categoria 3'];
+  var vectorAtencion = ['Lunes a Viernes',
+                        'Lunes a Sabado',
+                        'Toda la semana'];
 
   //Datos de prueba para listado
   var negocios = [
@@ -257,8 +256,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
 /*WIDGETS PARA FORMULARIOS*/
   Widget anadirNegocio(){
     GlobalKey<FormState> formkeyName = GlobalKey<FormState>();
-    GlobalKey<FormState> formkeyOpcn = GlobalKey<FormState>();
-
+    GlobalKey<FormState> formkeyDesc = GlobalKey<FormState>();
     return AlertDialog(
       title: const Text('Nuevo Negocio'),
       content: Form(
@@ -287,10 +285,11 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 ),
               ),
               DropdownButtonFormField<String>(
+                  key: formkeyDesc,
                   validator: (value) => value == null?
                   'Campo requerido' : null,
                   value: valueCategorias,
-                  items: ['Categoria 1', 'Categoria 2', 'Categoria 3'].map(
+                  items: vectorCategorias.map(
                           (String e) =>
                           DropdownMenuItem<String>(
                               value: e,
@@ -298,9 +297,10 @@ class _OwnerMenuState extends State<OwnerMenu> {
                           )
                   ).toList(),
                   onChanged: (String value) {
-                      setState(() {
-                        this.valueCategorias = value;
-                      });
+                      if(formkeyDesc.currentState.validate())
+                        setState(() {
+                          this.valueCategorias = value;
+                        });
                   }
               )
             ],
@@ -407,9 +407,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
                         ),
                         DropdownButton<String>(
                             value: valueAtencion,
-                            items: ['Lunes a Viernes',
-                                    'Lunes a Sabado',
-                                    'Toda la semana'].map(
+                            items: vectorAtencion.map(
                                     (String e) =>
                                     DropdownMenuItem<String>(
                                         value: e,
@@ -448,6 +446,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
   }
 
   anadirSucursal_2(){
+    GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
     showDialog(
         context: context,
         builder: (context) {
@@ -457,53 +457,62 @@ class _OwnerMenuState extends State<OwnerMenu> {
             children: [
               AlertDialog(
                 title: const Text('Nueva Sucursal'),
-                content: StatefulBuilder(
-                  builder: (BuildContext c, StateSetter setState){
-                    return Column(
-                      children: [
-                        TextField(
-                          controller: controllerSucursal,
-                          decoration: InputDecoration(
-                            border: UnderlineInputBorder(),
-                            labelText: 'Direccion',
+                content: Form(
+                  autovalidateMode: AutovalidateMode.always,
+                  key: formkey,
+                  child: StatefulBuilder(
+                    builder: (BuildContext c, StateSetter setState){
+                      return Column(
+                        children: [
+                          TextFormField(
+                            validator: MultiValidator([
+                              RequiredValidator(
+                                  errorText: "Campo Requerido"
+                              ),
+                            ]),
+                            controller: controllerSucursal,
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(),
+                              labelText: 'Direccion',
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        TextButton(
-                          child: Text("Buscar"),
-                          onPressed: () async {
-                            var addresses = await Geocoder.local.findAddressesFromQuery(controllerSucursal.text);
+                          SizedBox(height: 10),
+                          TextButton(
+                            child: Text("Buscar"),
+                            onPressed: () async {
+                              var addresses = await Geocoder.local.findAddressesFromQuery(controllerSucursal.text);
 
-                            var first = addresses.first;
-                            setState(() {
-                              zona = first.subLocality;
-                              municipio = first.adminArea;
-                              ciudad = first.locality;
+                              var first = addresses.first;
+                              setState(() {
+                                zona = first.subLocality;
+                                municipio = first.adminArea;
+                                ciudad = first.locality;
 
-                              print("Direccion: ${first.addressLine}");
-                              print("AdminArea: ${first.adminArea}");//Municipio
-                              print("CountryName: ${first.countryName}");
-                              print("FeatureName: ${first.featureName}");
-                              print("Localidad: ${first.locality}"); //Ciudad
-                              print("SubAdminArea: ${first.subAdminArea}");//Provincia
-                              print("SubLocality: ${first.subLocality}"); //Zona
-                              print("SubThoroughfare: ${first.subThoroughfare}");
-                              print("Thoroughfare: ${first.thoroughfare}");
-                            });
-                          },
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Zona: ${zona}"),
-                            Text("Munic.: ${municipio}"),
-                            Text("Ciudad: ${ciudad}"),
-                          ],
-                        )
-                      ],
-                    );
-                  },
+                                print("Direccion: ${first.addressLine}");
+                                print("AdminArea: ${first.adminArea}");//Municipio
+                                print("CountryName: ${first.countryName}");
+                                print("FeatureName: ${first.featureName}");
+                                print("Localidad: ${first.locality}"); //Ciudad
+                                print("SubAdminArea: ${first.subAdminArea}");//Provincia
+                                print("SubLocality: ${first.subLocality}"); //Zona
+                                print("SubThoroughfare: ${first.subThoroughfare}");
+                                print("Thoroughfare: ${first.thoroughfare}");
+                              });
+                            },
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Zona: ${zona}"),
+                              Text("Munic.: ${municipio}"),
+                              Text("Ciudad: ${ciudad}"),
+                            ],
+                          )
+                        ],
+                      );
+                    },
+                  ),
                 ),
                 actions: [
                   TextButton(
