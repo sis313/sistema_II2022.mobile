@@ -12,5 +12,7 @@ class Negocio {
   bool wState = false;
 
   Negocio(this.id_business, this.name, this.sucursales);
-  
+
+  /*Negocio(this.id_business, this.id_type_business, this.id_user, this.name,
+      this.description);*/
 }
