@@ -4,7 +4,7 @@ class Negocio {
   int id_business;
   int id_type_business;
   int id_user;
-  String name = '';
+  String name;
   String description;
 
   List<Sucursal> sucursales = [];
