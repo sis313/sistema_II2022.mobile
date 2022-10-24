@@ -36,9 +36,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
   //Valor que se mostrara al inicio en el dropdown menu
   String valueAtencion;
   //Datos de prueba para dropdown
-  var vectorAtencion = ['Lunes a Viernes',
-                        'Lunes a Sabado',
-                        'Toda la semana'];
+  var vectorAtencion = ['Lunes a Viernes', 'Lunes a Sabado', 'Toda la semana'];
 
   //Datos de prueba para listado
   var negocios = [
@@ -220,7 +218,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 padding: EdgeInsets.zero,
                 onPressed: (){
                   setState(() {
-                    editarSucursal(negocios[0].sucursales[0]);
+                    editarSucursal_1(negocios[0].sucursales[0]);
                   });
                 },
                 icon: Icon(Icons.edit)
@@ -240,7 +238,6 @@ class _OwnerMenuState extends State<OwnerMenu> {
     );
   }
 /*-------------------------------------*/
-
   void _onSelected(BuildContext context, int item){
     switch(item){
       case 0:
@@ -533,7 +530,9 @@ class _OwnerMenuState extends State<OwnerMenu> {
     );
   }
 
-  editarSucursal(Sucursal sucursal){
+  editarSucursal_1(Sucursal sucursal){
+    GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
     showDialog(
         context: context,
         builder: (context) {
@@ -543,30 +542,185 @@ class _OwnerMenuState extends State<OwnerMenu> {
             children: [
               AlertDialog(
                 title: const Text('Editar Sucursal'),
-                content: Column(
-                  children: [
-                    const TextField(
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'ID',
-                        enabled: false,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    const TextField(
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Nombre de la sucursal',
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    const TextField(
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        hintText: 'Dirección',
-                      ),
-                    ),
-                  ],
+                content: StatefulBuilder(
+                  builder: (BuildContext c, StateSetter setState){
+                    return Column(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Abre a las : ${openTime.hour}:${openTime.minute}",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                const SizedBox(width: 16),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      TimeOfDay newTime = openTime;
+                                      newTime = await showTimePicker(
+                                          context: context,
+                                          initialTime: openTime
+                                      );
+
+                                      if(newTime == null) return;
+
+                                      setState(() {
+                                        openTime = newTime;
+
+                                        if(openTime.hour >= closeTime.hour)
+                                          closeTime = openTime;
+                                      });
+                                    },
+                                    child: Text("Cambiar")
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Cierra a las : ${closeTime.hour}:${closeTime.minute}",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                const SizedBox(width: 16),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      TimeOfDay newTime = closeTime;
+                                      newTime = await showTimePicker(
+                                          context: context,
+                                          initialTime: closeTime
+                                      );
+                                      setState(() {
+                                        if(newTime == null ||
+                                            (openTime.hour == newTime.hour &&
+                                                openTime.minute > newTime.minute) ||
+                                            openTime.hour > newTime.hour)
+                                          closeTime = openTime;
+                                        else
+                                          closeTime = newTime;
+                                      });
+                                    },
+                                    child: Text("Cambiar")
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        DropdownButton<String>(
+                            value: valueAtencion,
+                            items: vectorAtencion.map(
+                                    (String e) =>
+                                    DropdownMenuItem<String>(
+                                        value: e,
+                                        child: Text(e)
+                                    )
+                            ).toList(),
+                            onChanged: (String value) {
+                              setState(() {
+                                this.valueAtencion = value;
+                              });
+                            }
+                        )
+                      ],
+                    );
+                  },
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancelar')
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        editarSucursal_2(sucursal);
+                      },
+                      child: const Text('Continuar')
+                  ),
+                ],
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  editarSucursal_2(Sucursal sucursal){
+
+    GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AlertDialog(
+                title: const Text('Nueva Sucursal'),
+                content: Form(
+                  autovalidateMode: AutovalidateMode.always,
+                  key: formkey,
+                  child: StatefulBuilder(
+                    builder: (BuildContext c, StateSetter setState){
+                      return Column(
+                        children: [
+                          TextFormField(
+                            validator: MultiValidator([
+                              RequiredValidator(
+                                  errorText: "Campo Requerido"
+                              ),
+                            ]),
+                            controller: controllerSucursal,
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(),
+                              labelText: 'Direccion',
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          TextButton(
+                            child: Text("Buscar"),
+                            onPressed: () async {
+                              var addresses = await Geocoder.local.findAddressesFromQuery(controllerSucursal.text);
+
+                              var first = addresses.first;
+                              setState(() {
+                                zona = first.subLocality;
+                                municipio = first.adminArea;
+                                ciudad = first.locality;
+
+                                print("Direccion: ${first.addressLine}");
+                                print("AdminArea: ${first.adminArea}");//Municipio
+                                print("CountryName: ${first.countryName}");
+                                print("FeatureName: ${first.featureName}");
+                                print("Localidad: ${first.locality}"); //Ciudad
+                                print("SubAdminArea: ${first.subAdminArea}");//Provincia
+                                print("SubLocality: ${first.subLocality}"); //Zona
+                                print("SubThoroughfare: ${first.subThoroughfare}");
+                                print("Thoroughfare: ${first.thoroughfare}");
+                              });
+                            },
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Zona: ${zona}"),
+                              Text("Munic.: ${municipio}"),
+                              Text("Ciudad: ${ciudad}"),
+                            ],
+                          )
+                        ],
+                      );
+                    },
+                  ),
                 ),
                 actions: [
                   TextButton(
@@ -577,7 +731,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
                   ),
                   TextButton(
                       onPressed: () {},
-                      child: const Text('Editar')
+                      child: const Text('Continuar')
                   ),
                 ],
               )
