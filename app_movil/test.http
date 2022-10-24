@@ -6,3 +6,32 @@ GET https://serviceprojectspring.herokuapp.com/api/city
 ##### READ A BUSINESS BY USER ID
 GET https://serviceprojectspring.herokuapp.com/api/business/?userId=1
 Content-Type: application/json
+
+### Create business
+POST http://serviceprojectspring.herokuapp.com/api/business
+Content-Type: application/json
+
+{
+  "name": "business name",
+  "description": "business description",
+  "id_type_business": 1,
+  "id_user": 1,
+  "create_date": "2008-01-02",
+  "update_date": "2008-01-02",
+  "status": 1
+}
+
+### Update business
+PUT http://serviceprojectspring.herokuapp.com/api/business/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Ferreteria Carlos v2",
+  "description": "Venta de articulos de ferreteria",
+  "idTypeBusiness": 1,
+  "idUser": 1,
+  "createDate": "2022-01-02",
+  "updateDate": "2022-01-02",
+  "status": 1
+}

@@ -121,6 +121,7 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting Business...");
     var url = Uri.https(apiURL, '/api/business');
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
@@ -128,33 +129,47 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting Business By id...");
     var url = Uri.https(apiURL, '/api/business/$id');
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
   getBusinessByUserId(int id) async {
-    print("Getting Business By id...");
-    var url = Uri.https(apiURL, '/api/business/?userId=$id');
+    print("Getting Business By User id...");
+    final queryParams = {
+      'userId': id.toString()
+    };
+    var url = Uri.https(apiURL, '/api/business/', queryParams);
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
   createBusiness(String name, String desc, int idTypeBusiness, int idUser,
-      String createDate, String updateDate) {
-    return http.post(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/business'),
+      String createDate, String updateDate) async {
+    print("Creating business...");
+    var url = Uri.https(this.apiURL, '/api/business');
+    var response = await http.post(
+      url,
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json',
+        "Accept": 'application/json'
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, Object>{
         "name": name,
         "description": desc,
-        "idTypeBusiness": idTypeBusiness.toString(),
-        "idUser": idUser.toString(),
+        "idTypeBusiness": idTypeBusiness,
+        "idUser": idUser,
         "createDate": createDate,
         "updateDate": updateDate,
-        "status": 1.toString()
+        "status": 1
       }),
     );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to update .');
+    }
   }
 
   updateBusiness(int id, String name, String desc, int idTypeBusiness,
