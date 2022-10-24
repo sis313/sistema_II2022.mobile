@@ -167,10 +167,10 @@ class MapSampleState extends State<MapSample> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               AlertDialog(
-                title: Text(sucursal.nombre),
+                title: Text(sucursal.name),
                 content: Column(
                   children: [
-                    Text(sucursal.direccion),
+                    Text(sucursal.address),
                     Text("Info 2"),
                     Text("Info 3"),
                   ],

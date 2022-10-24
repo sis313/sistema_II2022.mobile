@@ -114,7 +114,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
 /*WIDGETS PARA EL LISTADO*/
   Widget negocio(Negocio negocio){
 
-    String nombre = negocio.nombre.toString();
+    String nombre = negocio.name.toString();
     int sucursales = negocio.sucursales.length;
 
     return Column(
@@ -190,7 +190,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
   Widget sucursal (Sucursal sucursal){
 
-    String nombre = sucursal.nombre.toString();
+    String nombre = sucursal.name.toString();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
