@@ -18,20 +18,44 @@ class MapSampleState extends State<MapSample> {
 
   var user_position ;
   bool showUser = false;
+  double lminLat, lmaxLat, lminLon, lmaxLon, radio = 5.0;
+  List FilterBranch = [];
+  List<Marker> listMarks = [];
+
 
   @override
   void initState() {
     super.initState();
   }
 
+
+
   void getCurrentLocation() async {
+
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print("$position.latitude, $position.longitude ");
-    //var user = [position.latitude, $position.longitude];
+    print("user = $position.latitude, $position.longitude ");
+
     setState(() {
       user_position  = position;
       showUser = true;
+
     });
+
+    var m = Marker(
+      //point: LatLng(-16.493730639624058, -68.13252864400924),
+        point: LatLng(user_position.latitude, user_position.longitude),
+        builder: (context) => Icon(
+          Icons.person_pin,
+          color: Colors.red,
+          size: 50,
+        )
+    );
+    listMarks.add(m);
+    //CalulateLimits(-16.493730639624058, -68.13252864400924);
+    CalulateLimits(position.latitude, position.longitude);
+    BranchOfficeFilter();
+    SetMarkers(FilterBranch);
+
   }
 
   //Datos de prueba para listado
@@ -43,6 +67,83 @@ class MapSampleState extends State<MapSample> {
     Negocio(5, 'Nombre Negocio 5', [Sucursal(6, 'Sucursal 1', '')]),
     Negocio(6, 'Nombre Negocio 6', [Sucursal(7, 'Sucursal 1', '')]),
   ];
+
+  var Sucursales = [
+    {1, 'sucursal 1', -16.509119931820113, -68.12710156327141},
+    {2, 'sucursal 2', -36.493730639624058,-14.493730639624058},
+    {3, 'sucursal 3', -22.493730639624058,-60.493730639624058},
+    {4, 'sucursal 4', -46.493730639624058,-23.493730639624058},
+    {5, 'sucursal 5', -50.493730639624058,-3.493730639624058},
+  ];
+
+
+  void CalulateLimits( userLat, userLon )  {
+    print("calculate");
+    setState(() {
+      lminLat = userLat - radio;
+      lmaxLat = userLat + radio;
+      lminLon = userLon - radio;
+      lmaxLon = userLon + radio;
+    });
+
+  }
+
+  void BranchOfficeFilter(){
+
+    print("filter");
+    for(var branch in Sucursales) {
+      double lat = branch.elementAt(2);
+      double lon = branch.elementAt(3);
+      //print('$lat, $lon');
+      if ((lat > lminLat && lat < lmaxLat) && (lon > lminLon && lon < lmaxLon)){
+        //print('$lat, $lon');
+        FilterBranch.add(branch);
+      }
+
+    }
+  }
+
+  void SetMarkers(branches){
+    for(var b in branches) {
+      //print(b.elementAt(2));
+      String suc = b.elementAt(1);
+      Marker m = Marker(
+          point: LatLng(b.elementAt(2), b.elementAt(3)),
+          builder: (context) => GestureDetector(
+              onTap: (){
+                setState(() {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            AlertDialog(
+                              title: Text(suc),
+                              content: Column(
+                                children: [
+                                  Text("Info 1"),
+                                  Text("Info 2"),
+                                  Text("Info 3"),
+                                ],
+                              ),
+                            )
+                          ],
+                        );
+                      }
+                  );
+                });
+              },
+              child: Icon(Icons.pin_drop, size: 40)
+          ),
+      );
+      listMarks.add(m);
+    }
+    print(listMarks.length);
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -94,114 +195,7 @@ class MapSampleState extends State<MapSample> {
                       subdomains: ['a', 'b', 'c'],
                     ),
                     MarkerLayer(
-                      markers: [
-                        //getMarkerUser(showUser, user_position),
-                      showUser != false ?
-                        Marker(
-                        point: LatLng(user_position.latitude, user_position.longitude),
-                          builder: (context) => Icon(
-                          Icons.person_pin,
-                          color: Colors.red,
-                          size: 50,
-                          )
-                        ):
-                        Marker(
-                            point: LatLng(-16.493730639624058, -68.13252864400924),
-                            builder: (context) => Icon(
-                              Icons.pin_drop_rounded,
-                              color: Colors.red,
-                              size: 50,
-                            )
-                        ),
-
-                        //Plaza Abaroa -16.509119931820113, -68.12710156327141
-                        Marker(
-                            point: LatLng(-16.509119931820113, -68.12710156327141),
-                            builder: (context) => IconButton(
-                                onPressed: (){
-                                 // getCurrentLocation();
-                                  //print();
-                                  setState(() {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              AlertDialog(
-                                                title: const Text('Sucursal ###'),
-                                                content: Column(
-                                                  children: [
-                                                    Text("Info 1"),
-                                                    Text("Info 2"),
-                                                    Text("Info 3"),
-                                                  ],
-                                                ),
-                                                /*actions: [
-                                                  TextButton(
-                                                      onPressed: () {},
-                                                      child: const Text('Cancelar')
-                                                  ),
-                                                  TextButton(
-                                                      onPressed: () {},
-                                                      child: const Text('Eliminar')
-                                                  ),
-                                                ],*/
-                                              )
-                                            ],
-                                          );
-                                        }
-                                    );
-                                  });
-                                },
-                                icon: Icon(Icons.pin_drop, size: 30,)
-                            )
-                        ),
-                        //Plaza Uyuni -16.496729596124986, -68.1243340897443
-                        Marker(
-                          point: LatLng(-16.496729596124986, -68.1243340897443),
-                          builder: (context) => GestureDetector(
-                              onTap: (){
-                                print("Plaza uyuni");
-                                setState(() {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            AlertDialog(
-                                              title: const Text('Sucursal ###'),
-                                              content: Column(
-                                                children: [
-                                                  Text("Info 1"),
-                                                  Text("Info 2"),
-                                                  Text("Info 3"),
-                                                ],
-                                              ),
-                                              /*actions: [
-                                                  TextButton(
-                                                      onPressed: () {},
-                                                      child: const Text('Cancelar')
-                                                  ),
-                                                  TextButton(
-                                                      onPressed: () {},
-                                                      child: const Text('Eliminar')
-                                                  ),
-                                                ],*/
-                                            )
-                                          ],
-                                        );
-                                      }
-                                  );
-                                });
-                              },
-                              child: Icon(Icons.pin_drop, size: 50,)
-                          ),
-                        )
-                      ],
+                      markers: listMarks
                     )
                   ],
                 )
