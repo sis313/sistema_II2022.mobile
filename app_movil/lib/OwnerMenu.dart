@@ -53,8 +53,10 @@ class _OwnerMenuState extends State<OwnerMenu> {
   Widget build(BuildContext context) {
 
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: AppBar(
+
             title: Text('Mis Negocios'),
             backgroundColor: Color(0xffa7d676),
             elevation: 1,
