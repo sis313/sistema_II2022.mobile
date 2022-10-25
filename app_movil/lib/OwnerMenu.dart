@@ -1,3 +1,4 @@
+import 'package:app_movil/RoleMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:geocoder/geocoder.dart';
@@ -55,6 +56,18 @@ class _OwnerMenuState extends State<OwnerMenu> {
       home: Scaffold(
           appBar: AppBar(
             title: Text('Mis Negocios'),
+            backgroundColor: Color(0xffa7d676),
+            elevation: 1,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
+              },
+            ),
+
             actions: [
               PopupMenuButton<int>(
                   onSelected: (item) => _onSelected(context, item),
@@ -88,6 +101,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
             ],
           ),
           body: ListView.builder(
+            padding: const EdgeInsets.all(17.0),
             itemCount: negocios.length,
             itemBuilder: (context, index){
               return Card(
@@ -119,13 +133,15 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
     return Column(
       children: [
+
         Row(
+
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(width: 10),
+            SizedBox(width: 12),
             Icon(
-              Icons.house,
+              Icons.shop_2,
               size: 50,
             ),
             SizedBox(width: 10),
@@ -135,14 +151,12 @@ class _OwnerMenuState extends State<OwnerMenu> {
               children: [
                 Text(
                   nombre,
-                  style: TextStyle(
-                      fontSize: 18
+                  style:  TextStyle(color: Colors.black, fontSize: 20
                   ),
                 ),
                 Text(
                   'Numero de sucursales ($sucursales)',
-                  style: TextStyle(
-                      fontSize: 18
+                  style: TextStyle(color: Colors.black26, fontSize: 15
                   ),
                 )
               ],
@@ -160,8 +174,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
                   });
                 },
                 icon: (negocio.wState ?
-                Icon(Icons.indeterminate_check_box_outlined, size: 50) :
-                Icon(Icons.add_box_outlined, size: 50))
+                Icon(Icons.indeterminate_check_box_outlined, size: 30,color:Color(0xfff9e2ae)) :
+                Icon(Icons.add, size: 30,color:Color(0xfffbc78d)))
             )
           ],
         ),
@@ -176,7 +190,16 @@ class _OwnerMenuState extends State<OwnerMenu> {
         ),
         (negocio.wState ?
         TextButton(
-          child: Text("Añadir Sucursal"),
+          child: Text("Añadir Sucursal",style: TextStyle(color: Colors.white, fontSize: 15)),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xfffbc78d)
+              ),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Color(0xfffbc78d))
+                  )
+              )),
           onPressed: (){
             setState(() {
               print("Añadir sucursal");
@@ -208,7 +231,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
         ),
         SizedBox(
           height: 25,
-          width: 190,
+          width: 150,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -258,7 +281,9 @@ class _OwnerMenuState extends State<OwnerMenu> {
       title: const Text('Nuevo Negocio'),
       content: Form(
           child: Column(
+
             children: [
+              Padding( padding: EdgeInsets.all(5)),
               TextFormField(
                 controller: ctrollerNegocioName,
                 autovalidateMode: AutovalidateMode.always,
@@ -269,18 +294,21 @@ class _OwnerMenuState extends State<OwnerMenu> {
                   ),
                 ]),
                 decoration: InputDecoration(
+
                   border: UnderlineInputBorder(),
                   labelText: 'Nombre de Negocio *',
                 ),
               ),
               SizedBox(height: 10),
+              Padding( padding: EdgeInsets.all(2)),
               TextFormField(
                 controller: ctrollerNegocioDesc,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: UnderlineInputBorder(),
                   hintText: 'Descripcion',
                 ),
               ),
+              Padding( padding: EdgeInsets.all(10)),
               DropdownButtonFormField<String>(
                   key: formkeyDesc,
                   validator: (value) => value == null?
@@ -303,12 +331,30 @@ class _OwnerMenuState extends State<OwnerMenu> {
             ],
           ),
       ),
+
       actions: [
-        TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Cancelar')
+
+        ElevatedButton(
+
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)
+                  ),
+
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: Color(0xffef5a68))
+                      )
+                  )),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+
+              child: Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+
         ),
         TextButton(
             onPressed: () {
@@ -316,7 +362,22 @@ class _OwnerMenuState extends State<OwnerMenu> {
               print(ctrollerNegocioDesc.text);
               print(valueCategorias);
             },
-            child: const Text('Registrar')
+          child: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Color(0xffa7d676))
+                    )
+                )),
+
+            child: Text(
+              'Registrar',
+              style: TextStyle(color: Colors.white, fontSize: 15),
+            ),
+          ),
         ),
       ],
     );
@@ -366,7 +427,16 @@ class _OwnerMenuState extends State<OwnerMenu> {
                                           closeTime = openTime;
                                       });
                                     },
-                                    child: Text("Cambiar")
+                                    child: Text("Cambiar"),
+                                    style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(Color(0xfffbc78d)
+                                      ),
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(18.0),
+                                              side: BorderSide(color: Color(0xfffbc78d))
+                                          )
+                                      )),
                                 ),
                               ],
                             ),
@@ -396,7 +466,17 @@ class _OwnerMenuState extends State<OwnerMenu> {
                                           closeTime = newTime;
                                       });
                                     },
-                                    child: Text("Cambiar")
+                    style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Color(0xfffbc78d)
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Color(0xfffbc78d))
+                    )
+                    )),
+                                    child: Text("Cambiar"),
+
                                 ),
                               ],
                             ),
@@ -426,13 +506,39 @@ class _OwnerMenuState extends State<OwnerMenu> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('Cancelar')
+                      child: const Text('Cancelar',style: TextStyle(color: Colors.white, fontSize: 15)),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)
+                        ),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(color: Color(0xffef5a68))
+                            )
+                        )),
                   ),
                   TextButton(
                       onPressed: () {
-                        anadirSucursal_2();
+
                       },
-                      child: const Text('Continuar')
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+                            ),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: BorderSide(color: Color(0xffa7d676))
+                                )
+                            )),
+                        onPressed: () {
+                          anadirSucursal_2();
+                        },
+                        child: Text(
+                          'Continuar',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      )
                   ),
                 ],
               )
@@ -516,11 +622,11 @@ class _OwnerMenuState extends State<OwnerMenu> {
                       onPressed: () {
                         Navigator.pop(context);
                         },
-                      child: const Text('Cancelar')
+                      child: const Text('Cancelar',style: TextStyle(color: Colors.white, fontSize: 15))
                   ),
                   TextButton(
                       onPressed: () {},
-                      child: const Text('Continuar')
+                      child: const Text('Continuar',style: TextStyle(color: Colors.white, fontSize: 15))
                   ),
                 ],
               )
@@ -576,7 +682,16 @@ class _OwnerMenuState extends State<OwnerMenu> {
                                           closeTime = openTime;
                                       });
                                     },
-                                    child: Text("Cambiar")
+                                    child: Text("Cambiar",style: TextStyle(color: Colors.white, fontSize: 15)),
+                                  style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(Color(0xff85cbcc)
+                                      ),
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(18.0),
+                                              side: BorderSide(color: Color(0xff85cbcc))
+                                          )
+                                      )),
                                 ),
                               ],
                             ),
@@ -606,7 +721,15 @@ class _OwnerMenuState extends State<OwnerMenu> {
                                           closeTime = newTime;
                                       });
                                     },
-                                    child: Text("Cambiar")
+                                    child: Text("Cambiar",style: TextStyle(color: Colors.white, fontSize: 15)),style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(Color(0xff85cbcc)
+                                    ),
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(18.0),
+                                            side: BorderSide(color: Color(0xff85cbcc))
+                                        )
+                                    )),
                                 ),
                               ],
                             ),
@@ -636,13 +759,29 @@ class _OwnerMenuState extends State<OwnerMenu> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('Cancelar')
+                      child: const Text('Cancelar',style: TextStyle(color: Colors.white, fontSize: 15)),style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Color(0xffef5a68))
+                          )
+                      )),
                   ),
                   TextButton(
                       onPressed: () {
                         editarSucursal_2(sucursal);
                       },
-                      child: const Text('Continuar')
+                      child: const Text('Continuar',style: TextStyle(color: Colors.white, fontSize: 15)),style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Color(0xffa7d676))
+                          )
+                      )),
                   ),
                 ],
               )
@@ -761,11 +900,20 @@ class _OwnerMenuState extends State<OwnerMenu> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('Cancelar')
+                      child: const Text('Cancelar',style: TextStyle(color: Colors.white, fontSize: 15))
                   ),
                   TextButton(
                       onPressed: () {},
-                      child: const Text('Eliminar')
+                      child: const Text('Eliminar',style: TextStyle(color: Colors.white, fontSize: 15)),style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Color(0xffef5a68))
+                          )
+                      )),
+
                   ),
                 ],
               )
