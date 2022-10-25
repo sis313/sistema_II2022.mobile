@@ -227,11 +227,11 @@ class BoActiveProvider extends ChangeNotifier {
     return response.body;
   }
 
-  createTypeBusiness(String name) async{
+  createTypeBusiness(String name) async {
     var url = Uri.https(this.apiURL, '/api/typeBusiness');
     var response = await http.post(
-        url,
-    //return http.post(
+      url,
+      //return http.post(
       //Uri.parse('https://serviceprojectspring.herokuapp.com/api/typeBusiness'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -298,12 +298,12 @@ class BoActiveProvider extends ChangeNotifier {
     return response.body;
   }
 
-  createLocation(double latitude, double longitude) async{
+  createLocation(double latitude, double longitude) async {
     var url = Uri.https(this.apiURL, '/api/location');
     var response = await http.post(
-        url,
-    //return http.post(
-     // Uri.parse('https://serviceprojectspring.herokuapp.com/api/location'),
+      url,
+      //return http.post(
+      // Uri.parse('https://serviceprojectspring.herokuapp.com/api/location'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -391,11 +391,11 @@ class BoActiveProvider extends ChangeNotifier {
       int idLocation,
       int idBusiness,
       String createDate,
-      String updateDate) async{
+      String updateDate) async {
     var url = Uri.https(this.apiURL, '/api/branch');
     var response = await http.post(
-        url,
-    //return http.post(
+      url,
+      //return http.post(
       //Uri.parse('https://serviceprojectspring.herokuapp.com/api/branch'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -476,7 +476,3 @@ class BoActiveProvider extends ChangeNotifier {
     }
   }
 }
-
-//Los primeros 4 de business estan revisados ya arreglados los put y post pero debo probar, probar cada funcion
-//los get con query para meter arreglar como arreglo alexander segun el business, probar dempas post y put
-//en caso de errores o no funcione testear con http si no funciona debe ser backend avisar
