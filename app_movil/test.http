@@ -35,3 +35,23 @@ Accept: application/json
   "updateDate": "2022-01-02",
   "status": 1
 }
+
+### Get all municipalities
+POST https://serviceprojectspring.herokuapp.com/api/branch
+Content-Type: application/json
+Accept: application/json
+
+{
+        "address": "av. sth",
+        "openHour": "10:00:00",
+        "closeHour": "23:00:00",
+        "attentionDays": "lunes",
+        "image": "link.jpg",
+        "idZone": 1,
+        "idLocation": 1,
+        "idBusiness": 1,
+        "createDate": "2022-10-22",
+        "updateDate": "2022-10-22",
+        "status": 1
+}
+

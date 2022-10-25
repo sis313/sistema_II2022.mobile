@@ -12,51 +12,54 @@ class BoActiveProvider extends ChangeNotifier {
 
   // Methods
   getCity() async {
-    print("Haciendo peticion...");
+    print("Getting city...");
     var url = Uri.https(apiURL, 'api/city');
     final response = await http.get(url);
-    print("Response listo!");
-
-    print("Response status: ${response.statusCode}"); // retorna un numero
     print("Response body: ${response.body}");
     return response.body; // retorna una lista
   }
 
   getMunicipio() async {
-    print("Haciendo peticion...");
+    print("Getting municipio...");
     var url = Uri.https(apiURL, 'api/municipalities');
     final response = await http.get(url);
+    print(response.body);
     return response.body; // retorna una lista
   }
 
+  getByIDMunicipio(int id) async {
+    print("Getting municipio by id...");
+    var url = Uri.https(apiURL, 'api/municipalities/$id');
+    final response = await http.get(url);
+    print(response.body);
+    return response.body;
+  }
+
   getComent() async {
-    print("Haciendo peticion...");
+    print("Getting comments...");
     var url = Uri.https(apiURL, '/api/comment');
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
   getRanting() async {
-    print("Haciendo peticion...");
+    print("Getting ratings...");
     var url = Uri.https(apiURL, '/api/rating');
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
-  getByIDMunicipio(int id) async {
-    print("Haciendo peticion...");
-    var url = Uri.https(apiURL, 'api/municipalities/$id');
-    final response = await http.get(url);
-    return response.body;
-  }
-
-  deleteComment(String id) async {
+  deleteComment(int id) async {
+    print("Deleting comment $id...");
     final http.Response response = await http.delete(
       Uri.parse('https://serviceprojectspring.herokuapp.com/api/comment/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -64,8 +67,9 @@ class BoActiveProvider extends ChangeNotifier {
     }
   }
 
-  createComment(String message, int idUser, int idBusinness) {
-    return http.post(
+  createComment(String message, int idUser, int idBusinness) async {
+    print("Creating comments...");
+    final response = await http.post(
       Uri.parse('https://serviceprojectspring.herokuapp.com/api/comment'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -77,9 +81,12 @@ class BoActiveProvider extends ChangeNotifier {
         "status": 1.toString()
       }),
     );
+    print(response.body);
+    return response.body;
   }
 
   updateComment(int id, String message, int idUser, int idBussiness) async {
+    print("Updating comment $id...");
     final response = await http.put(
       Uri.parse('https://serviceprojectspring.herokuapp.com/api/comment/$id'),
       headers: <String, String>{
@@ -92,7 +99,7 @@ class BoActiveProvider extends ChangeNotifier {
         "status": 1.toString()
       }),
     );
-
+    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -100,8 +107,9 @@ class BoActiveProvider extends ChangeNotifier {
     }
   }
 
-  createRanking(int score, int idBranch, int idUser) {
-    return http.post(
+  createRanking(int score, int idBranch, int idUser) async {
+    print("Creating ranking...");
+    final response = await http.post(
       Uri.parse('https://serviceprojectspring.herokuapp.com/api/rating'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -113,10 +121,12 @@ class BoActiveProvider extends ChangeNotifier {
         "idUser": 1.toString()
       }),
     );
+    print(response.body);
+    return response.body;
   }
 
-//Business
 
+  //Business
   getBusiness() async {
     print("Getting Business...");
     var url = Uri.https(apiURL, '/api/business');
