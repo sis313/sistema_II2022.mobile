@@ -135,9 +135,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   getBusinessByUserId(int id) async {
     print("Getting Business By User id...");
-    final queryParams = {
-      'userId': id.toString()
-    };
+    final queryParams = {'userId': id.toString()};
     var url = Uri.https(apiURL, '/api/business/', queryParams);
     final response = await http.get(url);
     print(response.body);
@@ -189,7 +187,7 @@ class BoActiveProvider extends ChangeNotifier {
         "status": 1.toString()
       }),
     );
-
+    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -204,6 +202,7 @@ class BoActiveProvider extends ChangeNotifier {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -216,6 +215,7 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting TypeBusiness...");
     var url = Uri.https(apiURL, '/api/typeBusiness');
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
@@ -223,17 +223,27 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting TypeBusiness By id...");
     var url = Uri.https(apiURL, '/api/typeBusiness/$id');
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
-  createTypeBusiness(String name) {
-    return http.post(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/typeBusiness'),
+  createTypeBusiness(String name) async{
+    var url = Uri.https(this.apiURL, '/api/typeBusiness');
+    var response = await http.post(
+        url,
+    //return http.post(
+      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/typeBusiness'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{"name": name}),
     );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to update .');
+    }
   }
 
   updateTypeBusiness(int id, String name) async {
@@ -246,6 +256,7 @@ class BoActiveProvider extends ChangeNotifier {
       body: jsonEncode(<String, String>{"name": name}),
     );
 
+    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -261,6 +272,7 @@ class BoActiveProvider extends ChangeNotifier {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -274,6 +286,7 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting Location...");
     var url = Uri.https(apiURL, '/api/location');
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
@@ -281,12 +294,16 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting Location By id...");
     var url = Uri.https(apiURL, '/api/location/$id');
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
-  createLocation(double latitude, double longitude) {
-    return http.post(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/location'),
+  createLocation(double latitude, double longitude) async{
+    var url = Uri.https(this.apiURL, '/api/location');
+    var response = await http.post(
+        url,
+    //return http.post(
+     // Uri.parse('https://serviceprojectspring.herokuapp.com/api/location'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -295,6 +312,12 @@ class BoActiveProvider extends ChangeNotifier {
         "longitude": longitude.toString()
       }),
     );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to update .');
+    }
   }
 
   updateLocation(int id, double latitude, double longitude) async {
@@ -308,7 +331,7 @@ class BoActiveProvider extends ChangeNotifier {
         "longitude": longitude.toString()
       }),
     );
-
+    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -323,6 +346,7 @@ class BoActiveProvider extends ChangeNotifier {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -336,6 +360,7 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting Branch...");
     var url = Uri.https(apiURL, '/api/branch');
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
@@ -343,13 +368,16 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting Branch By id...");
     var url = Uri.https(apiURL, '/api/branch/$id');
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
   getBranchByBusinessId(int id) async {
     print("Getting Branch By Business id...");
-    var url = Uri.https(apiURL, '/api/branch/?businessId=$id');
+    final queryParams = {'businessId': id.toString()};
+    var url = Uri.https(apiURL, '/api/branch/', queryParams);
     final response = await http.get(url);
+    print(response.body);
     return response.body;
   }
 
@@ -363,9 +391,12 @@ class BoActiveProvider extends ChangeNotifier {
       int idLocation,
       int idBusiness,
       String createDate,
-      String updateDate) {
-    return http.post(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/branch'),
+      String updateDate) async{
+    var url = Uri.https(this.apiURL, '/api/branch');
+    var response = await http.post(
+        url,
+    //return http.post(
+      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/branch'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -383,6 +414,12 @@ class BoActiveProvider extends ChangeNotifier {
         "status": 1.toString()
       }),
     );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to update .');
+    }
   }
 
   updateBranch(
@@ -431,6 +468,7 @@ class BoActiveProvider extends ChangeNotifier {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -438,3 +476,7 @@ class BoActiveProvider extends ChangeNotifier {
     }
   }
 }
+
+//Los primeros 4 de business estan revisados ya arreglados los put y post pero debo probar, probar cada funcion
+//los get con query para meter arreglar como arreglo alexander segun el business, probar dempas post y put
+//en caso de errores o no funcione testear con http si no funciona debe ser backend avisar
