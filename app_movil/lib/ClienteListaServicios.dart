@@ -1,7 +1,10 @@
 import 'package:app_movil/Favoritos.dart';
+import 'package:app_movil/servers/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'ComentariosNegocio.dart';
+import 'DTO/Business.dart';
 import 'Inicio.dart';
 import 'MenuLateral.dart';
 import 'ServicioDetail.dart';
@@ -25,8 +28,12 @@ class ClienteListaServicios extends StatelessWidget {
         'Tienda 2',
         4),
   ];
+  Future<List<Business>> business;
+
   @override
   Widget build(BuildContext context) {
+    business = Provider.of<BoActiveProvider>(context, listen: false).getBusiness();
+
     return Scaffold(
       backgroundColor: Color(0xfff6f7f9),
       drawer: MenuLateral(),
@@ -46,86 +53,97 @@ class ClienteListaServicios extends StatelessWidget {
 
         ),
 
-      body: ListView(
+      body: FutureBuilder(
+        future: business,
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            return items(snapshot.data, context);
+          }
+          else if (snapshot.data == null){
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      )
+    );
+  }
 
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-            height: 20,
+  Widget items(List<Business> products, BuildContext context){
+    return ListView(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+          height: 20,
 
-          ),
+        ),
+        Column(
+            children: products
+                .map(
+                  (e) => GestureDetector(
+                onTap:  () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>ServicioDetail()));
+                },
+                child: Container(
+                  margin:
+                  EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(13),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey[200],
+                          blurRadius: 10,
+                          spreadRadius: 3,
+                          offset: Offset(3, 4))
+                    ],
+                  ),
 
-
-
-          Column(
-              children: products
-                  .map(
-                    (e) => GestureDetector(
-
-
-                  onTap:  () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>ServicioDetail()));
-                  },
-
-
-                  child: Container(
-                    margin:
-                    EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(13),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey[200],
-                            blurRadius: 10,
-                            spreadRadius: 3,
-                            offset: Offset(3, 4))
-                      ],
+                  child: ListTile(
+                    leading: Image.network(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdygFdB_FfadQmmrDZUgLeJTILZBTU0d9Ffs3mLpYSh2rulaJo&usqp=CAU',
+                      fit: BoxFit.cover,
+                      width: 90,
+                      height: 100,
                     ),
-
-                    child: ListTile(
-                      leading: Image.network(
-                        e.image,
-                        fit: BoxFit.cover,
-                        width: 90,
-                        height: 100,
-                      ),
-                      title: Text(
-                        e.name,
-                        style: TextStyle(fontSize: 25),
-                      ),
-                      subtitle: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("\Estrellas :" + e.price.toString()),
-                          SizedBox(height: 10),
+                    title: Text(
+                      e.name,
+                      style: TextStyle(fontSize: 25),
+                    ),
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("\Estrellas :" + e.idBusiness.toString()),
+                        SizedBox(height: 10),
 
 
-                          GestureDetector(
+                        GestureDetector(
 
-                              onTap:  () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) =>Favoritos()));
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 1.0,
+                            onTap:  () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) =>Favoritos()));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 1.0,
 
-                                ),
-                                child:  Icon(Icons.favorite_border),
+                              ),
+                              child:  Icon(Icons.favorite_border),
 
-                              )
-                          ),
-                        ],
-                      ),
+                            )
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              )
-                  .toList())
+              ),
+            )
+                .toList())
 
-        ],
-      ),
+      ],
     );
   }
 }

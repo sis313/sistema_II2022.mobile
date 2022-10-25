@@ -4,7 +4,7 @@ GET https://serviceprojectspring.herokuapp.com/api/city
 
 ###
 ##### READ A BUSINESS BY USER ID
-GET https://serviceprojectspring.herokuapp.com/api/business/?userId=1
+GET https://serviceprojectspring.herokuapp.com/api/business
 Content-Type: application/json
 
 ### Create business
@@ -50,8 +50,6 @@ Accept: application/json
         "idZone": 1,
         "idLocation": 1,
         "idBusiness": 1,
-        "createDate": "2022-10-22",
-        "updateDate": "2022-10-22",
         "status": 1
 }
 

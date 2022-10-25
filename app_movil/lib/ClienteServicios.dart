@@ -1,14 +1,19 @@
 import 'package:app_movil/ClienteListaServicios.dart';
+import 'package:app_movil/DTO/TypeBusiness.dart';
 import 'package:app_movil/RoleMenu.dart';
+import 'package:app_movil/servers/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_movil/MenuLateral.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'DTO/Item.dart';
 import 'Servicio.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 class ClienteServicios extends StatelessWidget {
-  Items item1 = new Items(
+  /*
+  Item item1 = new Item(
       title: "Supermercados",
       subtitle: "Comida,otros",
       event: "15 encontrados",
@@ -44,86 +49,98 @@ class ClienteServicios extends StatelessWidget {
     event: "15 encontrados",
     img: "assets/barrio.png",
   );
+   */
+  Future<List<TypeBusiness>> myList;
 
   @override
   Widget build(BuildContext context) {
-    List<Items> myList = [item1, item2, item3, item4, item5, item6];
-    //
+    myList = Provider.of<BoActiveProvider>(context, listen: false).getTypeBusiness();
+    print(myList);
+    return FutureBuilder(
+      future: myList,
+      builder: (context, snapshot){
+        if(snapshot.hasData){
+          return items(snapshot.data, context);
+        }
+        else if (snapshot.data == null) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+    );
+  }
+
+  Widget items (List<TypeBusiness> myList, BuildContext context){
     return Flexible(
 
       child: GridView.count(
 
-      childAspectRatio: 1.0,
-      padding: EdgeInsets.only(left: 16, right: 16),
-      crossAxisCount: 2,
-      crossAxisSpacing: 18,
-      mainAxisSpacing: 18,
-      children: myList.map((data) {
-        return GestureDetector(
-          onTap:  () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) =>ClienteListaServicios()));
-        },
-          child: Container(
-            decoration: BoxDecoration(
-                color: Color(0xff85cbcc), borderRadius: BorderRadius.circular(10)),
-            child: Column(
+          childAspectRatio: 1.0,
+          padding: EdgeInsets.only(left: 16, right: 16),
+          crossAxisCount: 2,
+          crossAxisSpacing: 18,
+          mainAxisSpacing: 18,
+          children: myList.map((data) {
+            return GestureDetector(
+              onTap:  () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>ClienteListaServicios()));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color(0xff85cbcc), borderRadius: BorderRadius.circular(10)),
+                child: Column(
 
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
 
-                Image.asset(
-                  data.img,
-                  width: 42,
-                ),
-                SizedBox(
-                  height: 14,
-                ),
-                Text(
-                  data.title,
-                  style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600)),
+                    Image.asset(
+                      "assets/barrio.png",
+                      width: 42,
+                    ),
+                    SizedBox(
+                      height: 14,
+                    ),
+                    Text(
+                      data.name,
+                      style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600)),
 
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  data.subtitle,
-                  style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
-                          color: Colors.white38,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600)),
-                ),
-                SizedBox(
-                  height: 14,
-                ),
-                Text(
-                  data.event,
-                  style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600)),
-                ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      "",
+                      style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              color: Colors.white38,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600)),
+                    ),
+                    SizedBox(
+                      height: 14,
+                    ),
+                    Text(
+                      'little description',
+                      style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600)),
+                    ),
 
-              ],
-            ),
-          ),
-        );
-      }).toList()),
-
+                  ],
+                ),
+              ),
+            );
+          }).toList()),
     );
   }
-}
-
-class Items {
-  String title;
-  String subtitle;
-  String event;
-  String img;
-  Items({this.title, this.subtitle, this.event, this.img});
 }

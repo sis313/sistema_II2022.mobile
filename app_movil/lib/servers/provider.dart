@@ -1,11 +1,16 @@
 import 'dart:convert';
 
+import 'package:app_movil/DTO/Business.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import '../DTO/TypeBusiness.dart';
 
 class BoActiveProvider extends ChangeNotifier {
   // Static data
   final String apiURL = "serviceprojectspring.herokuapp.com";
+  List<TypeBusiness> allTypeBusiness = [];
+  List<Business> allBusiness = [];
 
   // Return data
   String cityResponse;
@@ -127,12 +132,24 @@ class BoActiveProvider extends ChangeNotifier {
 
 
   //Business
-  getBusiness() async {
+  Future<List<Business>>getBusiness() async {
     print("Getting Business...");
     var url = Uri.https(apiURL, '/api/business');
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Business> business = [];
+    for(var item in jsonData){
+      Business b = Business();
+      b.idBusiness = item['idBusiness'];
+      b.name = item['name'];
+      b.description = item['description'];
+      business.add(b);
+    }
+    this.allBusiness = business;
+    return business;
   }
 
   getBusinessById(int id) async {
@@ -221,12 +238,25 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   //TypeBusiness
-  getTypeBusiness() async {
+  Future<List<TypeBusiness>> getTypeBusiness() async {
     print("Getting TypeBusiness...");
+    List<TypeBusiness> list = [];
+
     var url = Uri.https(apiURL, '/api/typeBusiness');
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<TypeBusiness> responseTypeBusiness = [];
+    for(var item in jsonData){
+      TypeBusiness type = TypeBusiness();
+      type.id = item['idTypeBusiness'];
+      type.name = item['name'];
+      responseTypeBusiness.add(type);
+    }
+    allTypeBusiness = responseTypeBusiness;
+    return responseTypeBusiness;
   }
 
   getTypeBusinessById(int id) async {
