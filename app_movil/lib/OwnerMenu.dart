@@ -583,7 +583,18 @@ class _OwnerMenuState extends State<OwnerMenu> {
                           ),
                           SizedBox(height: 10),
                           TextButton(
-                            child: Text("Buscar"),
+                            child: Text("Buscar",
+                                style: TextStyle(color: Colors.white, fontSize: 15)),
+                      style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Color(0xfff9e2ae)
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Color(0xfff9e2ae))
+                      )
+                      )),
+
                             onPressed: () async {
                               var addresses = await Geocoder.local.findAddressesFromQuery(controllerSucursal.text);
 
