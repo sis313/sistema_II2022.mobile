@@ -7,7 +7,7 @@ class ComentariosNegocio extends StatefulWidget {
 
 class _ComentariosNegocioState extends State<ComentariosNegocio> {
   TextEditingController _textFieldController = TextEditingController();
-
+  var id;
   _displayDialog(BuildContext context) async {
     return showDialog(
         context: context,

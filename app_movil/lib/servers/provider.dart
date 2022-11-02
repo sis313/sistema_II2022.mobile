@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_movil/DTO/Business.dart';
+import 'package:app_movil/DTO/Comment.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,6 +12,7 @@ class BoActiveProvider extends ChangeNotifier {
   final String apiURL = "serviceprojectspring.herokuapp.com";
   List<TypeBusiness> allTypeBusiness = [];
   List<Business> allBusiness = [];
+  List<Comment> allcommet=[];
 
   // Return data
   String cityResponse;
@@ -152,13 +154,21 @@ class BoActiveProvider extends ChangeNotifier {
     return business;
   }
 
-  getBusinessById(int id) async {
-    print("Getting Business By id...");
+ /* Future<List<Business>> getBusinessById(int id) async {
+    print("Getting Business...");
     var url = Uri.https(apiURL, '/api/business/$id');
     final response = await http.get(url);
     print(response.body);
-    return response.body;
-  }
+
+    String body = utf8.decode(response.bodyBytes);
+    print(body);
+    final jsonData = json.decode(body);
+    List<Business> business = jsonData;
+    print("valores");
+    print(business.length);
+    print(business.toString());
+    return business;
+  }*/
 
   getBusinessByUserId(int id) async {
     print("Getting Business By User id...");

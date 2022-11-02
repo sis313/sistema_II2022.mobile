@@ -29,7 +29,7 @@ class ClienteListaServicios extends StatelessWidget {
         4),
   ];
   Future<List<Business>> business;
-
+  var id;
   @override
   Widget build(BuildContext context) {
     business = Provider.of<BoActiveProvider>(context, listen: false).getBusiness();
@@ -85,7 +85,8 @@ class ClienteListaServicios extends StatelessWidget {
                 .map(
                   (e) => GestureDetector(
                 onTap:  () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) =>ServicioDetail()));
+                  id=e.idBusiness;
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>ServicioDetail(id)));
                 },
                 child: Container(
                   margin:

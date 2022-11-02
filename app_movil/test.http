@@ -1,10 +1,10 @@
 ### Get city
-GET https://serviceprojectspring.herokuapp.com/api/city
+GET https://serviceprojectspring.herokuapp.com/api/business/1
 
 
 ###
 ##### READ A BUSINESS BY USER ID
-GET https://serviceprojectspring.herokuapp.com/api/business
+GET https://serviceprojectspring.herokuapp.com/api/comment/1
 Content-Type: application/json
 
 ### Create business
