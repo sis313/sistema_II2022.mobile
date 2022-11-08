@@ -31,7 +31,7 @@ class BoActiveProvider extends ChangeNotifier {
     var url = Uri.https(apiURL, 'api/municipalities');
     final response = await http.get(url);
     print(response.body);
-    return response.body; // retorna una lista
+    return response.body;
   }
 
   getByIDMunicipio(int id) async {
