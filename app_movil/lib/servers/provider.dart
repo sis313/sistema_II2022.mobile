@@ -19,7 +19,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   // Methods
   getCity() async {
-    print("Getting city...");
+    print("Getting city... ");
     var url = Uri.https(apiURL, 'api/city');
     final response = await http.get(url);
     print("Response body: ${response.body}");
