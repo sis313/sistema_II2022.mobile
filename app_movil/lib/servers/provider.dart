@@ -154,21 +154,25 @@ class BoActiveProvider extends ChangeNotifier {
     return business;
   }
 
- /* Future<List<Business>> getBusinessById(int id) async {
+  Future<List<Business>> getBusinessById(int id) async {
     print("Getting Business...");
     var url = Uri.https(apiURL, '/api/business/$id');
     final response = await http.get(url);
     print(response.body);
-
+    print("busss");
     String body = utf8.decode(response.bodyBytes);
-    print(body);
     final jsonData = json.decode(body);
-    List<Business> business = jsonData;
-    print("valores");
+    List<Business> business = [];
+      Business m = Business();
+      m.idBusiness = jsonData['idBusiness'];
+      m.name = jsonData['name'];
+      m.description = jsonData['description'];
+      business.add(m);
+    //this.allBusiness = business;
+
     print(business.length);
-    print(business.toString());
     return business;
-  }*/
+  }
 
   getBusinessByUserId(int id) async {
     print("Getting Business By User id...");

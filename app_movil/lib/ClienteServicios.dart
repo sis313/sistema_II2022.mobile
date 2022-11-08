@@ -75,6 +75,7 @@ class ClienteServicios extends StatelessWidget {
   }
 
   Widget items (List<TypeBusiness> myList, BuildContext context){
+
     return Flexible(
 
       child: GridView.count(
