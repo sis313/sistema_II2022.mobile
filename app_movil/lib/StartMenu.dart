@@ -118,10 +118,13 @@ class _StartMenu extends State<StartMenu> {
           Provider.of<BoActiveProvider>(context, listen: false).updateComment(7, "test message edited", 1, 1);
           //Provider.of<BoActiveProvider>(context, listen: false).deleteComment(6);
 
+          */
           // Rating
           Provider.of<BoActiveProvider>(context, listen: false).getRanting();
           Provider.of<BoActiveProvider>(context, listen: false).createRanking(3, 1, 1);
+          Provider.of<BoActiveProvider>(context, listen: false).updateRating(11, 5, true, 1, 1);
 
+          /*
           // Business
           Provider.of<BoActiveProvider>(context, listen: false).getBusiness();
           Provider.of<BoActiveProvider>(context, listen: false).getBusinessById(2);

@@ -132,6 +132,29 @@ class BoActiveProvider extends ChangeNotifier {
     return response.body;
   }
 
+  updateRating(int idRating, int score, bool favoriteStatus, int idBranch, int idUser) async {
+    print("Updating rating $idRating...");
+    final response = await http.put(
+      Uri.parse('https://serviceprojectspring.herokuapp.com/api/rating/$idRating'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<Object, Object>{
+        "id": idRating,
+        "score": score,
+        "favoriteStatus": favoriteStatus,
+        "idBranch": idBranch,
+        "idUser": idUser
+      }),
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to update.');
+    }
+  }
+
 
   //Business
   Future<List<Business>>getBusiness() async {
