@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_movil/DTO/Branch.dart';
 import 'package:app_movil/DTO/Business.dart';
 import 'package:app_movil/DTO/Comment.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class BoActiveProvider extends ChangeNotifier {
   List<TypeBusiness> allTypeBusiness = [];
   List<Business> allBusiness = [];
   List<Comment> allcommet=[];
+  List<Branch> allBranch = [];
 
   // Return data
   String cityResponse;
@@ -433,12 +435,36 @@ class BoActiveProvider extends ChangeNotifier {
 
   //Branch
 
-  getBranch() async {
-    print("Getting Branch...");
+  Future<List<Branch>> getBranch() async {
+    print("Getting all branches...");
     var url = Uri.https(apiURL, '/api/branch');
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Branch> responseBranch = [];
+
+    for(var item in jsonData){
+      Branch branch = Branch();
+      branch.idBranch = item['idBranch'];
+      branch.address = item['address'];
+      branch.openHour = item['openHour'];
+      branch.closeHour = item['closeHour'];
+      branch.attentionDays = item['attentionDays'];
+      branch.image = item['image'];
+      branch.idZone = item['idZone'];
+      branch.idLocation = item['idLocation'];
+      branch.idBusiness = item['idBusiness'];
+      branch.createDate = item['createDate'];
+      branch.updateDate = item['updateDate'];
+      branch.status = item['status'];
+      responseBranch.add(branch);
+    }
+    allBranch = responseBranch;
+
+    print("Branch array length: ${responseBranch.length}");
+    return responseBranch;
   }
 
   getBranchById(int id) async {

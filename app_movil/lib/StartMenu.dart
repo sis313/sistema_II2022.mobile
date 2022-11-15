@@ -118,13 +118,11 @@ class _StartMenu extends State<StartMenu> {
           Provider.of<BoActiveProvider>(context, listen: false).updateComment(7, "test message edited", 1, 1);
           //Provider.of<BoActiveProvider>(context, listen: false).deleteComment(6);
 
-          */
           // Rating
           Provider.of<BoActiveProvider>(context, listen: false).getRanting();
           Provider.of<BoActiveProvider>(context, listen: false).createRanking(3, 1, 1);
           Provider.of<BoActiveProvider>(context, listen: false).updateRating(11, 5, true, 1, 1);
 
-          /*
           // Business
           Provider.of<BoActiveProvider>(context, listen: false).getBusiness();
           Provider.of<BoActiveProvider>(context, listen: false).getBusinessById(2);
@@ -146,14 +144,28 @@ class _StartMenu extends State<StartMenu> {
           Provider.of<BoActiveProvider>(context, listen: false).createLocation(12.576, 12.654);
           Provider.of<BoActiveProvider>(context, listen: false).updateLocation(12, 12.576, 12.576);
           Provider.of<BoActiveProvider>(context, listen: false).deleteBranch(10);
+          */
 
           // Branch
           Provider.of<BoActiveProvider>(context, listen: false).getBranch();
-          Provider.of<BoActiveProvider>(context, listen: false).getBranchById(1);
-          Provider.of<BoActiveProvider>(context, listen: false).getBranchByBusinessId(1);
-          */
-         // Provider.of<BoActiveProvider>(context, listen: false).createBranch('Av. Pando','08:00:00','18:00:00','Lunes','https://sistemasii2022.s3.amazonaws.com/49d1f1744ec444e88b917c0e596c3556',1,2,1,'2022-01-01','2022-01-01');
+
           /*
+          Provider.of<BoActiveProvider>(context, listen: false).getBranchById(5);
+          Provider.of<BoActiveProvider>(context, listen: false).getBranchByBusinessId(2);
+
+          //Error
+          Provider.of<BoActiveProvider>(context, listen: false).createBranch(
+              'Av. Test',
+              '08:00:00',
+              '18:00:00',
+              'Lunes',
+              'https://sistemasii2022.s3.amazonaws.com/49d1f1744ec444e88b917c0e596c3556',
+              1,
+              2,
+              2,
+              '2022-01-01',
+              '2022-01-01'
+          );
           Provider.of<BoActiveProvider>(context, listen: false).updateBranch(3,"Av. Potosi","08:00:00","18:00:00","Lunes","https://sistemasii2022.s3.amazonaws.com/49d1f1744ec444e88b917c0e596c3556",3,3,1,"2022-01-01","2022-01-01");
           Provider.of<BoActiveProvider>(context, listen: false).deleteBranch(4);
           */
