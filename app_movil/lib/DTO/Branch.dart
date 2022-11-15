@@ -1,5 +1,5 @@
-class Branch {
-  int id;
+class Branch{
+  int idBranch;
   String address;
   String openHour;
   String closeHour;
@@ -12,8 +12,8 @@ class Branch {
   String updateDate;
   bool status;
 
-  Branch(
-      {this.id,
+  Branch({
+      this.idBranch,
       this.address,
       this.openHour,
       this.closeHour,
@@ -24,6 +24,7 @@ class Branch {
       this.idBusiness,
       this.createDate,
       this.updateDate,
-      this.status}
-  );
+      this.status
+  });
+
 }

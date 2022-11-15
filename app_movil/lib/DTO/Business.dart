@@ -8,5 +8,7 @@ class Business {
   String updateDate;
   bool status;
 
+  bool wState = false;
+
   Business({this.idBusiness, this.name, this.description, this.idTypeBusiness, this.idUser, this.createDate, this.updateDate, this.status});
 }
