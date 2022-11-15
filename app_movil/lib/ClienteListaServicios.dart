@@ -56,7 +56,7 @@ class ClienteListaServicios extends StatelessWidget {
                 padding: EdgeInsets.only(right: 20.0),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MapSample()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MapSample(products)));
                   },
                   child: Icon(
                     Icons.map_sharp,
