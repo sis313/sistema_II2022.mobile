@@ -100,5 +100,6 @@ class RandWordsState extends State<RandWords> {
       drawer: MenuLateral(),
       appBar: AppBar(title: Text("Mis Favoritos"),
           backgroundColor: Color(0xffa7d676) ),
-      body: _buildList());
+      body: _buildList()
+  );
 }
