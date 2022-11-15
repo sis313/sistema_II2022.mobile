@@ -373,24 +373,22 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 autovalidateMode: AutovalidateMode.always,
                 key: formkeyName,
                 validator: MultiValidator([
-                  RequiredValidator(
-                      errorText: "Campo Requerido"
-                  ),
+                  RequiredValidator( errorText: "Campo Requerido"),
                 ]),
                 decoration: InputDecoration(
                   border: UnderlineInputBorder(),
                   labelText: 'Nombre de Negocio *',
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            Padding( padding: EdgeInsets.all(2)),
-            TextFormField(
-              controller: ctrollerNegocioDesc,
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(),
-                hintText: 'Descripcion',
+              SizedBox(height: 10),
+              Padding( padding: EdgeInsets.all(2)),
+              TextFormField(
+                controller: ctrollerNegocioDesc,
+                decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                  hintText: 'Descripcion',
+                ),
               ),
-            ),
               Padding(padding: EdgeInsets.all(10)),
               FutureBuilder(
                 future: vectorCategorias,
@@ -401,21 +399,20 @@ class _OwnerMenuState extends State<OwnerMenu> {
                           validator: (value) => value == null?
                           'Campo requerido' : null,
                           value: valueCategorias,
-                          items: snapshot.data.map<DropdownMenuItem<String>>((value) =>
-                              DropdownMenuItem<String>(
-                                value: value.name.toString(),
-                                child: Text(value.name.toString()),
-                              )
-                          ).toList(),
-                          onChanged: (String value) {
-                            /*if(formkeyDesc.currentState.validate())
-                              setState(() {
-                                this.valueCategorias = value;
-                                print(this.valueCategorias);
-                              });*/
+                          items: snapshot.data.map<DropdownMenuItem<String>>(
+                                  (value) =>
+                                      DropdownMenuItem<String>(
+                                        value: value.name.toString(),
+                                        child: Text(value.name.toString()),
+                                      )).toList(),
+                          onChanged: (value) {
                             setState(() {
                               this.valueCategorias = value;
-                              print(this.valueCategorias);
+                              //print("Opcion es " + this.valueCategorias);
+                              List<TypeBusiness> lista = snapshot.data;
+
+                              print("Resultado es " + this._determinarNumero(this.valueCategorias, lista).id.toString());
+                              //this._determinarNumero(this.valueCategorias, lista);
                             });
                           }
                       );
@@ -1029,5 +1026,14 @@ class _OwnerMenuState extends State<OwnerMenu> {
           );
         }
     );
+  }
+
+  _determinarNumero(String opcion, var tipos) {
+    //print("Opcion es " + opcion);
+    //print("Tipos es " + tipos.toString());
+    return tipos.firstWhere((element) =>
+    element.name == opcion, orElse: () {
+      return null;
+    });
   }
 }
