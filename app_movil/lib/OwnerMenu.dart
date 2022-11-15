@@ -2,9 +2,12 @@ import 'package:app_movil/RoleMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:provider/provider.dart';
 
+import 'DTO/Business.dart';
 import 'DTO/Negocio.dart';
 import 'DTO/Sucursal.dart';
+import 'servers/provider.dart';
 
 class OwnerMenu extends StatefulWidget {
 
@@ -51,9 +54,13 @@ class _OwnerMenuState extends State<OwnerMenu> {
     Negocio(6, 'Nombre Negocio 6', [Sucursal(7, 'Sucursal 1', '')]),
   ];
 
+  // Provider vars
+  Future<List<Business>> myList;
+
   @override
   Widget build(BuildContext context) {
-    //Future<List<Branch>>
+    myList = Provider.of<BoActiveProvider>(context, listen: false).getBusinessByUserId(1);
+    print(myList);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -105,12 +112,19 @@ class _OwnerMenuState extends State<OwnerMenu> {
               )
             ],
           ),
-          body: ListView.builder(
-            padding: const EdgeInsets.all(17.0),
-            itemCount: negocios.length,
-            itemBuilder: (context, index){
-              return Card(
-                child: negocio(negocios[index]),
+          body: FutureBuilder(
+            future: myList,
+            builder: (context, snapshot){
+              if(snapshot.hasData){
+                return afterRequest(snapshot.data);
+              }
+              else if (snapshot.data == null){
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
               );
             },
           )
@@ -118,6 +132,22 @@ class _OwnerMenuState extends State<OwnerMenu> {
     );
   }
 
+  /*-------------------------------------*/
+  /* WIDGET FUTURO LUEGO DE LA PETICION */
+  /*-------------------------------------*/
+  Widget afterRequest(List<Business> myList){
+    return ListView.builder(
+      padding: const EdgeInsets.all(17.0),
+      itemCount: myList.length,
+      itemBuilder: (context, index){
+        return Card(
+          child: businessCard(myList[index]),
+        );
+      },
+    );
+  }
+
+  /*
   //Lista de widgets a partir de lista con datos
   List<Widget> listarNegocios(List<Negocio> negocios){
 
@@ -129,18 +159,35 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
     return widgets;
   }
-/*-------------------------------------*/
-/*WIDGETS PARA EL LISTADO*/
-  Widget negocio(Negocio negocio){
+  */
+
+  /*-------------------------------------*/
+  /* WIDGET PARA EL LISTADO REFACTORED */
+  /*-------------------------------------*/
+  Widget businessCard (Business business){
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          print("hey");
+        });
+      },
+      child: ListTile(
+        leading: Icon(Icons.shop_2),
+        title: Text(business.name, overflow: TextOverflow.ellipsis, maxLines: 1,),
+      ),
+    );
+  }
+
+  /*-------------------------------------*/
+  /*WIDGETS PARA EL LISTADO*/
+  Widget negocio(Business negocio){
 
     String nombre = negocio.name.toString();
-    int sucursales = negocio.sucursales.length;
+    //int sucursales = negocio.sucursales.length;
 
     return Column(
       children: [
-
         Row(
-
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -160,7 +207,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
                   ),
                 ),
                 Text(
-                  'Numero de sucursales ($sucursales)',
+                  'Numero de sucursales',
+                  //'Numero de sucursales ($sucursales)',
                   style: TextStyle(color: Colors.black26, fontSize: 15
                   ),
                 )
@@ -184,14 +232,15 @@ class _OwnerMenuState extends State<OwnerMenu> {
             )
           ],
         ),
-        (negocio.wState ?
-        ListView.builder(
+        (negocio.wState
+        ? SizedBox(height: 0)
+          /*ListView.builder(
             shrinkWrap: true,
             itemCount: sucursales,
             itemBuilder: (_, index){
               return sucursal(negocio.sucursales[index]);
-            })
-            : SizedBox(height: 0)
+            })*/
+        : SizedBox(height: 0)
         ),
         (negocio.wState ?
         TextButton(

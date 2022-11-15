@@ -199,7 +199,7 @@ class BoActiveProvider extends ChangeNotifier {
     return business;
   }
 
-  getBusinessByUserId(int id) async {
+  Future<List<Business>> getBusinessByUserId(int id) async {
     print("Getting Business By User id...");
     final queryParams = {'userId': id.toString()};
     var url = Uri.https(apiURL, '/api/business/', queryParams);
