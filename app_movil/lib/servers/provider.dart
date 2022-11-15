@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app_movil/DTO/Branch.dart';
 import 'package:app_movil/DTO/Business.dart';
 import 'package:app_movil/DTO/Comment.dart';
+import 'package:app_movil/DTO/Rating.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,6 +17,7 @@ class BoActiveProvider extends ChangeNotifier {
   List<Business> allBusinessByUserId = [];
   List<Comment> allcommet=[];
   List<Branch> allBranch = [];
+  List<Rating> allRating = [];
 
   // Return data
   String cityResponse;
@@ -53,12 +55,27 @@ class BoActiveProvider extends ChangeNotifier {
     return response.body;
   }
 
-  getRanting() async {
+  Future<List<Rating>>getRanting() async {
     print("Getting ratings...");
     var url = Uri.https(apiURL, '/api/rating');
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Rating> rating = [];
+
+    for(var item in jsonData){
+      Rating r = Rating();
+      r.idRating = item['idRating'];
+      r.score = item['score'];
+      r.favoriteStatus = item['favoriteStatus'];
+      r.idBranch = item['idBranch'];
+      r.idUser = item['idUser'];
+      rating.add(r);
+    }
+    this.allRating = rating;
+    return rating;
   }
 
   deleteComment(int id) async {

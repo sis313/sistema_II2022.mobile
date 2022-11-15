@@ -58,6 +58,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
   // Provider vars
   Future<List<Business>> myList;
+  Future<List<TypeBusiness>> tylist;
 
   @override
   void initState(){
@@ -69,6 +70,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
   @override
   Widget build(BuildContext context) {
     myList = Provider.of<BoActiveProvider>(context, listen: false).getBusinessByUserId(1);
+    tylist = Provider.of<BoActiveProvider>(context, listen: false).getTypeBusiness();
     print(myList);
 
     return MaterialApp(
@@ -335,9 +337,29 @@ class _OwnerMenuState extends State<OwnerMenu> {
         break;
     }
   }
+
 /*-------------------------------------*/
 /*WIDGETS PARA FORMULARIOS*/
   Widget anadirNegocio(){
+    return FutureBuilder(
+      future: tylist,
+      builder: (context, snapshot){
+        if(snapshot.hasData){
+          return createForm(snapshot.data);
+        }
+        else if (snapshot.data == null){
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  Widget createForm(List<TypeBusiness> tylist){
     GlobalKey<FormState> formkeyName = GlobalKey<FormState>();
     GlobalKey<FormState> formkeyDesc = GlobalKey<FormState>();
     return AlertDialog(
@@ -358,17 +380,17 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 decoration: InputDecoration(
                   border: UnderlineInputBorder(),
                   labelText: 'Nombre de Negocio *',
-                ),
               ),
-              SizedBox(height: 10),
-              Padding( padding: EdgeInsets.all(2)),
-              TextFormField(
-                controller: ctrollerNegocioDesc,
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  hintText: 'Descripcion',
-                ),
+            ),
+            SizedBox(height: 10),
+            Padding( padding: EdgeInsets.all(2)),
+            TextFormField(
+              controller: ctrollerNegocioDesc,
+              decoration: InputDecoration(
+                border: UnderlineInputBorder(),
+                hintText: 'Descripcion',
               ),
+            ),
               Padding(padding: EdgeInsets.all(10)),
               FutureBuilder(
                 future: vectorCategorias,
@@ -411,32 +433,32 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
         ElevatedButton(
 
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)
-                  ),
-
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Color(0xffef5a68))
-                      )
-                  )),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-
-              child: Text(
-                'Cancelar',
-                style: TextStyle(color: Colors.white, fontSize: 15),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)
               ),
+
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Color(0xffef5a68))
+                  )
+              )),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+
+          child: Text(
+            'Cancelar',
+            style: TextStyle(color: Colors.white, fontSize: 15),
+          ),
 
         ),
         TextButton(
-            onPressed: () {
-              print(ctrollerNegocioName.text);
-              print(ctrollerNegocioDesc.text);
-              print(valueCategorias);
-            },
+          onPressed: () {
+            print(ctrollerNegocioName.text);
+            print(ctrollerNegocioDesc.text);
+            print(valueCategorias);
+          },
           child: ElevatedButton(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
