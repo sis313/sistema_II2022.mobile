@@ -126,7 +126,9 @@ class _StartMenu extends State<StartMenu> {
           // Business
           Provider.of<BoActiveProvider>(context, listen: false).getBusiness();
           Provider.of<BoActiveProvider>(context, listen: false).getBusinessById(2);
+          */
           Provider.of<BoActiveProvider>(context, listen: false).getBusinessByUserId(1);
+          /*
           Provider.of<BoActiveProvider>(context, listen: false).createBusiness("my last test business", "my last test business", 1, 1, "2022-10-24", "2022-10-24");
           Provider.of<BoActiveProvider>(context, listen: false).updateBusiness(8, "my last test business edit", "i dont wanna edit this :(", 1, 1, "2022-10-24", "2022-10-24");
           Provider.of<BoActiveProvider>(context, listen: false).deleteBusinessById(8);
@@ -144,12 +146,9 @@ class _StartMenu extends State<StartMenu> {
           Provider.of<BoActiveProvider>(context, listen: false).createLocation(12.576, 12.654);
           Provider.of<BoActiveProvider>(context, listen: false).updateLocation(12, 12.576, 12.576);
           Provider.of<BoActiveProvider>(context, listen: false).deleteBranch(10);
-          */
 
           // Branch
           Provider.of<BoActiveProvider>(context, listen: false).getBranch();
-
-          /*
           Provider.of<BoActiveProvider>(context, listen: false).getBranchById(5);
           Provider.of<BoActiveProvider>(context, listen: false).getBranchByBusinessId(2);
 

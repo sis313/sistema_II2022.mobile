@@ -13,6 +13,7 @@ class BoActiveProvider extends ChangeNotifier {
   final String apiURL = "serviceprojectspring.herokuapp.com";
   List<TypeBusiness> allTypeBusiness = [];
   List<Business> allBusiness = [];
+  List<Business> allBusinessByUserId = [];
   List<Comment> allcommet=[];
   List<Branch> allBranch = [];
 
@@ -184,16 +185,15 @@ class BoActiveProvider extends ChangeNotifier {
     var url = Uri.https(apiURL, '/api/business/$id');
     final response = await http.get(url);
     print(response.body);
-    print("busss");
+
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
     List<Business> business = [];
-      Business m = Business();
-      m.idBusiness = jsonData['idBusiness'];
-      m.name = jsonData['name'];
-      m.description = jsonData['description'];
-      business.add(m);
-    //this.allBusiness = business;
+    Business m = Business();
+    m.idBusiness = jsonData['idBusiness'];
+    m.name = jsonData['name'];
+    m.description = jsonData['description'];
+    business.add(m);
 
     print(business.length);
     return business;
@@ -205,7 +205,22 @@ class BoActiveProvider extends ChangeNotifier {
     var url = Uri.https(apiURL, '/api/business/', queryParams);
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Business> business = [];
+
+    for(var item in jsonData){
+      Business b = Business();
+      b.idBusiness = item['idBusiness'];
+      b.name = item['name'];
+      b.description = item['description'];
+      business.add(b);
+    }
+    this.allBusinessByUserId = business;
+
+    print("All business of a user id length: ${business.length}");
+    return business;
   }
 
   createBusiness(String name, String desc, int idTypeBusiness, int idUser,

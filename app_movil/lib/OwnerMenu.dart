@@ -31,11 +31,13 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
   //Datos de prueba para dropdown
   var vectorCategorias  = ['Categoria 1', 'Categoria 2', 'Categoria 3'];
+
   //Valor que se mostrara al inicio en el dropdown menu
   String valueCategorias;
 
   //Valor que se mostrara al inicio en el dropdown menu
   String valueAtencion;
+
   //Datos de prueba para dropdown
   var vectorAtencion = ['Lunes a Viernes', 'Lunes a Sabado', 'Toda la semana'];
 
@@ -51,9 +53,10 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
   @override
   Widget build(BuildContext context) {
+    //Future<List<Branch>>
 
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: AppBar(
 
