@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'DTO/Business.dart';
 import 'DTO/Negocio.dart';
 import 'DTO/Sucursal.dart';
+import 'DTO/TypeBusiness.dart';
 import 'servers/provider.dart';
 
 class OwnerMenu extends StatefulWidget {
@@ -33,7 +34,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
   TimeOfDay closeTime = TimeOfDay.now();
 
   //Datos de prueba para dropdown
-  var vectorCategorias  = ['Categoria 1', 'Categoria 2', 'Categoria 3'];
+  //var vectorCategorias  = ['Categoria 1', 'Categoria 2', 'Categoria 3'];
+  var vectorCategorias;
 
   //Valor que se mostrara al inicio en el dropdown menu
   String valueCategorias;
@@ -56,6 +58,13 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
   // Provider vars
   Future<List<Business>> myList;
+
+  @override
+  void initState(){
+    super.initState();
+    vectorCategorias = Provider.of<BoActiveProvider>(context, listen: false).getTypeBusiness();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -335,7 +344,6 @@ class _OwnerMenuState extends State<OwnerMenu> {
       title: const Text('Nuevo Negocio'),
       content: Form(
           child: Column(
-
             children: [
               Padding( padding: EdgeInsets.all(5)),
               TextFormField(
@@ -348,7 +356,6 @@ class _OwnerMenuState extends State<OwnerMenu> {
                   ),
                 ]),
                 decoration: InputDecoration(
-
                   border: UnderlineInputBorder(),
                   labelText: 'Nombre de Negocio *',
                 ),
@@ -362,24 +369,38 @@ class _OwnerMenuState extends State<OwnerMenu> {
                   hintText: 'Descripcion',
                 ),
               ),
-              Padding( padding: EdgeInsets.all(10)),
-              DropdownButtonFormField<String>(
-                  key: formkeyDesc,
-                  validator: (value) => value == null?
-                  'Campo requerido' : null,
-                  value: valueCategorias,
-                  items: vectorCategorias.map(
-                          (String e) =>
-                          DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(e)
-                          )
-                  ).toList(),
-                  onChanged: (String value) {
-                      if(formkeyDesc.currentState.validate())
-                        setState(() {
-                          this.valueCategorias = value;
-                        });
+              Padding(padding: EdgeInsets.all(10)),
+              FutureBuilder(
+                future: vectorCategorias,
+                  builder: (context, snapshot){
+                    if(snapshot.hasData){
+                      return DropdownButtonFormField<String>(
+                          key: formkeyDesc,
+                          validator: (value) => value == null?
+                          'Campo requerido' : null,
+                          value: valueCategorias,
+                          items: snapshot.data.map<DropdownMenuItem<String>>((value) =>
+                              DropdownMenuItem<String>(
+                                value: value.name.toString(),
+                                child: Text(value.name.toString()),
+                              )
+                          ).toList(),
+                          onChanged: (String value) {
+                            /*if(formkeyDesc.currentState.validate())
+                              setState(() {
+                                this.valueCategorias = value;
+                                print(this.valueCategorias);
+                              });*/
+                            setState(() {
+                              this.valueCategorias = value;
+                              print(this.valueCategorias);
+                            });
+                          }
+                      );
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   }
               )
             ],
