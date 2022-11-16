@@ -36,6 +36,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
   //Datos de prueba para dropdown
   //var vectorCategorias  = ['Categoria 1', 'Categoria 2', 'Categoria 3'];
   var vectorCategorias;
+  int idcategoria = 0;
 
   //Valor que se mostrara al inicio en el dropdown menu
   String valueCategorias;
@@ -411,6 +412,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
                               //print("Opcion es " + this.valueCategorias);
                               List<TypeBusiness> lista = snapshot.data;
 
+                              idcategoria = this._determinarNumero(this.valueCategorias, lista).id;
+
                               print("Resultado es " + this._determinarNumero(this.valueCategorias, lista).id.toString());
                               //this._determinarNumero(this.valueCategorias, lista);
                             });
@@ -425,36 +428,41 @@ class _OwnerMenuState extends State<OwnerMenu> {
             ],
           ),
       ),
-
       actions: [
-
         ElevatedButton(
-
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)
-              ),
-
+          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0),
                       side: BorderSide(color: Color(0xffef5a68))
                   )
-              )),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-
+              )
+          ),
+          onPressed: () { Navigator.pop(context);},
           child: Text(
             'Cancelar',
             style: TextStyle(color: Colors.white, fontSize: 15),
           ),
-
         ),
         TextButton(
           onPressed: () {
-            print(ctrollerNegocioName.text);
-            print(ctrollerNegocioDesc.text);
-            print(valueCategorias);
+            //print(ctrollerNegocioName.text);
+            //print(ctrollerNegocioDesc.text);
+            //print(valueCategorias);
+            //print(idcategoria);
+
+            DateTime now = new DateTime.now();
+
+            var response = Provider.of<BoActiveProvider>(context, listen: false).
+              createBusiness(
+                ctrollerNegocioName.text,
+                ctrollerNegocioDesc.text,
+                idcategoria,
+                1,
+                now.toString(),
+                now.toString());
+
+            //print("REsponse es " + response.toString());
           },
           child: ElevatedButton(
             style: ButtonStyle(
