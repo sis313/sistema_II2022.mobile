@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:app_movil/DTO/Branch.dart';
 import 'package:app_movil/DTO/Business.dart';
 import 'package:app_movil/DTO/Comment.dart';
+import 'package:app_movil/DTO/Location.dart';
+import 'package:app_movil/DTO/Rating.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,7 +15,10 @@ class BoActiveProvider extends ChangeNotifier {
   final String apiURL = "serviceprojectspring.herokuapp.com";
   List<TypeBusiness> allTypeBusiness = [];
   List<Business> allBusiness = [];
+  List<Business> allBusinessByUserId = [];
   List<Comment> allcommet=[];
+  List<Branch> allBranch = [];
+  List<Rating> allRating = [];
 
   // Return data
   String cityResponse;
@@ -53,12 +59,27 @@ class BoActiveProvider extends ChangeNotifier {
     return jsonData;
   }
 
-  getRanting() async {
+  Future<List<Rating>>getRanting() async {
     print("Getting ratings...");
     var url = Uri.https(apiURL, '/api/rating');
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Rating> rating = [];
+
+    for(var item in jsonData){
+      Rating r = Rating();
+      r.idRating = item['idRating'];
+      r.score = item['score'];
+      r.favoriteStatus = item['favoriteStatus'];
+      r.idBranch = item['idBranch'];
+      r.idUser = item['idUser'];
+      rating.add(r);
+    }
+    this.allRating = rating;
+    return rating;
   }
 
   deleteComment(int id) async {
@@ -135,6 +156,29 @@ class BoActiveProvider extends ChangeNotifier {
     return response.body;
   }
 
+  updateRating(int idRating, int score, bool favoriteStatus, int idBranch, int idUser) async {
+    print("Updating rating $idRating...");
+    final response = await http.put(
+      Uri.parse('https://serviceprojectspring.herokuapp.com/api/rating/$idRating'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<Object, Object>{
+        "id": idRating,
+        "score": score,
+        "favoriteStatus": favoriteStatus,
+        "idBranch": idBranch,
+        "idUser": idUser
+      }),
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to update.');
+    }
+  }
+
 
   //Business
   Future<List<Business>>getBusiness() async {
@@ -162,55 +206,76 @@ class BoActiveProvider extends ChangeNotifier {
     var url = Uri.https(apiURL, '/api/business/$id');
     final response = await http.get(url);
     print(response.body);
-    print("busss");
+
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
     List<Business> business = [];
-      Business m = Business();
-      m.idBusiness = jsonData['idBusiness'];
-      m.name = jsonData['name'];
-      m.description = jsonData['description'];
-      business.add(m);
-    //this.allBusiness = business;
+    Business m = Business();
+    m.idBusiness = jsonData['idBusiness'];
+    m.name = jsonData['name'];
+    m.description = jsonData['description'];
+    business.add(m);
 
     print(business.length);
     return business;
   }
 
-  getBusinessByUserId(int id) async {
+  Future<List<Business>> getBusinessByUserId(int id) async {
     print("Getting Business By User id...");
     final queryParams = {'userId': id.toString()};
     var url = Uri.https(apiURL, '/api/business/', queryParams);
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Business> business = [];
+
+    for(var item in jsonData){
+      Business b = Business();
+      b.idBusiness = item['idBusiness'];
+      b.name = item['name'];
+      b.description = item['description'];
+      business.add(b);
+    }
+    this.allBusinessByUserId = business;
+
+    print("All business of a user id length: ${business.length}");
+    return business;
   }
 
   createBusiness(String name, String desc, int idTypeBusiness, int idUser,
-      String createDate, String updateDate) async {
+      DateTime createDate, DateTime updateDate) async {
     print("Creating business...");
+
     var url = Uri.https(this.apiURL, '/api/business');
-    var response = await http.post(
+
+    final Map body = {
+      "name": name,
+      "description": desc,
+      "idTypeBusiness": idTypeBusiness,
+      "idUser": idUser,
+      "createDate": createDate.toIso8601String(),
+      "updateDate": updateDate.toIso8601String(),
+      "status": 1
+    };
+
+    final response = await http.post(
       url,
-      headers: <String, String>{
+      headers: {
         'Content-Type': 'application/json',
-        "Accept": 'application/json'
+        'Accept': 'application/json'
       },
-      body: jsonEncode(<String, Object>{
-        "name": name,
-        "description": desc,
-        "idTypeBusiness": idTypeBusiness,
-        "idUser": idUser,
-        "createDate": createDate,
-        "updateDate": updateDate,
-        "status": 1
-      }),
+      body: jsonEncode(body),
     );
+    /*print("Fecha creacion es ");
+    print(createDate);*/
+
     print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      throw Exception('Failed to update .');
+      throw Exception('Failed to create');
     }
   }
 
@@ -226,8 +291,8 @@ class BoActiveProvider extends ChangeNotifier {
         "description": desc,
         "idTypeBusiness": idTypeBusiness.toString(),
         "idUser": idUser.toString(),
-        "createDate": createDate,
-        "updateDate": updateDate,
+        "createDate": "2022-01-01",
+        "updateDate": "2022-11-12",
         "status": 1.toString()
       }),
     );
@@ -352,7 +417,18 @@ class BoActiveProvider extends ChangeNotifier {
     var url = Uri.https(apiURL, '/api/location/$id');
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+
+      Location location = Location();
+      location.id = jsonData['id'];
+      location.latitude = jsonData['latitude'];
+      location.longitude = jsonData['longitude'];
+
+    return location;
+
   }
 
   createLocation(double latitude, double longitude) async {
@@ -413,12 +489,36 @@ class BoActiveProvider extends ChangeNotifier {
 
   //Branch
 
-  getBranch() async {
-    print("Getting Branch...");
+  Future<List<Branch>> getBranch() async {
+    print("Getting all branches...");
     var url = Uri.https(apiURL, '/api/branch');
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Branch> responseBranch = [];
+
+    for(var item in jsonData){
+      Branch branch = Branch();
+      branch.idBranch = item['idBranch'];
+      branch.address = item['address'];
+      branch.openHour = item['openHour'];
+      branch.closeHour = item['closeHour'];
+      branch.attentionDays = item['attentionDays'];
+      branch.image = item['image'];
+      branch.idZone = item['idZone'];
+      branch.idLocation = item['idLocation'];
+      branch.idBusiness = item['idBusiness'];
+      branch.createDate = item['createDate'];
+      branch.updateDate = item['updateDate'];
+      branch.status = item['status'];
+      responseBranch.add(branch);
+    }
+    allBranch = responseBranch;
+
+    print("Branch array length: ${responseBranch.length}");
+    return responseBranch;
   }
 
   getBranchById(int id) async {
@@ -427,15 +527,40 @@ class BoActiveProvider extends ChangeNotifier {
     final response = await http.get(url);
     print(response.body);
     return response.body;
+
   }
 
-  getBranchByBusinessId(int id) async {
-    print("Getting Branch By Business id...");
+  Future<List<Branch>> getBranchByBusinessId(int id) async {
+    print("Getting Branch By Business id $id...");
     final queryParams = {'businessId': id.toString()};
     var url = Uri.https(apiURL, '/api/branch/', queryParams);
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Branch> responseBranch = [];
+
+    for(var item in jsonData){
+      Branch branch = Branch();
+      branch.idBranch = item['idBranch'];
+      branch.address = item['address'];
+      branch.openHour = item['openHour'];
+      branch.closeHour = item['closeHour'];
+      branch.attentionDays = item['attentionDays'];
+      branch.image = item['image'];
+      branch.idZone = item['idZone'];
+      branch.idLocation = item['idLocation'];
+      branch.idBusiness = item['idBusiness'];
+      branch.createDate = item['createDate'];
+      branch.updateDate = item['updateDate'];
+      branch.status = item['status'];
+      responseBranch.add(branch);
+    }
+    allBranch = responseBranch;
+
+    print("Branch array length: ${responseBranch.length}");
+    return responseBranch;
+
   }
 
   createBranch(

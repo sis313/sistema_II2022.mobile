@@ -49,14 +49,14 @@ class MenuLateral extends StatelessWidget {
                   .push(MaterialPageRoute(builder: (context) => Favoritos()));
             },
           ),
-          ListTile(
+         /* ListTile(
             leading: Icon(Icons.map_sharp),
             title: Text("Mapa"),
             onTap: () {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => MapSample()));
             },
-          ),
+          ),*/
           ListTile(
             leading: Icon(Icons.arrow_back_sharp),
             title: Text("Salir"),
