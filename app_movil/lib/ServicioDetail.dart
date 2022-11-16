@@ -73,7 +73,7 @@ class _ServicioDetailState extends State<ServicioDetail> {
           IconButton(
             onPressed: () {      Comment a= Comment();
 
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>ComentariosNegocio()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>ComentariosNegocio(widget.id)));
 
             },
             icon: const Icon(

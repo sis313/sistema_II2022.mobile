@@ -42,12 +42,15 @@ class BoActiveProvider extends ChangeNotifier {
     return response.body;
   }
 
-  getComent() async {
+  Future<List<Comment>> getComentById(int id) async {
     print("Getting comments...");
-    var url = Uri.https(apiURL, '/api/comment');
+    print("///////////////////////////");
+    var url = Uri.https(apiURL, '/api/comment/$id');
     final response = await http.get(url);
-    print(response.body);
-    return response.body;
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    print(jsonData.toString());
+    return jsonData;
   }
 
   getRanting() async {
@@ -89,7 +92,7 @@ class BoActiveProvider extends ChangeNotifier {
       }),
     );
     print(response.body);
-    return response.body;
+    return 'Ok';
   }
 
   updateComment(int id, String message, int idUser, int idBussiness) async {
