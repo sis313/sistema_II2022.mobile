@@ -242,31 +242,37 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   createBusiness(String name, String desc, int idTypeBusiness, int idUser,
-      String createDate, String updateDate) async {
+      DateTime createDate, String updateDate) async {
     print("Creating business...");
+
     var url = Uri.https(this.apiURL, '/api/business');
+
+    final Map body = {
+      "name": name,
+      "description": desc,
+      "idTypeBusiness": idTypeBusiness,
+      "idUser": idUser,
+      "createDate": createDate.toIso8601String(),
+      "updateDate": updateDate.toIso8601String(),
+      "status": 1
+    };
+
     final response = await http.post(
       url,
-      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/business'),
-      headers: <String, String>{
+      headers: {
         'Content-Type': 'application/json',
-        "Accept": 'application/json'
+        'Accept': 'application/json'
       },
-      body: jsonEncode(<String, Object>{
-        "name": name,
-        "description": desc,
-        "idTypeBusiness": idTypeBusiness,
-        "idUser": idUser,
-        "createDate": createDate,
-        "updateDate": updateDate,
-        "status": 1
-      }),
+      body: jsonEncode(body),
     );
+    /*print("Fecha creacion es ");
+    print(createDate);*/
+
     print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      throw Exception('Failed to update .');
+      throw Exception('Failed to create');
     }
   }
 
@@ -282,8 +288,8 @@ class BoActiveProvider extends ChangeNotifier {
         "description": desc,
         "idTypeBusiness": idTypeBusiness.toString(),
         "idUser": idUser.toString(),
-        "createDate": createDate,
-        "updateDate": updateDate,
+        "createDate": "2022-01-01",
+        "updateDate": "2022-11-12",
         "status": 1.toString()
       }),
     );

@@ -459,7 +459,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 ctrollerNegocioDesc.text,
                 idcategoria,
                 1,
-                now.toString(),
+                now,
                 now.toString());
 
             //print("REsponse es " + response.toString());
