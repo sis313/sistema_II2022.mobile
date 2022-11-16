@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app_movil/DTO/Branch.dart';
 import 'package:app_movil/DTO/Business.dart';
 import 'package:app_movil/DTO/Comment.dart';
+import 'package:app_movil/DTO/Location.dart';
 import 'package:app_movil/DTO/Rating.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -406,7 +407,18 @@ class BoActiveProvider extends ChangeNotifier {
     var url = Uri.https(apiURL, '/api/location/$id');
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+
+      Location location = Location();
+      location.id = jsonData['id'];
+      location.latitude = jsonData['latitude'];
+      location.longitude = jsonData['longitude'];
+
+    return location;
+
   }
 
   createLocation(double latitude, double longitude) async {
@@ -505,6 +517,7 @@ class BoActiveProvider extends ChangeNotifier {
     final response = await http.get(url);
     print(response.body);
     return response.body;
+
   }
 
   getBranchByBusinessId(int id) async {
@@ -513,7 +526,31 @@ class BoActiveProvider extends ChangeNotifier {
     var url = Uri.https(apiURL, '/api/branch/', queryParams);
     final response = await http.get(url);
     print(response.body);
-    return response.body;
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Branch> responseBranch = [];
+
+    for(var item in jsonData){
+      Branch branch = Branch();
+      branch.idBranch = item['idBranch'];
+      branch.address = item['address'];
+      branch.openHour = item['openHour'];
+      branch.closeHour = item['closeHour'];
+      branch.attentionDays = item['attentionDays'];
+      branch.image = item['image'];
+      branch.idZone = item['idZone'];
+      branch.idLocation = item['idLocation'];
+      branch.idBusiness = item['idBusiness'];
+      branch.createDate = item['createDate'];
+      branch.updateDate = item['updateDate'];
+      branch.status = item['status'];
+      responseBranch.add(branch);
+    }
+    allBranch = responseBranch;
+
+    print("Branch array length: ${responseBranch.length}");
+    return responseBranch;
+
   }
 
   createBranch(

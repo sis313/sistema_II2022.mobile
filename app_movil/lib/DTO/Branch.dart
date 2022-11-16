@@ -10,7 +10,7 @@ class Branch{
   int idBusiness;
   String createDate;
   String updateDate;
-  bool status;
+  int status;
 
   Branch({
       this.idBranch,

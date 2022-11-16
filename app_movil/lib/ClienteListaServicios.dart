@@ -18,6 +18,9 @@ class Product {
   Product(this.image, this.name, this.price);
 }
 
+
+
+
 class ClienteListaServicios extends StatelessWidget {
   List products = [
     Product(
@@ -30,6 +33,13 @@ class ClienteListaServicios extends StatelessWidget {
         4),
   ];
   Future<List<Business>> business;
+  var ListBusinness;
+
+  void convertFutureListToList() async {
+    ListBusinness = await business ;
+    print("Lista de negocios> /n $ListBusinness");
+  }
+
   var id;
   @override
   Widget build(BuildContext context) {
@@ -56,7 +66,8 @@ class ClienteListaServicios extends StatelessWidget {
                 padding: EdgeInsets.only(right: 20.0),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MapSample(products)));
+                    convertFutureListToList();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MapSample(ListBusinness)));
                   },
                   child: Icon(
                     Icons.map_sharp,
@@ -70,6 +81,7 @@ class ClienteListaServicios extends StatelessWidget {
           future: business,
           builder: (context, snapshot){
             if(snapshot.hasData){
+
               return items(snapshot.data, context);
             }
             else if (snapshot.data == null){
