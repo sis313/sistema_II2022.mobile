@@ -460,7 +460,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 idcategoria,
                 1,
                 now,
-                now.toString());
+                now);
 
             //print("REsponse es " + response.toString());
           },

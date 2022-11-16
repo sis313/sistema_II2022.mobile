@@ -242,7 +242,7 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   createBusiness(String name, String desc, int idTypeBusiness, int idUser,
-      DateTime createDate, String updateDate) async {
+      DateTime createDate, DateTime updateDate) async {
     print("Creating business...");
 
     var url = Uri.https(this.apiURL, '/api/business');
