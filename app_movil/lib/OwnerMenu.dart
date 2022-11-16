@@ -1,4 +1,5 @@
-import 'package:app_movil/RoleMenu.dart';
+
+import 'package:app_movil/LoginEmpresa.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:geocoder/geocoder.dart';
@@ -66,7 +67,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LoginEmpresa()));
               },
             ),
 
@@ -153,8 +154,10 @@ class _OwnerMenuState extends State<OwnerMenu> {
               children: [
                 Text(
                   nombre,
-                  style:  TextStyle(color: Colors.black, fontSize: 20
+                  style:  TextStyle(color: Colors.black, fontSize: 20,
+
                   ),
+
                 ),
                 Text(
                   'Numero de sucursales ($sucursales)',

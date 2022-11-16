@@ -1,4 +1,5 @@
 import 'package:app_movil/Login.dart';
+import 'package:app_movil/StartMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -17,7 +18,11 @@ class _SignUp extends State<SignUp> {
       print("NOT Validated");
     }
   }
-
+  var vectorCategorias  = ['Usuario', 'Empresa'];
+  //Valor que se mostrara al inicio en el dropdown menu
+  String valueCategorias;
+  GlobalKey<FormState> formkeyDesc = GlobalKey<FormState>();
+  GlobalKey<FormState> formkeyName = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
 
@@ -83,6 +88,28 @@ class _SignUp extends State<SignUp> {
                                   left: 15.0, right: 15.0, top: 15, bottom: 0),
                               child: TextFormField(
                                 validator: MultiValidator([
+                                  RequiredValidator(errorText: "campo requerido")
+                                ]
+                                ),
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color:Color(0xfffbc78d), width: 2.0),
+                                    ),
+                                    labelText: 'Nombre',
+
+                                ),
+
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0, top: 15, bottom: 0),
+                              child: TextFormField(
+                                validator: MultiValidator([
                                   EmailValidator(errorText: "correo invalido"),
                                   RequiredValidator(errorText: "campo requerido")
                                 ]),
@@ -96,6 +123,28 @@ class _SignUp extends State<SignUp> {
                                     labelText: 'Correo',
                                     hintText: 'Ingresa un direccion valida'
                                 ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0, top: 15, bottom: 0),
+                              child: TextFormField(
+                                validator: MultiValidator([
+                                  RequiredValidator(errorText: "campo requerido")
+                                ]
+                                ),
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color:Color(0xfffbc78d), width: 2.0),
+                                  ),
+                                  labelText: 'Nickname',
+
+                                ),
+
                               ),
                             ),
                             Padding(
@@ -118,29 +167,44 @@ class _SignUp extends State<SignUp> {
                                     labelText: 'Contraseña',
                                     hintText: 'Minimo 8 caracteres'
                                 ),
+
                               ),
                             ),
+
                             Padding(
+
                               padding: const EdgeInsets.only(
                                   left: 15.0, right: 15.0, top: 15, bottom: 0),
                               //padding: EdgeInsets.symmetric(horizontal: 15),
-                              child: TextFormField(
-                                validator: MultiValidator([
-                                  RequiredValidator(errorText: "campo requerido"),
-                                  MinLengthValidator(8, errorText: "Minimo 8 caracteres")
-                                ]
-                                ),
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
+
+                              child:   DropdownButtonFormField<String>(
+                                  decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color:Color(0xfffbc78d), width: 2.0),
+                                    ),
+                                    labelText: 'Seleccionar',
+
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
-                                  ),
-                                  labelText: 'Confirmar contraseña',
-                                  //hintText: 'Enter secure password'
-                                ),
+                                  key: formkeyDesc,
+                                  validator: (value) => value == null?
+                                  'Campo requerido' : null,
+                                  value: valueCategorias,
+                                  items: vectorCategorias.map(
+                                          (String e) =>
+                                          DropdownMenuItem<String>(
+                                              value: e,
+                                              child: Text(e)
+                                          )
+                                  ).toList(),
+                                  onChanged: (String value) {
+                                    if(formkeyDesc.currentState.validate())
+                                      setState(() {
+                                        this.valueCategorias = value;
+                                      });
+                                  }
                               ),
                             )
                           ]
@@ -185,7 +249,7 @@ class _SignUp extends State<SignUp> {
                       ),
                       onTap: () async {
                         try {
-                          await  Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                          await  Navigator.push(context, MaterialPageRoute(builder: (context) => StartMenu()));
                         } catch (err) {
                           debugPrint('Something bad happened');
                         }
