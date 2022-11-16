@@ -1,3 +1,4 @@
+import 'package:app_movil/BranchDetail.dart';
 import 'package:app_movil/RoleMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -72,13 +73,11 @@ class _OwnerMenuState extends State<OwnerMenu> {
   Widget build(BuildContext context) {
     myList = Provider.of<BoActiveProvider>(context, listen: false).getBusinessByUserId(1);
     tylist = Provider.of<BoActiveProvider>(context, listen: false).getTypeBusiness();
-    print(myList);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: AppBar(
-
             title: Text('Mis Negocios'),
             backgroundColor: Color(0xffa7d676),
             elevation: 1,
@@ -179,9 +178,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
   Widget businessCard (Business business){
     return GestureDetector(
       onTap: (){
-        setState(() {
-          print("hey");
-        });
+        Route route = MaterialPageRoute(builder: (context) => BranchDetail(business.idBusiness));
+        Navigator.push(context, route);
       },
       child: ListTile(
         leading: Icon(Icons.shop_2),

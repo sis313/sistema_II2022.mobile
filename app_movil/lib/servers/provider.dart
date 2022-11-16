@@ -527,8 +527,8 @@ class BoActiveProvider extends ChangeNotifier {
 
   }
 
-  getBranchByBusinessId(int id) async {
-    print("Getting Branch By Business id...");
+  Future<List<Branch>> getBranchByBusinessId(int id) async {
+    print("Getting Branch By Business id $id...");
     final queryParams = {'businessId': id.toString()};
     var url = Uri.https(apiURL, '/api/branch/', queryParams);
     final response = await http.get(url);
