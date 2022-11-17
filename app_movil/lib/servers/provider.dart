@@ -79,7 +79,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   Future<List<Rating>>getRanting() async {
     print("Getting ratings...");
-    var url = Uri.https(apiURL, '/api/rating');
+    var url = Uri.https(apiURL, '/api/rating/detail');
     final response = await http.get(url);
     print(response.body);
 
@@ -93,6 +93,7 @@ class BoActiveProvider extends ChangeNotifier {
       r.score = item['score'];
       r.favoriteStatus = item['favoriteStatus'];
       r.idBranch = item['idBranch'];
+      r.businessName=item['businessName'];
       r.idUser = item['idUser'];
       rating.add(r);
     }

@@ -35,17 +35,6 @@ ServicioDetail(this.id);
 class _ServicioDetailState extends State<ServicioDetail> {
 
 
-
-  /*List products = [
-    Product(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdygFdB_FfadQmmrDZUgLeJTILZBTU0d9Ffs3mLpYSh2rulaJo&usqp=CAU',
-        'Tienda 1',
-        5,0),
-    Product(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdygFdB_FfadQmmrDZUgLeJTILZBTU0d9Ffs3mLpYSh2rulaJo&usqp=CAU',
-        'Tienda 2',
-        4,0),
-  ];*/
   Future<List<Business>> business;
 
   
