@@ -153,9 +153,15 @@ class _OwnerMenuState extends State<OwnerMenu> {
       padding: const EdgeInsets.all(17.0),
       itemCount: myList.length,
       itemBuilder: (context, index){
-        return Card(
-          child: businessCard(myList[index]),
-        );
+        /*return Card(
+          child: Text("${myList[index].idTypeBusiness}")
+        );*/
+        /*if(myList[index].status != false)
+          return Card();
+        else*/
+          return Card(
+            child: businessCard(myList[index]),
+          );
       },
     );
   }
@@ -165,6 +171,61 @@ class _OwnerMenuState extends State<OwnerMenu> {
   /*-------------------------------------*/
   Widget businessCard (Business business){
     return GestureDetector(
+      onHorizontalDragStart: (details){
+        showDialog(
+            context: context,
+            builder: (context) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AlertDialog(
+                    title: const Text('Estás seguro?'),
+                    content: Column(
+                      children: [
+                        Text("Esta acción no puede deshacerse"),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Cancelar',style: TextStyle(color: Colors.white, fontSize: 15)),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)
+                            ),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: BorderSide(color: Color(0xffef5a68))
+                                )
+                            )),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          var response = Provider.of<BoActiveProvider>(context, listen: false).
+                            deleteBusinessById(business.idBusiness);
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Eliminar',style: TextStyle(color: Colors.white, fontSize: 15)),style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+                          ),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Color(0xffa7d676))
+                              )
+                          )),
+
+                      ),
+                    ],
+                  )
+                ],
+              );
+            }
+        );
+      },
       onLongPress: (){
         showDialog(
             context: context,
@@ -296,11 +357,9 @@ class _OwnerMenuState extends State<OwnerMenu> {
                         onChanged: (value) {
                           setState(() {
                             this.valueCategorias = value;
-                            //print("Opcion es " + this.valueCategorias);
                             List<TypeBusiness> lista = snapshot.data;
                             idcategoria = this._determinarNumero(this.valueCategorias, lista).id;
                             print("Resultado es " + this._determinarNumero(this.valueCategorias, lista).id.toString());
-                            //this._determinarNumero(this.valueCategorias, lista);
                           });
                         }
                     );

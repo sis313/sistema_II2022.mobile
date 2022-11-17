@@ -683,7 +683,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   deleteBranch(int id) async {
     final http.Response response = await http.delete(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/branch/$id'),
+      Uri.parse('https://serviceprojectspring.herokuapp.com/api/branch/json/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -41,6 +41,8 @@ class ClienteListaServicios extends StatelessWidget {
   }
 
   var id;
+  bool fav=false;
+
   @override
   Widget build(BuildContext context) {
     business = Provider.of<BoActiveProvider>(context, listen: false).getBusiness();
@@ -145,21 +147,19 @@ class ClienteListaServicios extends StatelessWidget {
                       children: <Widget>[
                         Text("\Estrellas :" + e.idBusiness.toString()),
                         SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 1.0,
+                          ),
+                          child:  IconButton(
+                              onPressed: (){
+                                //print("changing fav... $fav");
+                                //fav = !fav;
+                                Provider.of<BoActiveProvider>(context, listen: false).createRanking(4, e.idBusiness, 1);
+                              },
+                              icon: Icon((!fav)?Icons.favorite_border : Icons.favorite, color: Colors.red)
+                          ),
 
-
-                        GestureDetector(
-
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) =>Favoritos()));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 1.0,
-
-                              ),
-                              child:  Icon(Icons.favorite_border),
-
-                            )
                         ),
                       ],
                     ),
