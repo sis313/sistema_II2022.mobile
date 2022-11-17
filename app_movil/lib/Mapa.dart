@@ -11,8 +11,6 @@ import 'package:app_movil/servers/provider.dart';
 import 'package:provider/provider.dart';
 
 import 'DTO/Business.dart';
-import 'DTO/Negocio.dart';
-import 'DTO/Sucursal.dart';
 
 class MapSample extends StatefulWidget {
   final List<Business> ListBusiness;
@@ -31,7 +29,8 @@ class MapSampleState extends State<MapSample> {
 
   var user_position ;
   bool showUser = false;
-  double lminLat, lmaxLat, lminLon, lmaxLon, radio = 5.0;
+  bool loading = true;
+  double lminLat, lmaxLat, lminLon, lmaxLon, radio = 1.0;
   List FilterBranch = [];
   List<Marker> listMarks = [];
 
@@ -39,6 +38,8 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
+    loading = true;
+    setBranches(widget.ListBusiness);
   }
 
 
@@ -52,7 +53,6 @@ class MapSampleState extends State<MapSample> {
     setState(() {
       user_position  = position;
       showUser = true;
-
     });
 
     var m = Marker(
@@ -73,13 +73,13 @@ class MapSampleState extends State<MapSample> {
   }
 
 
-  var Sucursales = [
+  /*var Sucursales = [
     {1, 'sucursal 1', -16.509119931820113, -68.12710156327141},
     {2, 'sucursal 2', -36.493730639624058,-14.493730639624058},
     {3, 'sucursal 3', -22.493730639624058,-60.493730639624058},
     {4, 'sucursal 4', -46.493730639624058,-23.493730639624058},
     {5, 'sucursal 5', -50.493730639624058,-3.493730639624058},
-  ];
+  ];*/
 
 
   void CalulateLimits( userLat, userLon )  {
@@ -125,108 +125,7 @@ class MapSampleState extends State<MapSample> {
               onTap: (){
                 showModalBottomSheet (
                     context: context,
-                    builder: (builder){
-                      return Column(
-                        children: <Widget>[
-                            Container(
-                              color: Color(0xffa7d676),
-                              padding: EdgeInsets.all(10),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Center(
-                                      child: Text(
-                                          "Nombre del negocio",
-                                        style: TextStyle(
-                                          fontSize: 24
-                                        ),
-
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Icon(
-                                    Icons.pin_drop_outlined,
-                                    size: 40,
-                                    color: Color(0xff85cbcc),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Expanded(
-                                    child: Text(
-                                      "Direccion",
-                                      style: TextStyle(
-                                          fontSize: 24
-                                      ),
-
-                                    ),
-
-                                ),
-                              ],
-                            ),
-
-                            Row(
-                            children: <Widget>[
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Icon(
-                                Icons.watch_later_outlined,
-                                size: 40,
-                                color: Color(0xff85cbcc),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  "Horario",
-                                  style: TextStyle(
-                                      fontSize: 24
-                                  ),
-
-                                ),
-
-                              ),
-                            ],
-                          ),
-
-                            Row(
-                            children: <Widget>[
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Icon(
-                                Icons.calendar_month_outlined,
-                                size: 40,
-                                color: Color(0xff85cbcc),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  "Atencion",
-                                  style: TextStyle(
-                                      fontSize: 24
-                                  ),
-
-                                ),
-
-                              ),
-                            ],
-                          )
-                        ],
-                      );
-                    });
+                    builder: (builder)=> info(b));
 
               },
 
@@ -235,6 +134,10 @@ class MapSampleState extends State<MapSample> {
       listMarks.add(m);
     }
     print(listMarks.length);
+    setState((){
+      loading = false;
+    });
+
   }
 
   void setBranches(List<Business> listBusiness) async {
@@ -260,17 +163,12 @@ class MapSampleState extends State<MapSample> {
         }
       }
     }
-
     print('length sucursales ${sucursales.length}');
     getCurrentLocation();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
     final elevButtonStyle = ElevatedButton.styleFrom(
       primary: Colors.blue,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -297,7 +195,7 @@ class MapSampleState extends State<MapSample> {
                       source: 'OpenStreetMap contributors',
                       onSourceTapped: null,
                     ),
-                    Align(
+                    /*Align(
                     alignment: Alignment(0.9, 0.9),
                     child:
                     ElevatedButton(
@@ -308,17 +206,18 @@ class MapSampleState extends State<MapSample> {
                       ),
                       style: elevButtonStyle,
                       onPressed: () {
-                        //getCurrentLocation();
-                        setBranches(widget.ListBusiness);
+                        //setBranches(widget.ListBusiness);
                       },),
-                  )],
+                  )*/
+                  ],
+
 
                   children: [
                     TileLayer(
                       urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                       subdomains: ['a', 'b', 'c'],
                     ),
-                    MarkerLayer(
+                    loading ? LoadingWidget():MarkerLayer(
                       markers: listMarks
                     )
                   ],
@@ -331,27 +230,117 @@ class MapSampleState extends State<MapSample> {
 
   }
 
-  info (Sucursal sucursal) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AlertDialog(
-                title: Text(sucursal.name),
-                content: Column(
-                  children: [
-                    Text(sucursal.address),
-                    Text("Info 2"),
-                    Text("Info 3"),
-                  ],
-                )
+
+  info (BranchInfo b) {
+    return Column(
+      children: <Widget>[
+        Container(
+          color: Color(0xffa7d676),
+          padding: EdgeInsets.all(10),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Center(
+                  child: Text(
+                    b.name,
+                    style: TextStyle(
+                        fontSize: 24
+                    ),
+
+                  ),
+                ),
               )
             ],
-          );
-        }
+          ),
+        ),
+        Row(
+          children: <Widget>[
+            SizedBox(
+              width: 20,
+            ),
+            Icon(
+              Icons.pin_drop_outlined,
+              size: 40,
+              color: Color(0xff85cbcc),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Text(
+                "Dirección: ${b.address}",
+                style: TextStyle(
+                    fontSize: 24
+                ),
+
+              ),
+
+            ),
+          ],
+        ),
+
+        Row(
+          children: <Widget>[
+            SizedBox(
+              width: 20,
+            ),
+            Icon(
+              Icons.watch_later_outlined,
+              size: 40,
+              color: Color(0xff85cbcc),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Text(
+                "Horario de atención: \n${b.openHour} - ${b.closeHour}",
+                style: TextStyle(
+                    fontSize: 24
+                ),
+
+              ),
+
+            ),
+          ],
+        ),
+
+        Row(
+          children: <Widget>[
+            SizedBox(
+              width: 20,
+            ),
+            Icon(
+              Icons.calendar_month_outlined,
+              size: 40,
+              color: Color(0xff85cbcc),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Text(
+                "Atención los días: \n${b.attentionDays}",
+                style: TextStyle(
+                    fontSize: 24
+                ),
+
+              ),
+
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget LoadingWidget () {
+    return Center(
+      child: Container(
+        width: 30,
+        height: 30,
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 
