@@ -5,24 +5,24 @@ import 'package:latlong2/latlong.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:provider/provider.dart';
 
-import '../BranchDetail.dart';
-import '../DTO/City.dart';
-import '../DTO/Location.dart';
-import '../DTO/Zone.dart';
-import '../servers/provider.dart';
+import 'BranchDetail.dart';
+import 'DTO/City.dart';
+import 'DTO/Location.dart';
+import 'DTO/Zone.dart';
+import 'servers/provider.dart';
 
-class BranchForm extends StatefulWidget {
+class BranchCreateForm extends StatefulWidget {
   int idBusiness;
-  BranchForm(this.idBusiness);
+  BranchCreateForm(this.idBusiness);
 
   @override
-  State<BranchForm> createState() => _BranchFormState(idBusiness);
+  State<BranchCreateForm> createState() => _BranchCreateFormState(idBusiness);
 }
 
-class _BranchFormState extends State<BranchForm> {
+class _BranchCreateFormState extends State<BranchCreateForm> {
   int idBusiness;
 
-  _BranchFormState(this.idBusiness);
+  _BranchCreateFormState(this.idBusiness);
 
   TimeOfDay openTime = TimeOfDay.now();
   TimeOfDay closeTime = TimeOfDay.now();
@@ -59,7 +59,7 @@ class _BranchFormState extends State<BranchForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Branch Info"),
+        title: Text("Branch Creation"),
         backgroundColor: Color(0xffa7d676),
       ),
       body: Flex(
