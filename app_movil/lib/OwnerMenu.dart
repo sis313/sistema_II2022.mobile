@@ -295,13 +295,11 @@ class _OwnerMenuState extends State<OwnerMenu> {
                         onChanged: (value) {
                           setState(() {
                             this.valueCategorias = value;
-                            //print("Opcion es " + this.valueCategorias);
                             List<TypeBusiness> lista = snapshot.data;
 
                             idcategoria = this._determinarNumero(this.valueCategorias, lista).id;
 
                             print("Resultado es " + this._determinarNumero(this.valueCategorias, lista).id.toString());
-                            //this._determinarNumero(this.valueCategorias, lista);
                           });
                         }
                     );
