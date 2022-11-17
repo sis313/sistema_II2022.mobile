@@ -112,8 +112,7 @@ class _Login extends State<LoginEmpresa> {
                                 TextFormField(
                                   controller:nickname ,
                                   validator: MultiValidator([
-                                    EmailValidator(
-                                        errorText: "Nickname invalido"),
+
                                     RequiredValidator(
                                         errorText: "campo requerido")
                                   ]),
