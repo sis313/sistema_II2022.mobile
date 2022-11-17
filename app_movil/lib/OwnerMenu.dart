@@ -19,6 +19,8 @@ class OwnerMenu extends StatefulWidget {
 
 class _OwnerMenuState extends State<OwnerMenu> {
 
+  int idUser = 1;
+
   final controllerSucursal = TextEditingController();
   final ctrollerNegocioName = TextEditingController();
   final ctrollerNegocioDesc = TextEditingController();
@@ -66,7 +68,6 @@ class _OwnerMenuState extends State<OwnerMenu> {
   void initState(){
     super.initState();
     vectorCategorias = Provider.of<BoActiveProvider>(context, listen: false).getTypeBusiness();
-
   }
 
   @override
@@ -163,6 +164,20 @@ class _OwnerMenuState extends State<OwnerMenu> {
   /*-------------------------------------*/
   Widget businessCard (Business business){
     return GestureDetector(
+      onLongPress: (){
+        showDialog(
+            context: context,
+            builder: (context) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  editarNegocio(business)
+                ],
+              );
+            }
+        );
+      },
       onTap: (){
         Route route = MaterialPageRoute(builder: (context) => BranchDetail(business.idBusiness));
         Navigator.push(context, route);
@@ -208,73 +223,96 @@ class _OwnerMenuState extends State<OwnerMenu> {
     );
   }
 
-  Widget createForm(List<TypeBusiness> tylist){
+  Widget editarNegocio(Business business){
+    return FutureBuilder(
+      future: tylist,
+      builder: (context, snapshot){
+        if(snapshot.hasData){
+          return editForm(snapshot.data, business);
+        }
+        else if (snapshot.data == null){
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  Widget editForm(List<TypeBusiness> tylist, Business business){
     GlobalKey<FormState> formkeyName = GlobalKey<FormState>();
     GlobalKey<FormState> formkeyDesc = GlobalKey<FormState>();
+
+    ctrollerNegocioName.text = business.name;
+    ctrollerNegocioDesc.text = business.description;
+
     return AlertDialog(
-      title: const Text('Nuevo Negocio'),
+      title: const Text('Editar Negocio'),
       content: Form(
-          child: Column(
-            children: [
-              Padding( padding: EdgeInsets.all(5)),
-              TextFormField(
-                controller: ctrollerNegocioName,
-                autovalidateMode: AutovalidateMode.always,
-                key: formkeyName,
-                validator: MultiValidator([
-                  RequiredValidator( errorText: "Campo Requerido"),
-                ]),
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Nombre de Negocio *',
-                ),
+        child: Column(
+          children: [
+            Padding( padding: EdgeInsets.all(5)),
+            TextFormField(
+              controller: ctrollerNegocioName,
+              autovalidateMode: AutovalidateMode.always,
+              key: formkeyName,
+              validator: MultiValidator([
+                RequiredValidator( errorText: "Campo Requerido"),
+              ]),
+              decoration: InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Nombre de Negocio *',
               ),
-              SizedBox(height: 10),
-              Padding( padding: EdgeInsets.all(2)),
-              TextFormField(
-                controller: ctrollerNegocioDesc,
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  hintText: 'Descripcion',
-                ),
+            ),
+            SizedBox(height: 10),
+            Padding( padding: EdgeInsets.all(2)),
+            TextFormField(
+              controller: ctrollerNegocioDesc,
+              decoration: InputDecoration(
+                border: UnderlineInputBorder(),
+                hintText: 'Descripcion',
               ),
-              Padding(padding: EdgeInsets.all(10)),
-              FutureBuilder(
+            ),
+            Padding(padding: EdgeInsets.all(10)),
+            FutureBuilder(
                 future: vectorCategorias,
-                  builder: (context, snapshot){
-                    if(snapshot.hasData){
-                      return DropdownButtonFormField<String>(
-                          key: formkeyDesc,
-                          validator: (value) => value == null?
-                          'Campo requerido' : null,
-                          value: valueCategorias,
-                          items: snapshot.data.map<DropdownMenuItem<String>>(
-                                  (value) =>
-                                      DropdownMenuItem<String>(
-                                        value: value.name.toString(),
-                                        child: Text(value.name.toString()),
-                                      )).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              this.valueCategorias = value;
-                              //print("Opcion es " + this.valueCategorias);
-                              List<TypeBusiness> lista = snapshot.data;
+                builder: (context, snapshot){
+                  if(snapshot.hasData){
+                    return DropdownButtonFormField<String>(
+                        key: formkeyDesc,
+                        validator: (value) => value == null?
+                        'Campo requerido' : null,
+                        value: valueCategorias,
+                        items: snapshot.data.map<DropdownMenuItem<String>>(
+                                (value) =>
+                                DropdownMenuItem<String>(
+                                  value: value.name.toString(),
+                                  child: Text(value.name.toString()),
+                                )).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            this.valueCategorias = value;
+                            //print("Opcion es " + this.valueCategorias);
+                            List<TypeBusiness> lista = snapshot.data;
 
-                              idcategoria = this._determinarNumero(this.valueCategorias, lista).id;
+                            idcategoria = this._determinarNumero(this.valueCategorias, lista).id;
 
-                              print("Resultado es " + this._determinarNumero(this.valueCategorias, lista).id.toString());
-                              //this._determinarNumero(this.valueCategorias, lista);
-                            });
-                          }
-                      );
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
+                            print("Resultado es " + this._determinarNumero(this.valueCategorias, lista).id.toString());
+                            //this._determinarNumero(this.valueCategorias, lista);
+                          });
+                        }
                     );
                   }
-              )
-            ],
-          ),
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+            )
+          ],
+        ),
       ),
       actions: [
         ElevatedButton(
@@ -294,21 +332,25 @@ class _OwnerMenuState extends State<OwnerMenu> {
         ),
         TextButton(
           onPressed: () {
-            //print(ctrollerNegocioName.text);
-            //print(ctrollerNegocioDesc.text);
-            //print(valueCategorias);
-            //print(idcategoria);
+            print("IdBusiness es ${business.idBusiness}");
+            print("name es ${ctrollerNegocioName.text}");
+            print("desc es ${ctrollerNegocioDesc.text}");
+            print("idTypeBusiness es $idcategoria");
+            print("idUser es $idUser");
 
             DateTime now = new DateTime.now();
 
             var response = Provider.of<BoActiveProvider>(context, listen: false).
-              createBusiness(
+            updateBusiness(
+                business.idBusiness,
                 ctrollerNegocioName.text,
                 ctrollerNegocioDesc.text,
                 idcategoria,
-                1,
-                now,
+                idUser,
                 now);
+
+            /*Route route = MaterialPageRoute(builder: (context) => OwnerMenu());
+            Navigator.push(context, route);*/
 
             //print("REsponse es " + response.toString());
           },
@@ -332,6 +374,134 @@ class _OwnerMenuState extends State<OwnerMenu> {
       ],
     );
   }
+
+  Widget createForm(List<TypeBusiness> tylist){    GlobalKey<FormState> formkeyName = GlobalKey<FormState>();
+  GlobalKey<FormState> formkeyDesc = GlobalKey<FormState>();
+  return AlertDialog(
+    title: const Text('Nuevo Negocio'),
+    content: Form(
+      child: Column(
+        children: [
+          Padding( padding: EdgeInsets.all(5)),
+          TextFormField(
+            controller: ctrollerNegocioName,
+            autovalidateMode: AutovalidateMode.always,
+            key: formkeyName,
+            validator: MultiValidator([
+              RequiredValidator( errorText: "Campo Requerido"),
+            ]),
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Nombre de Negocio *',
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding( padding: EdgeInsets.all(2)),
+          TextFormField(
+            controller: ctrollerNegocioDesc,
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(),
+              hintText: 'Descripcion',
+            ),
+          ),
+          Padding(padding: EdgeInsets.all(10)),
+          FutureBuilder(
+              future: vectorCategorias,
+              builder: (context, snapshot){
+                if(snapshot.hasData){
+                  return DropdownButtonFormField<String>(
+                      key: formkeyDesc,
+                      validator: (value) => value == null?
+                      'Campo requerido' : null,
+                      value: valueCategorias,
+                      items: snapshot.data.map<DropdownMenuItem<String>>(
+                              (value) =>
+                              DropdownMenuItem<String>(
+                                value: value.name.toString(),
+                                child: Text(value.name.toString()),
+                              )).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          this.valueCategorias = value;
+                          //print("Opcion es " + this.valueCategorias);
+                          List<TypeBusiness> lista = snapshot.data;
+
+                          idcategoria = this._determinarNumero(this.valueCategorias, lista).id;
+
+                          print("Resultado es " + this._determinarNumero(this.valueCategorias, lista).id.toString());
+                          //this._determinarNumero(this.valueCategorias, lista);
+                        });
+                      }
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+          )
+        ],
+      ),
+    ),
+    actions: [
+      ElevatedButton(
+        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Color(0xffef5a68))
+                )
+            )
+        ),
+        onPressed: () { Navigator.pop(context);},
+        child: Text(
+          'Cancelar',
+          style: TextStyle(color: Colors.white, fontSize: 15),
+        ),
+      ),
+      TextButton(
+        onPressed: () {
+          //print(ctrollerNegocioName.text);
+          //print(ctrollerNegocioDesc.text);
+          //print(valueCategorias);
+          //print(idcategoria);
+
+          DateTime now = new DateTime.now();
+
+          var response = Provider.of<BoActiveProvider>(context, listen: false).
+          createBusiness(
+              ctrollerNegocioName.text,
+              ctrollerNegocioDesc.text,
+              idcategoria,
+              1,
+              now,
+              now);
+
+          //print("REsponse es " + response.toString());
+        },
+        child: ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+              ),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Color(0xffa7d676))
+                  )
+              )),
+
+          child: Text(
+            'Registrar',
+            style: TextStyle(color: Colors.white, fontSize: 15),
+          ),
+        ),
+      ),
+    ],
+  );
+
+  }
+
+
+/*-------------------------------------*/
 
   _determinarNumero(String opcion, var tipos) {
     //print("Opcion es " + opcion);
