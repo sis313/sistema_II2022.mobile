@@ -1,8 +1,11 @@
+import 'package:app_movil/LoginEmpresa.dart';
+import 'package:app_movil/Seleccion.dart';
+import 'package:app_movil/SignUp.dart';
 import 'package:app_movil/servers/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Login.dart';
-import 'RoleMenu.dart';
+
 
 class StartMenu extends StatefulWidget {
   @override
@@ -26,7 +29,7 @@ class _StartMenu extends State<StartMenu> {
           Center(
             child: Text.rich(
               TextSpan(children: <TextSpan>[
-                TextSpan(text: "Bienvenido a ", style: TextStyle(fontSize: 30)),
+
                 TextSpan(
                   children: <TextSpan> [
                     TextSpan(text: "Bienvenido a ", style: TextStyle(fontSize: 30)),
@@ -57,7 +60,7 @@ class _StartMenu extends State<StartMenu> {
             child: ElevatedButton(
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Login()));
+                    context, MaterialPageRoute(builder: (context) => Seleccion()));
               },
               child: Text(
                 'Inicia sesión',
@@ -81,7 +84,7 @@ class _StartMenu extends State<StartMenu> {
             width: 250,
             child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
                 },
                 child: Text(
                   'Regístrate',
