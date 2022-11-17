@@ -48,15 +48,26 @@ class BoActiveProvider extends ChangeNotifier {
     return response.body;
   }
 
-  Future<List<Comment>> getComentById(int id) async {
-    print("Getting comments...");
-    print("///////////////////////////");
+  Future<List<Comment>>getCommentbyid(int id) async {
+    print("Getting Business...");
     var url = Uri.https(apiURL, '/api/comment/$id');
     final response = await http.get(url);
+    print(response.body);
+
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
-    print(jsonData.toString());
-    return jsonData;
+    List<Comment> comment = [];
+    for(var item in jsonData){
+      print("comentarios");
+      Comment b = Comment();
+      b.idComment = item['idComment'];
+      b.message = item['message'];
+      b.id = item['idUser'];
+      comment.add(b);
+    }
+    this.allcommet = comment;
+    print(comment.toString());
+    return comment;
   }
 
   Future<List<Rating>>getRanting() async {

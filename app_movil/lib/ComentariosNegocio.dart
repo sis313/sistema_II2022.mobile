@@ -92,7 +92,8 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
 
   @override
   Widget build(BuildContext context) {
-    comments = Provider.of<BoActiveProvider>(context, listen: false).getComentById(widget.id) ;
+    comments = Provider.of<BoActiveProvider>(context, listen: false).getCommentbyid(widget.id) ;
+    print(comments);
     return Scaffold(
       appBar: AppBar(
         title: Text('Comentarios del negocio'),
