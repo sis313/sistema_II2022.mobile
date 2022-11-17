@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 
 import '../DTO/City.dart';
 import '../DTO/TypeBusiness.dart';
+import '../DTO/Zone.dart';
 
 class BoActiveProvider extends ChangeNotifier {
   // Static data
@@ -18,6 +19,8 @@ class BoActiveProvider extends ChangeNotifier {
   List<TypeBusiness> allTypeBusiness = [];
   List<City> allCities = [];
   List<Municipality> allMunicipalities = [];
+  List<Zone> allZones = [];
+  List<Location> allLocations = [];
   List<Business> allBusiness = [];
   List<Business> allBusinessByUserId = [];
   List<Comment> allcommet=[];
@@ -419,12 +422,24 @@ class BoActiveProvider extends ChangeNotifier {
 
   //Location
 
-  getLocation() async {
+  Future<List<Location>> getLocation() async {
     print("Getting Location...");
     var url = Uri.https(apiURL, '/api/location');
     final response = await http.get(url);
-    print(response.body);
-    return response.body;
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+
+    List<Location> responseLocation = [];
+    for(var item in jsonData){
+      Location type = Location();
+      type.id = item['idLocation'];
+      type.latitude = item['latitude'];
+      type.longitude = item['longitude'];
+      responseLocation.add(type);
+    }
+
+    allLocations = responseLocation;
+    return responseLocation;
   }
 
   getLocationById(int id) async {
@@ -455,14 +470,22 @@ class BoActiveProvider extends ChangeNotifier {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        "latitude": latitude.toString(),
-        "longitude": longitude.toString()
+      body: jsonEncode(<String, double>{
+        "latitude": latitude,
+        "longitude": longitude
       }),
     );
-    print(response.body);
+    //print(response.body);
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+
+    Location type = Location();
+    type.id = jsonData['idLocation'];
+    type.latitude = jsonData['latitude'];
+    type.longitude = jsonData['longitude'];
+
     if (response.statusCode == 200) {
-      return response.body;
+      return type;
     } else {
       throw Exception('Failed to update .');
     }
@@ -747,6 +770,48 @@ class BoActiveProvider extends ChangeNotifier {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, Object>{"name": name, "idCity": idCity}),
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to create .');
+    }
+  }
+
+  //Zona
+  Future<List<Zone>> getZones() async{
+    print("Getting Zone...");
+    List<Zone> list = [];
+
+    var url = Uri.https(apiURL, '/api/zone');
+    final response = await http.get(url);
+    //print(response.body);
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Zone> responseZone = [];
+    for(var item in jsonData){
+      Zone type = Zone();
+      type.idZone = item['idZone'];
+      type.idMunicipalities = item['idMunicipalities'];
+      type.name = item['name'];
+      responseZone.add(type);
+    }
+    allZones = responseZone;
+    return responseZone;
+  }
+
+  createZone(String name, int idMunicipalities) async{
+    var url = Uri.https(this.apiURL, '/api/zone');
+    var response = await http.post(
+      url,
+      //return http.post(
+      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/typeBusiness'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, Object>{"name": name, "idMunicipalities": idMunicipalities}),
     );
     print(response.body);
     if (response.statusCode == 200) {

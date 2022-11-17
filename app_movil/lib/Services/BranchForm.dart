@@ -6,6 +6,8 @@ import 'package:geocoder/geocoder.dart';
 import 'package:provider/provider.dart';
 
 import '../DTO/City.dart';
+import '../DTO/Location.dart';
+import '../DTO/Zone.dart';
 import '../servers/provider.dart';
 
 class BranchForm extends StatefulWidget {
@@ -36,6 +38,11 @@ class _BranchFormState extends State<BranchForm> {
 
   var cities;
   var municipalities;
+  var zones;
+
+  List<Location> locations;
+
+  Location lugar;
 
   @override
   Widget build(BuildContext context) {
@@ -166,6 +173,8 @@ class _BranchFormState extends State<BranchForm> {
 
                       cities = await Provider.of<BoActiveProvider>(context, listen: false).getCities();
                       municipalities = await Provider.of<BoActiveProvider>(context, listen: false).getMunicipalities();
+                      zones = await Provider.of<BoActiveProvider>(context, listen: false).getZones();
+                      locations = await Provider.of<BoActiveProvider>(context, listen: false).getLocation();
 
                       setState(() {
                         address = first.addressLine;
@@ -191,8 +200,51 @@ class _BranchFormState extends State<BranchForm> {
                           municipality = findMunicipalityByName(municipio, municipalities);;
                         }
 
-                        print(municipality.name);
-                        print(zona);
+                        Zone zone = findZoneByName(zona, zones);
+
+                        if(zone == null){
+                          var response = Provider.of<BoActiveProvider>(context, listen: false).
+                          createZone(zona, municipality.idMunicipalities);
+                          zone = findZoneByName(zona, zones);
+                        }
+
+                        Location location = findLocationByLat(num.parse(point.latitude.toStringAsFixed(8)), locations);
+
+                        /*try{
+                          location = findLocationByLat(lat, locations);
+                        }on NoSuchMethodError{
+                          var response = Provider.of<BoActiveProvider>(context, listen: false).
+                          createLocation(lat, log);
+                          location = findLocationByLat(lat, locations);
+                        }*/
+
+                        //print("Location es $location");
+
+                        if(location == null || (location != null && location.longitude != point.longitude)){
+                          /*var response = Provider.of<BoActiveProvider>(context, listen: false).
+                          createLocation(num.parse(point.latitude.toStringAsFixed(8)), num.parse(point.longitude.toStringAsFixed(8)));*/
+
+                          createLocation(point.latitude, point.longitude);
+                          //location = findLocationByLat(point.latitude, locations);
+
+                          location = lugar;
+                        }
+
+                        print("address es $address");
+                        print("openHour es $openTime");
+                        print("closeHour es $closeTime");
+                        print("attentionDays es $valueAtencion");
+                        print("idZone es ${zone.idZone}");
+
+                        try{
+                          print("idLocation es ${location.id}");
+                        }on NoSuchMethodError{
+                          /*var response = Provider.of<BoActiveProvider>(context, listen: false).
+                          createLocation(lat, log);
+                          location = findLocationByLat(lat, locations);*/
+                          print("Lat es ${num.parse(point.latitude.toStringAsFixed(8))} y long es ${num.parse(point.longitude.toStringAsFixed(8))}");
+                          print("error lat es ${locations.last.latitude} y long es ${locations.last.longitude}");
+                        }
                       });
                     },
                     center: LatLng(-16.493730639624058, -68.13252864400924),// Coordenadas Plaza Murillo -16.493730639624058, -68.13252864400924
@@ -231,5 +283,26 @@ class _BranchFormState extends State<BranchForm> {
     element.name == name, orElse: () {
       return null;
     });
+  }
+
+  findZoneByName(String name, var zones){
+    return zones.firstWhere((element) =>
+    element.name == name, orElse: () {
+      return null;
+    });
+  }
+
+  findLocationByLat(double lat, var locations){
+    return locations.firstWhere((element) =>
+    element.latitude == lat, orElse: () {
+      return null;
+    });
+  }
+
+  createLocation(double lat, double log) async{
+    var response = await Provider.of<BoActiveProvider>(context, listen: false).
+    createLocation(num.parse(lat.toStringAsFixed(8)), num.parse(log.toStringAsFixed(8)));
+
+    lugar = response;
   }
 }
