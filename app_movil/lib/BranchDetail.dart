@@ -65,7 +65,7 @@ class _BranchDetailState extends State<BranchDetail> {
         backgroundColor: Color(0xffa7d676),
         child: IconButton(
             onPressed: (){
-              Route route = MaterialPageRoute(builder: (context) => BranchForm());
+              Route route = MaterialPageRoute(builder: (context) => BranchForm(idBusiness));
               Navigator.push(context, route);
               //anadirSucursal_1();
             },

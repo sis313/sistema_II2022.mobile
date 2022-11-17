@@ -5,17 +5,24 @@ import 'package:latlong2/latlong.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:provider/provider.dart';
 
+import '../BranchDetail.dart';
 import '../DTO/City.dart';
 import '../DTO/Location.dart';
 import '../DTO/Zone.dart';
 import '../servers/provider.dart';
 
 class BranchForm extends StatefulWidget {
+  int idBusiness;
+  BranchForm(this.idBusiness);
+
   @override
-  State<BranchForm> createState() => _BranchFormState();
+  State<BranchForm> createState() => _BranchFormState(idBusiness);
 }
 
 class _BranchFormState extends State<BranchForm> {
+  int idBusiness;
+
+  _BranchFormState(this.idBusiness);
 
   TimeOfDay openTime = TimeOfDay.now();
   TimeOfDay closeTime = TimeOfDay.now();
@@ -43,6 +50,10 @@ class _BranchFormState extends State<BranchForm> {
   List<Location> locations;
 
   Location lugar;
+
+  /*VARIAS IMPORTANTES*/
+  int idZone;
+  int idLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +173,47 @@ class _BranchFormState extends State<BranchForm> {
             ],
           ),
           Text("Direccion es $address"),
+          ElevatedButton(
+            onPressed: () async {
+              print("address es $address");
+              print("openHour es $openTime");
+              print("closeHour es $closeTime");
+              print("attentionDays es $valueAtencion");
+              print("idZone es $idZone");
+              print("idLocation es $idLocation");
+              print("idBusiness es $idBusiness");
+
+              DateTime now = new DateTime.now();
+
+              //print(openTime.toString());
+
+              var response = Provider.of<BoActiveProvider>(context, listen: false).
+              createBranch(
+                  address,
+                  new DateTime(now.year, now.month, now.day, openTime.hour, openTime.minute),
+                  new DateTime(now.year, now.month, now.day, closeTime.hour, closeTime.minute),
+                  valueAtencion,
+                  "https://sistemasii2022.s3.amazonaws.com/ab72364152e34adfa2128b4691a77976",
+                  idZone,
+                  idLocation,
+                  idBusiness,
+                  now,
+                  now);
+
+              Route route = MaterialPageRoute(builder: (context) => BranchDetail(idBusiness));
+              Navigator.push(context, route);
+            },
+            child: Text("Guardar"),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Color(0xfffbc78d)
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Color(0xfffbc78d))
+                    )
+                )),
+          ),
           Flexible(
               child: FlutterMap(
                 options: MapOptions(
@@ -225,23 +277,45 @@ class _BranchFormState extends State<BranchForm> {
                           createLocation(num.parse(point.latitude.toStringAsFixed(8)), num.parse(point.longitude.toStringAsFixed(8)));*/
 
                           createLocation(point.latitude, point.longitude);
-                          //location = findLocationByLat(point.latitude, locations);
-
                           location = lugar;
                         }
 
-                        print("address es $address");
+                        /*print("address es $address");
                         print("openHour es $openTime");
                         print("closeHour es $closeTime");
                         print("attentionDays es $valueAtencion");
                         print("idZone es ${zone.idZone}");
+                        print("idLocation es ${location.id}");
+                        print("idBusiness es $idBusiness");*/
 
                         try{
+                          print("address es $address");
+                          print("openHour es $openTime");
+                          print("closeHour es $closeTime");
+                          print("attentionDays es $valueAtencion");
+                          print("idZone es ${zone.idZone}");
                           print("idLocation es ${location.id}");
-                        }on NoSuchMethodError{
+                          print("idBusiness es $idBusiness");
+
+                          idZone = zone.idZone;
+                          idLocation = location.id;
+
                           /*var response = Provider.of<BoActiveProvider>(context, listen: false).
-                          createLocation(lat, log);
-                          location = findLocationByLat(lat, locations);*/
+                          createBranch(
+                              address,
+                              openTime.toString(),
+                              closeTime.toString(),
+                              valueAtencion,
+                              "https://sistemasii2022.s3.amazonaws.com/ab72364152e34adfa2128b4691a77976",
+                              zone.idZone,
+                              location.id,
+                              idBusiness,
+                              now,
+                          now);
+
+                          Route route = MaterialPageRoute(builder: (context) => BranchDetail(idBusiness));
+                          Navigator.push(context, route);*/
+                        }on NoSuchMethodError{
                           print("Lat es ${num.parse(point.latitude.toStringAsFixed(8))} y long es ${num.parse(point.longitude.toStringAsFixed(8))}");
                           print("error lat es ${locations.last.latitude} y long es ${locations.last.longitude}");
                         }

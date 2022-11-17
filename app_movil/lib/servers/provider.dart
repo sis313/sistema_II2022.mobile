@@ -603,16 +603,16 @@ class BoActiveProvider extends ChangeNotifier {
 
   createBranch(
       String address,
-      String openHour,
-      String closeHour,
+      DateTime openHour,
+      DateTime closeHour,
       String attentionDays,
       String image,
       int idZone,
       int idLocation,
       int idBusiness,
-      String createDate,
-      String updateDate) async {
-    var url = Uri.https(this.apiURL, '/api/branch');
+      DateTime createDate,
+      DateTime updateDate) async {
+    var url = Uri.https(this.apiURL, '/api/branch/json');
     var response = await http.post(
       url,
       //return http.post(
@@ -620,25 +620,25 @@ class BoActiveProvider extends ChangeNotifier {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, Object>{
         "address": address,
-        "openHour": openHour,
-        "closeHour": closeHour,
+        "openHour": openHour.toIso8601String(),
+        "closeHour": closeHour.toIso8601String(),
         "attentionDays": attentionDays,
         "image": image,
-        "idZone": idZone.toString(),
-        "idLocation": idLocation.toString(),
-        "idBusiness": idBusiness.toString(),
-        "createDate": createDate,
-        "updateDate": updateDate,
-        "status": 1.toString()
+        "idZone": idZone,
+        "idLocation": idLocation,
+        "idBusiness": idBusiness,
+        "createDate": createDate.toIso8601String(),
+        "updateDate": updateDate.toIso8601String(),
+        "status": 1
       }),
     );
     print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      throw Exception('Failed to update .');
+      throw Exception('Failed to create .');
     }
   }
 
