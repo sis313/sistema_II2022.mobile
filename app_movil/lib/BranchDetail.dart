@@ -74,6 +74,11 @@ class _BranchDetailState extends State<BranchDetail> {
   }
 
   Widget afterRequest(List<Branch> branch){
+    if (branch.length == 0){
+      return Center(
+        child: Text("!Crea una sucursal para este negocio!"),
+      );
+    }
     return ListView.builder(
       padding: const EdgeInsets.all(17.0),
       itemCount: branch.length,

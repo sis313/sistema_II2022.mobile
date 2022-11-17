@@ -174,53 +174,6 @@ class _OwnerMenuState extends State<OwnerMenu> {
     );
   }
 
-  Widget sucursal (Sucursal sucursal){
-    String nombre = sucursal.name.toString();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 25,
-          width: 20,
-        ),
-        Text(
-          nombre,
-          style: TextStyle(
-              fontSize: 15
-          ),
-        ),
-        SizedBox(
-          height: 25,
-          width: 150,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: (){
-                  setState(() {
-                    editarSucursal_1(negocios[0].sucursales[0]);
-                  });
-                },
-                icon: Icon(Icons.edit)
-            ),
-            IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: (){
-                  setState(() {
-                    eliminarSucursal();
-                  });
-                },
-                icon: Icon(Icons.delete_outline)
-            )
-          ],
-        )
-      ],
-    );
-  }
 /*-------------------------------------*/
   void _onSelected(BuildContext context, int item){
     switch(item){
