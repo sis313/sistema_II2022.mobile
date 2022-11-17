@@ -2,9 +2,11 @@ import 'package:app_movil/Inicio.dart';
 import 'package:app_movil/OwnerMenu.dart';
 
 import 'package:app_movil/SignUp.dart';
+import 'package:app_movil/servers/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
 
 import 'Mapa.dart';
 
@@ -15,7 +17,8 @@ class LoginEmpresa extends StatefulWidget {
 
 class _Login extends State<LoginEmpresa> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
+  TextEditingController nickname = new TextEditingController();
+  TextEditingController password = new TextEditingController();
   void validate() {
     if (formkey.currentState.validate()) {
       print("Validated");
@@ -107,9 +110,10 @@ class _Login extends State<LoginEmpresa> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 TextFormField(
+                                  controller:nickname ,
                                   validator: MultiValidator([
                                     EmailValidator(
-                                        errorText: "correo invalido"),
+                                        errorText: "Nickname invalido"),
                                     RequiredValidator(
                                         errorText: "campo requerido")
                                   ]),
@@ -117,9 +121,9 @@ class _Login extends State<LoginEmpresa> {
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Color(0xffffffff),
-                                    hintText: "Correo",
+                                    hintText: "Nickname",
                                     prefixIcon: Icon(
-                                      Icons.mail,
+                                      Icons.supervised_user_circle,
                                       color: Colors.grey[600],
                                     ),
                                     focusedBorder: OutlineInputBorder(
@@ -140,6 +144,7 @@ class _Login extends State<LoginEmpresa> {
                                   height: 20.0,
                                 ),
                                 TextFormField(
+                                  controller:password ,
                                   validator: MultiValidator([
                                     RequiredValidator(
                                         errorText: "campo requerido"),
@@ -194,6 +199,15 @@ class _Login extends State<LoginEmpresa> {
                                   child: ElevatedButton(
                                     style: elevButtonStyle,
                                     onPressed: () {
+                                      var response = Provider.of<BoActiveProvider>(context, listen: false).
+                                      login(
+
+                                        nickname.text,
+                                        password.text,
+
+                                      );
+
+
                                       validate;
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
