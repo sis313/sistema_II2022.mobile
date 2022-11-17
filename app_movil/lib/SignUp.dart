@@ -261,10 +261,12 @@ class _SignUp extends State<SignUp> {
                             password.text,
                             idcategoria,
                             );
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => StartMenu()));
                       },
 
                       child: Text(
                         'Registrar',
+
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
 
