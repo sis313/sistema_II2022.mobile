@@ -1,5 +1,6 @@
 import 'package:app_movil/BranchDetail.dart';
-import 'package:app_movil/RoleMenu.dart';
+import 'package:app_movil/LoginEmpresa.dart';
+
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:geocoder/geocoder.dart';
@@ -88,7 +89,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => RoleMenu()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LoginEmpresa()));
               },
             ),
 
