@@ -298,20 +298,19 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   updateBusiness(int id, String name, String desc, int idTypeBusiness,
-      int idUser, String createDate, String updateDate) async {
+      int idUser, DateTime updateDate) async {
     var response = await http.put(
       Uri.parse('https://serviceprojectspring.herokuapp.com/api/business/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, Object>{
         "name": name,
         "description": desc,
-        "idTypeBusiness": idTypeBusiness.toString(),
-        "idUser": idUser.toString(),
-        "createDate": "2022-01-01",
-        "updateDate": "2022-11-12",
-        "status": 1.toString()
+        "idTypeBusiness": idTypeBusiness,
+        "idUser": idUser,
+        "updateDate": updateDate.toIso8601String(),
+        "status": 1
       }),
     );
     print(response.body);
