@@ -8,12 +8,14 @@ import 'package:app_movil/DTO/Rating.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../DTO/City.dart';
 import '../DTO/TypeBusiness.dart';
 
 class BoActiveProvider extends ChangeNotifier {
   // Static data
   final String apiURL = "serviceprojectspring.herokuapp.com";
   List<TypeBusiness> allTypeBusiness = [];
+  List<City> allCities = [];
   List<Business> allBusiness = [];
   List<Business> allBusinessByUserId = [];
   List<Comment> allcommet=[];
@@ -667,5 +669,27 @@ class BoActiveProvider extends ChangeNotifier {
     } else {
       throw Exception('Failed to delete album.');
     }
+  }
+
+  //Ciudades
+  Future<List<City>> getCities() async{
+    print("Getting City...");
+    List<City> list = [];
+
+    var url = Uri.https(apiURL, '/api/city');
+    final response = await http.get(url);
+    print(response.body);
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<City> responseCity = [];
+    for(var item in jsonData){
+      City type = City();
+      type.idCity = item['idTypeBusiness'];
+      type.name = item['name'];
+      responseCity.add(type);
+    }
+    allCities = responseCity;
+    return responseCity;
   }
 }

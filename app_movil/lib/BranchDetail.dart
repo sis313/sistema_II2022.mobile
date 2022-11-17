@@ -4,6 +4,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:provider/provider.dart';
 
 import 'DTO/Branch.dart';
+import 'Services/BranchForm.dart';
 import 'servers/provider.dart';
 
 class BranchDetail extends StatefulWidget {
@@ -64,7 +65,9 @@ class _BranchDetailState extends State<BranchDetail> {
         backgroundColor: Color(0xffa7d676),
         child: IconButton(
             onPressed: (){
-              anadirSucursal_1();
+              Route route = MaterialPageRoute(builder: (context) => BranchForm());
+              Navigator.push(context, route);
+              //anadirSucursal_1();
             },
             icon: Icon(Icons.add),
             tooltip: "Crear nueva sucursal",

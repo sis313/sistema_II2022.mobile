@@ -66,7 +66,6 @@ class _OwnerMenuState extends State<OwnerMenu> {
   void initState(){
     super.initState();
     vectorCategorias = Provider.of<BoActiveProvider>(context, listen: false).getTypeBusiness();
-
   }
 
   @override
@@ -332,6 +331,9 @@ class _OwnerMenuState extends State<OwnerMenu> {
       ],
     );
   }
+
+
+/*-------------------------------------*/
 
   _determinarNumero(String opcion, var tipos) {
     //print("Opcion es " + opcion);
