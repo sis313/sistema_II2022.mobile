@@ -4,6 +4,7 @@ import 'package:app_movil/DTO/Branch.dart';
 import 'package:app_movil/DTO/Business.dart';
 import 'package:app_movil/DTO/Comment.dart';
 import 'package:app_movil/DTO/Location.dart';
+import 'package:app_movil/DTO/Municipality.dart';
 import 'package:app_movil/DTO/Rating.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,7 @@ class BoActiveProvider extends ChangeNotifier {
   final String apiURL = "serviceprojectspring.herokuapp.com";
   List<TypeBusiness> allTypeBusiness = [];
   List<City> allCities = [];
+  List<Municipality> allMunicipalities = [];
   List<Business> allBusiness = [];
   List<Business> allBusinessByUserId = [];
   List<Comment> allcommet=[];
@@ -678,18 +680,79 @@ class BoActiveProvider extends ChangeNotifier {
 
     var url = Uri.https(apiURL, '/api/city');
     final response = await http.get(url);
-    print(response.body);
+    //print(response.body);
 
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
     List<City> responseCity = [];
     for(var item in jsonData){
       City type = City();
-      type.idCity = item['idTypeBusiness'];
+      type.idCity = item['idCity'];
       type.name = item['name'];
       responseCity.add(type);
     }
     allCities = responseCity;
     return responseCity;
+  }
+
+  createCity(String name) async{
+    var url = Uri.https(this.apiURL, '/api/city');
+    var response = await http.post(
+      url,
+      //return http.post(
+      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/typeBusiness'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{"name": name}),
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to create .');
+    }
+  }
+
+  //Municipios
+  Future<List<Municipality>> getMunicipalities() async{
+    print("Getting Municipality...");
+    List<Municipality> list = [];
+
+    var url = Uri.https(apiURL, '/api/municipalities');
+    final response = await http.get(url);
+    //print(response.body);
+
+    String body = utf8.decode(response.bodyBytes);
+    final jsonData = json.decode(body);
+    List<Municipality> responseMunicipality = [];
+    for(var item in jsonData){
+      Municipality type = Municipality();
+      type.idMunicipalities = item['idMunicipalities'];
+      type.idCity = item['idCity'];
+      type.name = item['name'];
+      responseMunicipality.add(type);
+    }
+    allMunicipalities = responseMunicipality;
+    return responseMunicipality;
+  }
+
+  createMunicipality(String name, int idCity) async{
+    var url = Uri.https(this.apiURL, '/api/municipalities');
+    var response = await http.post(
+      url,
+      //return http.post(
+      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/typeBusiness'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, Object>{"name": name, "idCity": idCity}),
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to create .');
+    }
   }
 }

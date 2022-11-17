@@ -1,3 +1,4 @@
+import 'package:app_movil/DTO/Municipality.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -34,6 +35,7 @@ class _BranchFormState extends State<BranchForm> {
   double log = 0;
 
   var cities;
+  var municipalities;
 
   @override
   Widget build(BuildContext context) {
@@ -163,6 +165,7 @@ class _BranchFormState extends State<BranchForm> {
                       var first = addresses.first;
 
                       cities = await Provider.of<BoActiveProvider>(context, listen: false).getCities();
+                      municipalities = await Provider.of<BoActiveProvider>(context, listen: false).getMunicipalities();
 
                       setState(() {
                         address = first.addressLine;
@@ -170,8 +173,26 @@ class _BranchFormState extends State<BranchForm> {
                         municipio = first.adminArea;
                         ciudad = first.locality;
 
+                        if(municipio == null) municipio = ciudad;
+                        if(zona == null) zona = municipio;
+
                         City city = findCityByName(ciudad, cities);
-                        print(city.name);
+
+                        if(city == null){
+                          var response = Provider.of<BoActiveProvider>(context, listen: false).createCity(ciudad);
+                          city = findCityByName(ciudad, cities);
+                        }
+
+                        Municipality municipality = findMunicipalityByName(municipio, municipalities);
+
+                        if(municipality == null){
+                          var response = Provider.of<BoActiveProvider>(context, listen: false).
+                            createMunicipality(municipio, city.idCity);
+                          municipality = findMunicipalityByName(municipio, municipalities);;
+                        }
+
+                        print(municipality.name);
+                        print(zona);
                       });
                     },
                     center: LatLng(-16.493730639624058, -68.13252864400924),// Coordenadas Plaza Murillo -16.493730639624058, -68.13252864400924
@@ -205,9 +226,9 @@ class _BranchFormState extends State<BranchForm> {
     });
   }
 
-  findMunicipalityByIdCity(int idcity, var municipalities){
+  findMunicipalityByName(String name, var municipalities){
     return municipalities.firstWhere((element) =>
-    element.idCity == idcity, orElse: () {
+    element.name == name, orElse: () {
       return null;
     });
   }
