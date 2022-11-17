@@ -3,8 +3,9 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:provider/provider.dart';
 
+import 'BranchEditForm.dart';
 import 'DTO/Branch.dart';
-import 'Services/BranchForm.dart';
+import 'BranchCreateForm.dart';
 import 'servers/provider.dart';
 
 class BranchDetail extends StatefulWidget {
@@ -65,7 +66,7 @@ class _BranchDetailState extends State<BranchDetail> {
         backgroundColor: Color(0xffa7d676),
         child: IconButton(
             onPressed: (){
-              Route route = MaterialPageRoute(builder: (context) => BranchForm(idBusiness));
+              Route route = MaterialPageRoute(builder: (context) => BranchCreateForm(idBusiness));
               Navigator.push(context, route);
               //anadirSucursal_1();
             },
@@ -111,7 +112,8 @@ class _BranchDetailState extends State<BranchDetail> {
         setState(() {
           switch(value){
             case 0:
-              editarSucursal_1(branch);
+              Route route = MaterialPageRoute(builder: (context) => BranchEditForm(branch));
+              Navigator.push(context, route);
               break;
             case 1:
               eliminarSucursal();

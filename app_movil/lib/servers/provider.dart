@@ -644,32 +644,32 @@ class BoActiveProvider extends ChangeNotifier {
   updateBranch(
       int id,
       String address,
-      String openHour,
-      String closeHour,
+      DateTime openHour,
+      DateTime closeHour,
       String attentionDays,
       String image,
       int idZone,
       int idLocation,
       int idBusiness,
       String createDate,
-      String updateDate) async {
+      DateTime updateDate) async {
     var response = await http.put(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/branch/$id'),
+      Uri.parse('https://serviceprojectspring.herokuapp.com/api/branch/json/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, Object>{
         "address": address,
-        "openHour": openHour,
-        "closeHour": closeHour,
+        "openHour": openHour.toIso8601String(),
+        "closeHour": closeHour.toIso8601String(),
         "attentionDays": attentionDays,
         "image": image,
-        "idZone": idZone.toString(),
-        "idLocation": idLocation.toString(),
-        "idBusiness": idBusiness.toString(),
+        "idZone": idZone,
+        "idLocation": idLocation,
+        "idBusiness": idBusiness,
         "createDate": createDate,
-        "updateDate": updateDate,
-        "status": 1.toString()
+        "updateDate": updateDate.toIso8601String(),
+        "status": 1
       }),
     );
     print(response.body);
