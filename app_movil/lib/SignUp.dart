@@ -1,7 +1,9 @@
 import 'package:app_movil/Login.dart';
 import 'package:app_movil/StartMenu.dart';
+import 'package:app_movil/servers/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -23,6 +25,16 @@ class _SignUp extends State<SignUp> {
   String valueCategorias;
   GlobalKey<FormState> formkeyDesc = GlobalKey<FormState>();
   GlobalKey<FormState> formkeyName = GlobalKey<FormState>();
+
+
+
+  int idcategoria = 0;
+  TextEditingController nombre2 = new TextEditingController();
+  TextEditingController nickname = new TextEditingController();
+  TextEditingController email = new TextEditingController();
+  TextEditingController password = new TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -31,23 +43,7 @@ class _SignUp extends State<SignUp> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          /*
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [
-                  0.7,
-                  0.8,
-                  1
-                ],
-                colors: [
-                  Color(0xfff3ede0),
-                  Color(0xffCEA660),
-                  Color(0xff6B7A40)
-                ]
-            )
 
-           */
         ),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -87,11 +83,13 @@ class _SignUp extends State<SignUp> {
                               padding: const EdgeInsets.only(
                                   left: 15.0, right: 15.0, top: 15, bottom: 0),
                               child: TextFormField(
+                                controller:nombre2 ,
+
                                 validator: MultiValidator([
                                   RequiredValidator(errorText: "campo requerido")
                                 ]
                                 ),
-                                obscureText: true,
+
                                 decoration: InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
@@ -99,7 +97,8 @@ class _SignUp extends State<SignUp> {
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(color:Color(0xfffbc78d), width: 2.0),
                                     ),
-                                    labelText: 'Nombre',
+                                    labelText: 'Nombre ',
+
 
                                 ),
 
@@ -109,6 +108,7 @@ class _SignUp extends State<SignUp> {
                               padding: const EdgeInsets.only(
                                   left: 15.0, right: 15.0, top: 15, bottom: 0),
                               child: TextFormField(
+                                controller:email ,
                                 validator: MultiValidator([
                                   EmailValidator(errorText: "correo invalido"),
                                   RequiredValidator(errorText: "campo requerido")
@@ -129,11 +129,12 @@ class _SignUp extends State<SignUp> {
                               padding: const EdgeInsets.only(
                                   left: 15.0, right: 15.0, top: 15, bottom: 0),
                               child: TextFormField(
+                                controller:nickname ,
                                 validator: MultiValidator([
                                   RequiredValidator(errorText: "campo requerido")
                                 ]
                                 ),
-                                obscureText: true,
+
                                 decoration: InputDecoration(
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
@@ -141,21 +142,24 @@ class _SignUp extends State<SignUp> {
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color:Color(0xfffbc78d), width: 2.0),
                                   ),
-                                  labelText: 'Nickname',
+                                  labelText: 'Nickname ',
 
                                 ),
 
                               ),
                             ),
                             Padding(
+
                               padding: const EdgeInsets.only(
                                   left: 15.0, right: 15.0, top: 15, bottom: 0),
                               child: TextFormField(
+                                controller:password ,
                                 validator: MultiValidator([
                                   RequiredValidator(errorText: "campo requerido"),
                                   MinLengthValidator(8, errorText: "Minimo 8 caracteres")
                                 ]
                                 ),
+
                                 obscureText: true,
                                 decoration: InputDecoration(
                                     focusedBorder: OutlineInputBorder(
@@ -165,6 +169,7 @@ class _SignUp extends State<SignUp> {
                                       borderSide: BorderSide(color:Color(0xfffbc78d), width: 2.0),
                                     ),
                                     labelText: 'Contraseña',
+
                                     hintText: 'Minimo 8 caracteres'
                                 ),
 
@@ -178,16 +183,6 @@ class _SignUp extends State<SignUp> {
                               //padding: EdgeInsets.symmetric(horizontal: 15),
 
                               child:   DropdownButtonFormField<String>(
-                                  decoration: InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color:Color(0xfffbc78d), width: 2.0),
-                                    ),
-                                    labelText: 'Seleccionar',
-
-                                  ),
                                   key: formkeyDesc,
                                   validator: (value) => value == null?
                                   'Campo requerido' : null,
@@ -198,12 +193,32 @@ class _SignUp extends State<SignUp> {
                                               value: e,
                                               child: Text(e)
                                           )
+
                                   ).toList(),
-                                  onChanged: (String value) {
-                                    if(formkeyDesc.currentState.validate())
-                                      setState(() {
-                                        this.valueCategorias = value;
-                                      });
+                                  decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color(0xfffbc78d), width: 2.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color:Color(0xfffbc78d), width: 2.0),
+                                    ),
+                                    labelText: 'Seleccionar',
+
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      this.valueCategorias = value;
+                                      print("Opcion es " + this.valueCategorias);
+                                      if(this.valueCategorias =='Empresa'){
+                                        idcategoria=1;
+                                      }else{
+                                        idcategoria=2;
+                                      }
+
+
+                                      print("Resultado es " + this.idcategoria.toString());
+
+                                    });
                                   }
                               ),
                             )
@@ -226,7 +241,28 @@ class _SignUp extends State<SignUp> {
                                 side: BorderSide(color: Color(0xfffbc78d))
                             )
                         )),
-                      onPressed: validate,
+                      onPressed: () async{
+                        print("address es ${nombre2.text}");
+                        print("openHour es ${nickname.text}");
+                        print("closeHour es ${email.text}");
+                        print("attentionDays es ${password.text}");
+                        print("idZone es $idcategoria");
+
+
+
+
+                        //print(openTime.toString());
+
+                        var response = Provider.of<BoActiveProvider>(context, listen: false).
+                        createUser(
+                            nombre2.text,
+                            email.text,
+                            nickname.text,
+                            password.text,
+                            idcategoria,
+                            );
+                      },
+
                       child: Text(
                         'Registrar',
                         style: TextStyle(color: Colors.white, fontSize: 15),
@@ -265,5 +301,14 @@ class _SignUp extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  _determinarNumero(String opcion, var tipos) {
+    //print("Opcion es " + opcion);
+    //print("Tipos es " + tipos.toString());
+    return tipos.firstWhere((element) =>
+    element.name == opcion, orElse: () {
+      return null;
+    });
   }
 }

@@ -820,4 +820,38 @@ class BoActiveProvider extends ChangeNotifier {
       throw Exception('Failed to create .');
     }
   }
+  //Login-register
+
+  createUser(String name, String email, String nickname, String password,
+      int type) async {
+    print("Creating business...");
+
+    var url = Uri.https(this.apiURL, '/v1/api/user/publico/register');
+
+    final Map body = {
+      "name": name,
+      "email": email,
+      "nickname": nickname,
+      "password": password,
+      "idTypeUser": type
+    };
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: jsonEncode(body),
+    );
+    /*print("Fecha creacion es ");
+    print(createDate);*/
+
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to create');
+    }
+  }
 }
