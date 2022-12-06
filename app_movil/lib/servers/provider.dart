@@ -15,7 +15,8 @@ import '../DTO/Zone.dart';
 
 class BoActiveProvider extends ChangeNotifier {
   // Static data
-  final String apiURL = "serviceprojectspring.herokuapp.com";
+  final String lastApiURL = "serviceprojectspring.herokuapp.com";
+  final String apiURL = "projectspring-env.eba-3xmbucvq.us-east-1.elasticbeanstalk.com";
   List<TypeBusiness> allTypeBusiness = [];
   List<City> allCities = [];
   List<Municipality> allMunicipalities = [];
@@ -33,7 +34,7 @@ class BoActiveProvider extends ChangeNotifier {
   // Methods
   getCity() async {
     print("Getting city...");
-    var url = Uri.https(apiURL, 'api/city');
+    var url = Uri.http(apiURL, 'api/city');
     final response = await http.get(url);
     print("Response body: ${response.body}");
     return response.body; // retorna una lista
@@ -41,7 +42,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   getMunicipio() async {
     print("Getting municipio...");
-    var url = Uri.https(apiURL, 'api/municipalities');
+    var url = Uri.http(apiURL, 'api/municipalities');
     final response = await http.get(url);
     print(response.body);
     return response.body;
@@ -49,7 +50,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   getByIDMunicipio(int id) async {
     print("Getting municipio by id...");
-    var url = Uri.https(apiURL, 'api/municipalities/$id');
+    var url = Uri.http(apiURL, 'api/municipalities/$id');
     final response = await http.get(url);
     print(response.body);
     return response.body;
@@ -57,7 +58,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   Future<List<Comment>>getCommentbyid(int id) async {
     print("Getting Business...");
-    var url = Uri.https(apiURL, '/api/comment/$id');
+    var url = Uri.http(apiURL, '/api/comment/$id');
     final response = await http.get(url);
     print(response.body);
 
@@ -79,7 +80,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   Future<List<Rating>>getRanting() async {
     print("Getting ratings...");
-    var url = Uri.https(apiURL, '/api/rating/detail');
+    var url = Uri.http(apiURL, '/api/rating/detail');
     final response = await http.get(url);
     print(response.body);
 
@@ -104,7 +105,7 @@ class BoActiveProvider extends ChangeNotifier {
   deleteComment(int id) async {
     print("Deleting comment $id...");
     final http.Response response = await http.delete(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/comment/$id'),
+      Uri.parse(apiURL + "/api/comment/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -120,7 +121,7 @@ class BoActiveProvider extends ChangeNotifier {
   createComment(String message, int idUser, int idBusinness) async {
     print("Creating comments...");
     final response = await http.post(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/comment'),
+      Uri.parse(apiURL + "/api/comment"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -138,7 +139,7 @@ class BoActiveProvider extends ChangeNotifier {
   updateComment(int id, String message, int idUser, int idBussiness) async {
     print("Updating comment $id...");
     final response = await http.put(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/comment/$id'),
+      Uri.parse(apiURL + '/api/comment/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -160,7 +161,7 @@ class BoActiveProvider extends ChangeNotifier {
   createRanking(int score, int idBranch, int idUser) async {
     print("Creating ranking...");
     final response = await http.post(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/rating'),
+      Uri.parse(apiURL + "/api/rating"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -178,7 +179,7 @@ class BoActiveProvider extends ChangeNotifier {
   updateRating(int idRating, int score, bool favoriteStatus, int idBranch, int idUser) async {
     print("Updating rating $idRating...");
     final response = await http.put(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/rating/$idRating'),
+      Uri.parse(apiURL + "/api/rating/$idRating"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -202,7 +203,7 @@ class BoActiveProvider extends ChangeNotifier {
   //Business
   Future<List<Business>>getBusiness() async {
     print("Getting Business...");
-    var url = Uri.https(apiURL, '/api/business');
+    var url = Uri.http(apiURL, '/api/business');
     final response = await http.get(url);
     print(response.body);
 
@@ -222,7 +223,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   Future<List<Business>> getBusinessById(int id) async {
     print("Getting Business...");
-    var url = Uri.https(apiURL, '/api/business/$id');
+    var url = Uri.http(apiURL, '/api/business/$id');
     final response = await http.get(url);
     print(response.body);
 
@@ -242,7 +243,7 @@ class BoActiveProvider extends ChangeNotifier {
   Future<List<Business>> getBusinessByUserId(int id) async {
     print("Getting Business By User id...");
     final queryParams = {'userId': id.toString()};
-    var url = Uri.https(apiURL, '/api/business/', queryParams);
+    var url = Uri.http(apiURL, '/api/business/', queryParams);
     final response = await http.get(url);
     print(response.body);
 
@@ -267,7 +268,7 @@ class BoActiveProvider extends ChangeNotifier {
       DateTime createDate, DateTime updateDate) async {
     print("Creating business...");
 
-    var url = Uri.https(this.apiURL, '/api/business');
+    var url = Uri.http(this.apiURL, '/api/business');
 
     final Map body = {
       "name": name,
@@ -301,7 +302,7 @@ class BoActiveProvider extends ChangeNotifier {
   updateBusiness(int id, String name, String desc, int idTypeBusiness,
       int idUser, DateTime updateDate) async {
     var response = await http.put(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/business/$id'),
+      Uri.parse(apiURL + "/api/business/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -324,7 +325,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   deleteBusinessById(int id) async {
     final http.Response response = await http.delete(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/business/$id'),
+      Uri.parse(apiURL + "/api/business/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -342,7 +343,7 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting TypeBusiness...");
     List<TypeBusiness> list = [];
 
-    var url = Uri.https(apiURL, '/api/typeBusiness');
+    var url = Uri.http(apiURL, '/api/typeBusiness');
     final response = await http.get(url);
     print(response.body);
 
@@ -361,18 +362,16 @@ class BoActiveProvider extends ChangeNotifier {
 
   getTypeBusinessById(int id) async {
     print("Getting TypeBusiness By id...");
-    var url = Uri.https(apiURL, '/api/typeBusiness/$id');
+    var url = Uri.http(apiURL, '/api/typeBusiness/$id');
     final response = await http.get(url);
     print(response.body);
     return response.body;
   }
 
   createTypeBusiness(String name) async {
-    var url = Uri.https(this.apiURL, '/api/typeBusiness');
+    var url = Uri.http(this.apiURL, '/api/typeBusiness');
     var response = await http.post(
       url,
-      //return http.post(
-      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/typeBusiness'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -388,8 +387,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   updateTypeBusiness(int id, String name) async {
     var response = await http.put(
-      Uri.parse(
-          'https://serviceprojectspring.herokuapp.com/api/typeBusiness/$id'),
+      Uri.parse(apiURL + "/api/typeBusiness/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -406,8 +404,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   deleteTypeBusinessById(int id) async {
     final http.Response response = await http.delete(
-      Uri.parse(
-          'https://serviceprojectspring.herokuapp.com/api/typeBusiness/$id'),
+      Uri.parse(apiURL + "/api/typeBusiness/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -424,7 +421,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   Future<List<Location>> getLocation() async {
     print("Getting Location...");
-    var url = Uri.https(apiURL, '/api/location');
+    var url = Uri.http(apiURL, '/api/location');
     final response = await http.get(url);
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
@@ -444,7 +441,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   getLocationById(int id) async {
     print("Getting Location By id...");
-    var url = Uri.https(apiURL, '/api/location/$id');
+    var url = Uri.http(apiURL, '/api/location/$id');
     final response = await http.get(url);
     print(response.body);
 
@@ -462,11 +459,9 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   createLocation(double latitude, double longitude) async {
-    var url = Uri.https(this.apiURL, '/api/location');
+    var url = Uri.http(this.apiURL, '/api/location');
     var response = await http.post(
       url,
-      //return http.post(
-      // Uri.parse('https://serviceprojectspring.herokuapp.com/api/location'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -493,7 +488,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   updateLocation(int id, double latitude, double longitude) async {
     var response = await http.put(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/location/$id'),
+      Uri.parse(apiURL + "/api/location/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -512,7 +507,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   deleteLocation(int id) async {
     final http.Response response = await http.delete(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/location/$id'),
+      Uri.parse(apiURL + "/api/location/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -529,7 +524,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   Future<List<Branch>> getBranch() async {
     print("Getting all branches...");
-    var url = Uri.https(apiURL, '/api/branch');
+    var url = Uri.http(apiURL, '/api/branch');
     final response = await http.get(url);
     print(response.body);
 
@@ -561,7 +556,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   getBranchById(int id) async {
     print("Getting Branch By id...");
-    var url = Uri.https(apiURL, '/api/branch/$id');
+    var url = Uri.http(apiURL, '/api/branch/$id');
     final response = await http.get(url);
     print(response.body);
     return response.body;
@@ -571,7 +566,7 @@ class BoActiveProvider extends ChangeNotifier {
   Future<List<Branch>> getBranchByBusinessId(int id) async {
     print("Getting Branch By Business id $id...");
     final queryParams = {'businessId': id.toString()};
-    var url = Uri.https(apiURL, '/api/branch/', queryParams);
+    var url = Uri.http(apiURL, '/api/branch/', queryParams);
     final response = await http.get(url);
     print(response.body);
     String body = utf8.decode(response.bodyBytes);
@@ -612,11 +607,9 @@ class BoActiveProvider extends ChangeNotifier {
       int idBusiness,
       DateTime createDate,
       DateTime updateDate) async {
-    var url = Uri.https(this.apiURL, '/api/branch/json');
+    var url = Uri.http(this.apiURL, '/api/branch/json');
     var response = await http.post(
       url,
-      //return http.post(
-      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/branch'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -655,7 +648,7 @@ class BoActiveProvider extends ChangeNotifier {
       String createDate,
       DateTime updateDate) async {
     var response = await http.put(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/branch/json/$id'),
+      Uri.parse(apiURL + "/api/branch/json/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -683,7 +676,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   deleteBranch(int id) async {
     final http.Response response = await http.delete(
-      Uri.parse('https://serviceprojectspring.herokuapp.com/api/branch/json/$id'),
+      Uri.parse(apiURL + "/api/branch/json/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -701,7 +694,7 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting City...");
     List<City> list = [];
 
-    var url = Uri.https(apiURL, '/api/city');
+    var url = Uri.http(apiURL, '/api/city');
     final response = await http.get(url);
     //print(response.body);
 
@@ -719,11 +712,9 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   createCity(String name) async{
-    var url = Uri.https(this.apiURL, '/api/city');
+    var url = Uri.http(this.apiURL, '/api/city');
     var response = await http.post(
       url,
-      //return http.post(
-      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/typeBusiness'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -742,7 +733,7 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting Municipality...");
     List<Municipality> list = [];
 
-    var url = Uri.https(apiURL, '/api/municipalities');
+    var url = Uri.http(apiURL, '/api/municipalities');
     final response = await http.get(url);
     //print(response.body);
 
@@ -761,11 +752,9 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   createMunicipality(String name, int idCity) async{
-    var url = Uri.https(this.apiURL, '/api/municipalities');
+    var url = Uri.http(this.apiURL, '/api/municipalities');
     var response = await http.post(
       url,
-      //return http.post(
-      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/typeBusiness'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -784,7 +773,7 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting Zone...");
     List<Zone> list = [];
 
-    var url = Uri.https(apiURL, '/api/zone');
+    var url = Uri.http(apiURL, '/api/zone');
     final response = await http.get(url);
     //print(response.body);
 
@@ -803,11 +792,9 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   createZone(String name, int idMunicipalities) async{
-    var url = Uri.https(this.apiURL, '/api/zone');
+    var url = Uri.http(this.apiURL, '/api/zone');
     var response = await http.post(
       url,
-      //return http.post(
-      //Uri.parse('https://serviceprojectspring.herokuapp.com/api/typeBusiness'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -826,7 +813,7 @@ class BoActiveProvider extends ChangeNotifier {
       int type) async {
     print("Creating business...");
 
-    var url = Uri.https(this.apiURL, '/v1/api/user/publico/register');
+    var url = Uri.http(this.apiURL, '/v1/api/user/publico/register');
 
     final Map body = {
       "name": name,
@@ -861,7 +848,7 @@ class BoActiveProvider extends ChangeNotifier {
   login( String nickname, String password) async {
     print("Creating business...");
 
-    var url = Uri.https(this.apiURL, '/auth/signin');
+    var url = Uri.http(this.apiURL, '/auth/signin');
 
     final Map body = {
 

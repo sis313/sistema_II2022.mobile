@@ -51,7 +51,7 @@ GET https://serviceprojectspring.herokuapp.com/api/branch
 
 
 ### Get branch by business id
-GET https://serviceprojectspring.herokuapp.com/api/branch/?businessId=2
+GET https://serviceprojectspring.herokuapp.com/api/branch/?businessId=1
 
 ### Create branch
 POST https://serviceprojectspring.herokuapp.com/api/branch
@@ -69,3 +69,5 @@ Accept: application/json
   "idBusiness": 1,
   "status": 1
 }
+
+
