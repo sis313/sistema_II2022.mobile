@@ -30,7 +30,7 @@ class BoActiveProvider extends ChangeNotifier {
   List<Branch> allBranch = [];
   List<Rating> allRating = [];
   User currentUser;
-
+  List<Business> favs=[];
   // Return data
   String cityResponse;
 
@@ -39,6 +39,16 @@ class BoActiveProvider extends ChangeNotifier {
     return currentUser;
   }
 
+ List<Business> getFavs(){
+    return favs;
+
+ }
+
+//Setter
+  void addfav(Business business){
+    favs.add(business);
+
+  }
   // Methods
   getCity() async {
     print("Getting city...");
