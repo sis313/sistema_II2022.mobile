@@ -17,6 +17,7 @@ class BoActiveProvider extends ChangeNotifier {
   // Static data
   final String lastApiURL = "serviceprojectspring.herokuapp.com";
   final String apiURL = "projectspring-env.eba-3xmbucvq.us-east-1.elasticbeanstalk.com";
+  final String apiUriV2 = "sistema2022.uc.r.appspot.com";
   List<TypeBusiness> allTypeBusiness = [];
   List<City> allCities = [];
   List<Municipality> allMunicipalities = [];
@@ -257,6 +258,7 @@ class BoActiveProvider extends ChangeNotifier {
     List<Business> business = [];
 
     for(var item in jsonData){
+      if(item['status'] == 0) continue;
       Business b = Business();
       b.idBusiness = item['idBusiness'];
       b.name = item['name'];
@@ -329,8 +331,9 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   deleteBusinessById(int id) async {
-    final http.Response response = await http.delete(
-      Uri.parse(apiURL + "/api/business/$id"),
+    print('Deleting business id: $id');
+    final response = await http.delete(
+      Uri.parse("http://$apiURL/api/business/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -859,7 +862,7 @@ class BoActiveProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      throw Exception('Failed to create');
+      print('Failed to create');
     }
   }
 }
