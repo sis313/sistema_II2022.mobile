@@ -407,7 +407,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 idcategoria,
                 idUser,
                 now);
-
+            Navigator.pop(context);
+            setState(() {});
             /*Route route = MaterialPageRoute(builder: (context) => OwnerMenu());
             Navigator.push(context, route);*/
 

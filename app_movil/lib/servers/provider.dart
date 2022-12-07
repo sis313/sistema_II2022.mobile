@@ -324,7 +324,7 @@ class BoActiveProvider extends ChangeNotifier {
   updateBusiness(int id, String name, String desc, int idTypeBusiness,
       int idUser, DateTime updateDate) async {
     var response = await http.put(
-      Uri.parse(apiURL + "/api/business/$id"),
+      Uri.parse("http://$apiURL/api/business/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -638,8 +638,6 @@ class BoActiveProvider extends ChangeNotifier {
         "idZone": idZone,
         "idLocation": idLocation,
         "idBusiness": idBusiness,
-        /*"createDate": createDate.toIso8601String(),
-        "updateDate": updateDate.toIso8601String(),*/
         "status": 1
       }),
     );
@@ -660,12 +658,9 @@ class BoActiveProvider extends ChangeNotifier {
       String image,
       int idZone,
       int idLocation,
-      int idBusiness,
-      String createDate,
-      DateTime updateDate) async {
-    var url = Uri.http(this.apiURL, '/api/branch/json/$id');
+      int idBusiness) async {
     var response = await http.put(
-      url,
+      Uri.parse("http://$apiURL/api/branch/json/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -678,8 +673,6 @@ class BoActiveProvider extends ChangeNotifier {
         "idZone": idZone,
         "idLocation": idLocation,
         "idBusiness": idBusiness,
-        "createDate": createDate,
-        "updateDate": updateDate.toIso8601String(),
         "status": 1
       }),
     );

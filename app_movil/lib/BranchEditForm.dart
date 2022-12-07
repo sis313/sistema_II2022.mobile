@@ -203,11 +203,9 @@ class _BranchEditFormState extends State<BranchEditForm> {
                     new DateTime(now.year, now.month, now.day, closeTime.hour, closeTime.minute),
                     valueAtencion.toString(),
                     "https://sistemasii2022.s3.amazonaws.com/ab72364152e34adfa2128b4691a77976",
-                    idZone,
-                    idLocation,
-                    branch.idBusiness,
-                    branch.createDate,
-                    now);
+                    1,
+                    1,
+                    branch.idBusiness);
 
                 /*var response = Provider.of<BoActiveProvider>(context, listen: false).
                 createBranch(
