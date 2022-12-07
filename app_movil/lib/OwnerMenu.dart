@@ -20,12 +20,12 @@ class OwnerMenu extends StatefulWidget {
 
 class _OwnerMenuState extends State<OwnerMenu> {
 
-  int idUser = 1;
+
 
   final controllerSucursal = TextEditingController();
   final ctrollerNegocioName = TextEditingController();
   final ctrollerNegocioDesc = TextEditingController();
-
+  var idUser;
   //Datos de ubicacion
   String zona = "";
   String municipio = "";
@@ -73,7 +73,9 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
   @override
   Widget build(BuildContext context) {
-    myList = Provider.of<BoActiveProvider>(context, listen: false).getBusinessByUserId(1);
+   idUser = Provider.of<BoActiveProvider>(context, listen: false).getUser().idUser;
+   print(idUser);
+    myList = Provider.of<BoActiveProvider>(context, listen: false).getBusinessByUserId(idUser);
     tylist = Provider.of<BoActiveProvider>(context, listen: false).getTypeBusiness();
 
     return MaterialApp(
@@ -532,7 +534,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
               ctrollerNegocioName.text,
               ctrollerNegocioDesc.text,
               idcategoria,
-              1,
+              idUser,
               now,
               now);
           Navigator.pop(context);
