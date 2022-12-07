@@ -1,4 +1,5 @@
 import 'package:app_movil/Favoritos.dart';
+import 'package:app_movil/Mapa.dart';
 import 'package:app_movil/servers/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,9 @@ class Product {
   Product(this.image, this.name, this.price);
 }
 
+
+
+
 class ClienteListaServicios extends StatelessWidget {
   List products = [
     Product(
@@ -29,14 +33,23 @@ class ClienteListaServicios extends StatelessWidget {
         4),
   ];
   Future<List<Business>> business;
+  var ListBusinness;
+
+  void convertFutureListToList() async {
+    ListBusinness = await business ;
+    print("Lista de negocios> /n $ListBusinness");
+  }
+
   var id;
+  bool fav=false;
+
   @override
   Widget build(BuildContext context) {
     business = Provider.of<BoActiveProvider>(context, listen: false).getBusiness();
 
     return Scaffold(
-      backgroundColor: Color(0xfff6f7f9),
-      drawer: MenuLateral(),
+        backgroundColor: Color(0xfff6f7f9),
+        drawer: MenuLateral(),
         appBar: AppBar(
           title: Text("Servicios "),
           backgroundColor: Color(0xffa7d676),
@@ -50,25 +63,39 @@ class ClienteListaServicios extends StatelessWidget {
               Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
             },
           ),
-
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    convertFutureListToList();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MapSample(ListBusinness)));
+                  },
+                  child: Icon(
+                    Icons.map_sharp,
+                    size: 26.0,
+                  ),
+                )),
+          ],
         ),
 
-      body: FutureBuilder(
-        future: business,
-        builder: (context, snapshot){
-          if(snapshot.hasData){
-            return items(snapshot.data, context);
-          }
-          else if (snapshot.data == null){
+        body: FutureBuilder(
+          future: business,
+          builder: (context, snapshot){
+            if(snapshot.hasData){
+
+              return items(snapshot.data, context);
+            }
+            else if (snapshot.data == null){
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return Center(
               child: CircularProgressIndicator(),
             );
-          }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      )
+          },
+        )
     );
   }
 
@@ -120,21 +147,19 @@ class ClienteListaServicios extends StatelessWidget {
                       children: <Widget>[
                         Text("\Estrellas :" + e.idBusiness.toString()),
                         SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 1.0,
+                          ),
+                          child:  IconButton(
+                              onPressed: (){
+                                //print("changing fav... $fav");
+                                //fav = !fav;
+                                Provider.of<BoActiveProvider>(context, listen: false).createRanking(4, e.idBusiness, 1);
+                              },
+                              icon: Icon((!fav)?Icons.favorite_border : Icons.favorite, color: Colors.red)
+                          ),
 
-
-                        GestureDetector(
-
-                            onTap:  () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) =>Favoritos()));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 1.0,
-
-                              ),
-                              child:  Icon(Icons.favorite_border),
-
-                            )
                         ),
                       ],
                     ),

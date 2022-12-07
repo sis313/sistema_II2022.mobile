@@ -36,20 +36,38 @@ Accept: application/json
   "status": 1
 }
 
-### Get all municipalities
+
+############################ Business ##############################
+
+### Get branch
+GET https://serviceprojectspring.herokuapp.com/api/business/?userId=1
+
+
+
+############################ Branch ##############################
+
+### Get branch
+GET https://serviceprojectspring.herokuapp.com/api/branch
+
+
+### Get branch by business id
+GET https://serviceprojectspring.herokuapp.com/api/branch/?businessId=1
+
+### Create branch
 POST https://serviceprojectspring.herokuapp.com/api/branch
 Content-Type: application/json
 Accept: application/json
 
 {
-        "address": "av. sth",
-        "openHour": "10:00:00",
-        "closeHour": "23:00:00",
-        "attentionDays": "lunes",
-        "image": "link.jpg",
-        "idZone": 1,
-        "idLocation": 1,
-        "idBusiness": 1,
-        "status": 1
+  "address": "av. sth",
+  "openHour": "10:00:00",
+  "closeHour": "23:00:00",
+  "attentionDays": "lunes",
+  "image": "link.jpg",
+  "idZone": 1,
+  "idLocation": 1,
+  "idBusiness": 1,
+  "status": 1
 }
+
 

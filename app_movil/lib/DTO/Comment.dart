@@ -1,9 +1,9 @@
 class Comment{
   int idComment;
   String message;
-  int idBussiness;
+  int idUser;
+  int idBusiness;
   int status;
-  int id;
 
-  Comment({this.idComment, this.message, this.idBussiness, this.status});
+  Comment({this.idComment, this.message, this.idUser, this.idBusiness, this.status});
 }

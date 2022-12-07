@@ -1,13 +1,21 @@
 import 'dart:async';
+import 'dart:core';
+import 'package:app_movil/DTO/Branch.dart';
+import 'package:app_movil/DTO/BranchInfo.dart';
+import 'package:app_movil/DTO/Location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:app_movil/servers/provider.dart';
+import 'package:provider/provider.dart';
 
-import 'DTO/Negocio.dart';
-import 'DTO/Sucursal.dart';
+import 'DTO/Business.dart';
 
 class MapSample extends StatefulWidget {
+  final List<Business> ListBusiness;
+  MapSample(this.ListBusiness);
+
   //const MapSample({super.key});
 
   @override
@@ -16,9 +24,13 @@ class MapSample extends StatefulWidget {
 
 class MapSampleState extends State<MapSample> {
 
+  List<Branch> branches = [];
+  List<BranchInfo> sucursales = [];
+
   var user_position ;
   bool showUser = false;
-  double lminLat, lmaxLat, lminLon, lmaxLon, radio = 5.0;
+  bool loading = true;
+  double lminLat, lmaxLat, lminLon, lmaxLon, radio = 1.0;
   List FilterBranch = [];
   List<Marker> listMarks = [];
 
@@ -26,7 +38,10 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
+    loading = true;
+    setBranches(widget.ListBusiness);
   }
+
 
 
 
@@ -38,12 +53,11 @@ class MapSampleState extends State<MapSample> {
     setState(() {
       user_position  = position;
       showUser = true;
-
     });
 
     var m = Marker(
-      //point: LatLng(-16.493730639624058, -68.13252864400924),
-        point: LatLng(user_position.latitude, user_position.longitude),
+        point: LatLng(-16.493730639624058, -68.13252864400924),
+        //point: LatLng(user_position.latitude, user_position.longitude),
         builder: (context) => Icon(
           Icons.person_pin,
           color: Colors.red,
@@ -51,30 +65,21 @@ class MapSampleState extends State<MapSample> {
         )
     );
     listMarks.add(m);
-    //CalulateLimits(-16.493730639624058, -68.13252864400924);
-    CalulateLimits(position.latitude, position.longitude);
+    CalulateLimits(-16.493730639624058, -68.13252864400924);
+    //CalulateLimits(position.latitude, position.longitude);
     BranchOfficeFilter();
     SetMarkers(FilterBranch);
 
   }
 
-  //Datos de prueba para listado
-  var negocios = [
-    Negocio(1, 'Nombre Negocio 1', [Sucursal(1, 'Sucursal 1', ''), Sucursal(2, 'Sucursal 2', '')]),
-    Negocio(2, 'Nombre Negocio 2', [Sucursal(3, 'Sucursal 1', '')]),
-    Negocio(3, 'Nombre Negocio 3', [Sucursal(4, 'Sucursal 1', '')]),
-    Negocio(4, 'Nombre Negocio 4', [Sucursal(5, 'Sucursal 1', '')]),
-    Negocio(5, 'Nombre Negocio 5', [Sucursal(6, 'Sucursal 1', '')]),
-    Negocio(6, 'Nombre Negocio 6', [Sucursal(7, 'Sucursal 1', '')]),
-  ];
 
-  var Sucursales = [
+  /*var Sucursales = [
     {1, 'sucursal 1', -16.509119931820113, -68.12710156327141},
     {2, 'sucursal 2', -36.493730639624058,-14.493730639624058},
     {3, 'sucursal 3', -22.493730639624058,-60.493730639624058},
     {4, 'sucursal 4', -46.493730639624058,-23.493730639624058},
     {5, 'sucursal 5', -50.493730639624058,-3.493730639624058},
-  ];
+  ];*/
 
 
   void CalulateLimits( userLat, userLon )  {
@@ -91,63 +96,79 @@ class MapSampleState extends State<MapSample> {
   void BranchOfficeFilter(){
 
     print("filter");
-    for(var branch in Sucursales) {
-      double lat = branch.elementAt(2);
-      double lon = branch.elementAt(3);
-      //print('$lat, $lon');
+    print('$lminLat');
+    print('$lmaxLat');
+    for(var branch in sucursales) {
+      double lat = branch.latitude;
+      double lon = branch.longitude;
+      print('$lat, $lon');
       if ((lat > lminLat && lat < lmaxLat) && (lon > lminLon && lon < lmaxLon)){
+
         //print('$lat, $lon');
         FilterBranch.add(branch);
       }
 
     }
+    print("filter branch = ${FilterBranch.length}");
   }
 
   void SetMarkers(branches){
-    for(var b in branches) {
+    print("set marker");
+    print("lista suc = ${branches.length}");
+    for(BranchInfo b in branches) {
       //print(b.elementAt(2));
-      String suc = b.elementAt(1);
+      //String suc = b.elementAt(1);
       Marker m = Marker(
-          point: LatLng(b.elementAt(2), b.elementAt(3)),
+          point: LatLng(b.latitude, b.longitude),
           builder: (context) => GestureDetector(
+              child: Icon(Icons.pin_drop, size: 40),
               onTap: (){
-                setState(() {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AlertDialog(
-                              title: Text(suc),
-                              content: Column(
-                                children: [
-                                  Text("Info 1"),
-                                  Text("Info 2"),
-                                  Text("Info 3"),
-                                ],
-                              ),
-                            )
-                          ],
-                        );
-                      }
-                  );
-                });
+                showModalBottomSheet (
+                    context: context,
+                    builder: (builder)=> info(b));
+
               },
-              child: Icon(Icons.pin_drop, size: 40)
+
           ),
       );
       listMarks.add(m);
     }
     print(listMarks.length);
+    setState((){
+      loading = false;
+    });
+
   }
 
-
+  void setBranches(List<Business> listBusiness) async {
+    //print('length business ${listBusiness.length}');
+    for (Business b in listBusiness) {
+      print(b.idBusiness);
+      branches = await Provider.of<BoActiveProvider>(context, listen: false).getBranchByBusinessId(b.idBusiness);
+      print(branches);
+      print('------------------');
+      if(branches.length > 0){
+        for (Branch br in branches) {
+          Location location = await Provider.of<BoActiveProvider>(context, listen: false).getLocationById(br.idLocation);
+          print("dirrecion> $location");
+          BranchInfo bi = BranchInfo();
+          bi.name = b.name;
+          bi.address = br.address;
+          bi.openHour = br.openHour;
+          bi.closeHour = br.closeHour;
+          bi.attentionDays = br.attentionDays;
+          bi.latitude = location.latitude;
+          bi.longitude = location.longitude;
+          sucursales.add(bi);
+        }
+      }
+    }
+    print('length sucursales ${sucursales.length}');
+    getCurrentLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     final elevButtonStyle = ElevatedButton.styleFrom(
       primary: Colors.blue,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -174,7 +195,7 @@ class MapSampleState extends State<MapSample> {
                       source: 'OpenStreetMap contributors',
                       onSourceTapped: null,
                     ),
-                    Align(
+                    /*Align(
                     alignment: Alignment(0.9, 0.9),
                     child:
                     ElevatedButton(
@@ -185,16 +206,18 @@ class MapSampleState extends State<MapSample> {
                       ),
                       style: elevButtonStyle,
                       onPressed: () {
-                        getCurrentLocation();
+                        //setBranches(widget.ListBusiness);
                       },),
-                  )],
+                  )*/
+                  ],
+
 
                   children: [
                     TileLayer(
                       urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                       subdomains: ['a', 'b', 'c'],
                     ),
-                    MarkerLayer(
+                    loading ? LoadingWidget():MarkerLayer(
                       markers: listMarks
                     )
                   ],
@@ -207,27 +230,117 @@ class MapSampleState extends State<MapSample> {
 
   }
 
-  info (Sucursal sucursal) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AlertDialog(
-                title: Text(sucursal.name),
-                content: Column(
-                  children: [
-                    Text(sucursal.address),
-                    Text("Info 2"),
-                    Text("Info 3"),
-                  ],
-                )
+
+  info (BranchInfo b) {
+    return Column(
+      children: <Widget>[
+        Container(
+          color: Color(0xffa7d676),
+          padding: EdgeInsets.all(10),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Center(
+                  child: Text(
+                    b.name,
+                    style: TextStyle(
+                        fontSize: 24
+                    ),
+
+                  ),
+                ),
               )
             ],
-          );
-        }
+          ),
+        ),
+        Row(
+          children: <Widget>[
+            SizedBox(
+              width: 20,
+            ),
+            Icon(
+              Icons.pin_drop_outlined,
+              size: 40,
+              color: Color(0xff85cbcc),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Text(
+                "Dirección: ${b.address}",
+                style: TextStyle(
+                    fontSize: 24
+                ),
+
+              ),
+
+            ),
+          ],
+        ),
+
+        Row(
+          children: <Widget>[
+            SizedBox(
+              width: 20,
+            ),
+            Icon(
+              Icons.watch_later_outlined,
+              size: 40,
+              color: Color(0xff85cbcc),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Text(
+                "Horario de atención: \n${b.openHour} - ${b.closeHour}",
+                style: TextStyle(
+                    fontSize: 24
+                ),
+
+              ),
+
+            ),
+          ],
+        ),
+
+        Row(
+          children: <Widget>[
+            SizedBox(
+              width: 20,
+            ),
+            Icon(
+              Icons.calendar_month_outlined,
+              size: 40,
+              color: Color(0xff85cbcc),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Text(
+                "Atención los días: \n${b.attentionDays}",
+                style: TextStyle(
+                    fontSize: 24
+                ),
+
+              ),
+
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget LoadingWidget () {
+    return Center(
+      child: Container(
+        width: 30,
+        height: 30,
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 

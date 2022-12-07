@@ -33,29 +33,14 @@ ServicioDetail(this.id);
 }
 
 class _ServicioDetailState extends State<ServicioDetail> {
-
-
-
-  /*List products = [
-    Product(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdygFdB_FfadQmmrDZUgLeJTILZBTU0d9Ffs3mLpYSh2rulaJo&usqp=CAU',
-        'Tienda 1',
-        5,0),
-    Product(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdygFdB_FfadQmmrDZUgLeJTILZBTU0d9Ffs3mLpYSh2rulaJo&usqp=CAU',
-        'Tienda 2',
-        4,0),
-  ];*/
   Future<List<Business>> business;
-
-  
 
   @override
   Widget build(BuildContext context) {
-
     business = Provider.of<BoActiveProvider>(context, listen: false).getBusinessById(widget.id) ;
     print('object');
     print(business.toString());
+
     return Scaffold(
       backgroundColor:Color(0xfff6f7f9),
       appBar: AppBar(
@@ -71,10 +56,9 @@ class _ServicioDetailState extends State<ServicioDetail> {
         ),
         actions: [
           IconButton(
-            onPressed: () {      Comment a= Comment();
-
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>ComentariosNegocio()));
-
+            onPressed: () {
+              Comment a= Comment();
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>ComentariosNegocio(widget.id)));
             },
             icon: const Icon(
               Ionicons.chatbox,
@@ -82,12 +66,12 @@ class _ServicioDetailState extends State<ServicioDetail> {
             ),
           ),
         ],
-      ));
-    /* body: FutureBuilder(
+      ),
+    body: FutureBuilder(
         future: Provider.of<BoActiveProvider>(context, listen: false).getBusinessById(widget.id) ,
         builder: (context, snapshot){
           if(snapshot.hasData){
-            //return items(snapshot.data, context);
+            return items(snapshot.data, context);
           }
           else if (snapshot.data == null){
             return Center(
@@ -136,13 +120,14 @@ class _ServicioDetailState extends State<ServicioDetail> {
 
           ],
         ),
-      ),/*
+      ),
     );
 
   }
 
-  */Widget items(List<Business> products, BuildContext context){
+  Widget items(List<Business> products, BuildContext context){
     print('------------------------');
+    print('desde deatil');
 print(products.length);
 return   Column(
 
@@ -154,15 +139,15 @@ return   Column(
               (e) =>
 
                 Column(
+                  mainAxisSize: MainAxisSize.min,
 
-
-        children: [
+        children: <Widget> [
 
           Flexible(
-
+            fit: FlexFit.loose,
             child: Container(
 
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height*0.30,
 
 
               padding: const EdgeInsets.only(bottom: 20),
@@ -175,15 +160,10 @@ return   Column(
           ),
 
           Flexible(
-
-
-
+            fit: FlexFit.loose,
             child: Stack(
 
-              children: [
-
-
-
+              children:<Widget> [
                 Container(
 
                   padding: const EdgeInsets.only(top: 40, right: 14, left: 14),
@@ -272,6 +252,6 @@ return   Column(
 
 
 );
-  }*/
+  }
 
-}}
+}
