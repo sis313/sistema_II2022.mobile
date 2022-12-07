@@ -57,9 +57,9 @@ class MapSampleState extends State<MapSample> {
 
     var m = Marker(
         //for emulator
-        point: LatLng(-16.493730639624058, -68.13252864400924),
-      //for apk
-        //point: LatLng(user_position.latitude, user_position.longitude),
+        //point: LatLng(-16.493730639624058, -68.13252864400924),
+      //for apk12345678
+        point: LatLng(user_position.latitude, user_position.longitude),
         builder: (context) => Icon(
           Icons.person_pin,
           color: Colors.red,
@@ -68,9 +68,9 @@ class MapSampleState extends State<MapSample> {
     );
     listMarks.add(m);
     // for emulator
-    CalulateLimits(-16.493730639624058, -68.13252864400924);
+    //CalulateLimits(-16.493730639624058, -68.13252864400924);
     // for apk
-    //CalulateLimits(position.latitude, position.longitude);
+    CalulateLimits(position.latitude, position.longitude);
     BranchOfficeFilter();
     SetMarkers(FilterBranch);
 
