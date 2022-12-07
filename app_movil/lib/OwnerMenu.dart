@@ -1,6 +1,16 @@
+import 'package:app_movil/BranchDetail.dart';
+import 'package:app_movil/LoginEmpresa.dart';
+
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:provider/provider.dart';
+
+import 'DTO/Business.dart';
 import 'DTO/Negocio.dart';
 import 'DTO/Sucursal.dart';
+import 'DTO/TypeBusiness.dart';
+import 'servers/provider.dart';
 
 class OwnerMenu extends StatefulWidget {
 
@@ -10,11 +20,36 @@ class OwnerMenu extends StatefulWidget {
 
 class _OwnerMenuState extends State<OwnerMenu> {
 
-  //Valor que se mostrara al inicio en el dropdaown menu
-  String value = '';
+  int idUser = 1;
+
+  final controllerSucursal = TextEditingController();
+  final ctrollerNegocioName = TextEditingController();
+  final ctrollerNegocioDesc = TextEditingController();
+
+  //Datos de ubicacion
+  String zona = "";
+  String municipio = "";
+  String ciudad = "";
+
+  //Hora de apertura
+  TimeOfDay openTime = TimeOfDay.now();
+
+  //Hora de apertura
+  TimeOfDay closeTime = TimeOfDay.now();
 
   //Datos de prueba para dropdown
-  var categorias = ['', 'Categoria 1', 'Categoria 2', 'Categoria 3'];
+  //var vectorCategorias  = ['Categoria 1', 'Categoria 2', 'Categoria 3'];
+  var vectorCategorias;
+  int idcategoria = 0;
+
+  //Valor que se mostrara al inicio en el dropdown menu
+  String valueCategorias;
+
+  //Valor que se mostrara al inicio en el dropdown menu
+  String valueAtencion;
+
+  //Datos de prueba para dropdown
+  var vectorAtencion = ['Lunes a Viernes', 'Lunes a Sabado', 'Toda la semana'];
 
   //Datos de prueba para listado
   var negocios = [
@@ -26,13 +61,38 @@ class _OwnerMenuState extends State<OwnerMenu> {
     Negocio(6, 'Nombre Negocio 6', [Sucursal(7, 'Sucursal 1', '')]),
   ];
 
+  // Provider vars
+  Future<List<Business>> myList;
+  Future<List<TypeBusiness>> tylist;
+
+  @override
+  void initState(){
+    super.initState();
+    vectorCategorias = Provider.of<BoActiveProvider>(context, listen: false).getTypeBusiness();
+  }
+
   @override
   Widget build(BuildContext context) {
+    myList = Provider.of<BoActiveProvider>(context, listen: false).getBusinessByUserId(1);
+    tylist = Provider.of<BoActiveProvider>(context, listen: false).getTypeBusiness();
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: AppBar(
             title: Text('Mis Negocios'),
+            backgroundColor: Color(0xffa7d676),
+            elevation: 1,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LoginEmpresa()));
+              },
+            ),
+
             actions: [
               PopupMenuButton<int>(
                   onSelected: (item) => _onSelected(context, item),
@@ -48,53 +108,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      AlertDialog(
-                                        title: const Text('Nuevo Negocio'),
-                                        content: Column(
-                                          children: [
-                                            const TextField(
-                                              decoration: InputDecoration(
-                                                border: UnderlineInputBorder(),
-                                                labelText: 'Nombre de Negocio',
-                                              ),
-                                            ),
-                                            SizedBox(height: 10),
-                                            const TextField(
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                hintText: 'Descripcion',
-                                              ),
-                                            ),
-                                            DropdownButton<String>(
-                                                value: value,
-                                                items: categorias.map(
-                                                        (String e) =>
-                                                        DropdownMenuItem<String>(
-                                                            value: e,
-                                                            child: Text(e)
-                                                        )
-                                                ).toList(),
-                                                onChanged: (String value) {
-                                                  setState(() {
-                                                    this.value = value;
-                                                  });
-                                                }
-                                            )
-                                          ],
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('Cancelar')
-                                          ),
-                                          TextButton(
-                                              onPressed: () {},
-                                              child: const Text('Registrar')
-                                          ),
-                                        ],
-                                      )
+                                      anadirNegocio()
                                     ],
                                   );
                                 }
@@ -111,11 +125,19 @@ class _OwnerMenuState extends State<OwnerMenu> {
               )
             ],
           ),
-          body: ListView.builder(
-            itemCount: negocios.length,
-            itemBuilder: (context, index){
-              return Card(
-                child: negocio(negocios[index]),
+          body: FutureBuilder(
+            future: myList,
+            builder: (context, snapshot){
+              if(snapshot.hasData){
+                return afterRequest(snapshot.data);
+              }
+              else if (snapshot.data == null){
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
               );
             },
           )
@@ -123,133 +145,113 @@ class _OwnerMenuState extends State<OwnerMenu> {
     );
   }
 
-  //Lista de widgets a partir de lista con datos
-  List<Widget> listarNegocios(List<Negocio> negocios){
-
-    List<Widget> widgets = [];
-
-    for(int i = 0; i < negocios.length; i++){
-      widgets.add(negocio(negocios[i]));
-    }
-
-    return widgets;
-  }
-
-  Widget negocio(Negocio negocio){
-
-    String nombre = negocio.nombre.toString();
-    int sucursales = negocio.sucursales.length;
-
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(width: 10),
-            Icon(
-              Icons.house,
-              size: 50,
-            ),
-            SizedBox(width: 10),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  nombre,
-                  style: TextStyle(
-                      fontSize: 18
-                  ),
-                ),
-                Text(
-                  'Numero de sucursales ($sucursales)',
-                  style: TextStyle(
-                      fontSize: 18
-                  ),
-                )
-              ],
-            ),
-            SizedBox(width: 50),
-            IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: (){
-                  setState(() {
-                    if(negocio.wState == true)
-                      negocio.wState = false;
-                    else
-                      negocio.wState = true;
-                    print(negocio.wState);
-                  });
-                },
-                icon: (negocio.wState ?
-                Icon(Icons.indeterminate_check_box_outlined, size: 50) :
-                Icon(Icons.add_box_outlined, size: 50))
-            )
-          ],
-        ),
-        (negocio.wState ?
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: sucursales,
-            itemBuilder: (_, index){
-              return sucursal(negocio.sucursales[index]);
-            })
-            : SizedBox(height: 0))
-      ],
+  /*-------------------------------------*/
+  /* WIDGET FUTURO LUEGO DE LA PETICION */
+  /*-------------------------------------*/
+  Widget afterRequest(List<Business> myList){
+    return ListView.builder(
+      padding: const EdgeInsets.all(17.0),
+      itemCount: myList.length,
+      itemBuilder: (context, index){
+        /*return Card(
+          child: Text("${myList[index].idTypeBusiness}")
+        );*/
+        /*if(myList[index].status != false)
+          return Card();
+        else*/
+          return Card(
+            child: businessCard(myList[index]),
+          );
+      },
     );
   }
 
-  Widget sucursal (Sucursal sucursal){
+  /*-------------------------------------*/
+  /* WIDGET PARA EL LISTADO REFACTORED */
+  /*-------------------------------------*/
+  Widget businessCard (Business business){
+    return GestureDetector(
+      onHorizontalDragStart: (details){
+        showDialog(
+            context: context,
+            builder: (context) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AlertDialog(
+                    title: const Text('Estás seguro?'),
+                    content: Column(
+                      children: [
+                        Text("Esta acción no puede deshacerse"),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Cancelar',style: TextStyle(color: Colors.white, fontSize: 15)),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)
+                            ),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: BorderSide(color: Color(0xffef5a68))
+                                )
+                            )),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          var response = Provider.of<BoActiveProvider>(context, listen: false).
+                            deleteBusinessById(business.idBusiness);
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Eliminar',style: TextStyle(color: Colors.white, fontSize: 15)),style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+                          ),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Color(0xffa7d676))
+                              )
+                          )),
 
-    String nombre = sucursal.nombre.toString();
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 25,
-          width: 20,
-        ),
-        Text(
-          nombre,
-          style: TextStyle(
-              fontSize: 15
-          ),
-        ),
-        SizedBox(
-          height: 25,
-          width: 190,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: (){
-                  setState(() {
-                    editarSucursal(negocios[0].sucursales[0]);
-                  });
-                },
-                icon: Icon(Icons.edit)
-            ),
-            IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: (){
-                  setState(() {
-                    eliminarSucursal();
-                  });
-                },
-                icon: Icon(Icons.delete_outline)
-            )
-          ],
-        )
-      ],
+                      ),
+                    ],
+                  )
+                ],
+              );
+            }
+        );
+      },
+      onLongPress: (){
+        showDialog(
+            context: context,
+            builder: (context) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  editarNegocio(business)
+                ],
+              );
+            }
+        );
+      },
+      onTap: (){
+        Route route = MaterialPageRoute(builder: (context) => BranchDetail(business.idBusiness));
+        Navigator.push(context, route);
+      },
+      child: ListTile(
+        leading: Icon(Icons.shop_2),
+        title: Text(business.name, overflow: TextOverflow.ellipsis, maxLines: 1,),
+      ),
     );
   }
 
+/*-------------------------------------*/
   void _onSelected(BuildContext context, int item){
     switch(item){
       case 0:
@@ -262,91 +264,309 @@ class _OwnerMenuState extends State<OwnerMenu> {
     }
   }
 
-  editarSucursal(Sucursal sucursal){
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AlertDialog(
-                title: const Text('Editar Sucursal'),
-                content: Column(
-                  children: [
-                    const TextField(
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'ID',
-                        enabled: false,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    const TextField(
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Nombre de la sucursal',
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    const TextField(
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        hintText: 'Dirección',
-                      ),
-                    ),
-                  ],
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Cancelar')
-                  ),
-                  TextButton(
-                      onPressed: () {},
-                      child: const Text('Editar')
-                  ),
-                ],
-              )
-            ],
+/*-------------------------------------*/
+/*WIDGETS PARA FORMULARIOS*/
+  Widget anadirNegocio(){
+    return FutureBuilder(
+      future: tylist,
+      builder: (context, snapshot){
+        if(snapshot.hasData){
+          return createForm(snapshot.data);
+        }
+        else if (snapshot.data == null){
+          return Center(
+            child: CircularProgressIndicator(),
           );
         }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 
-  eliminarSucursal(){
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AlertDialog(
-                title: const Text('Estás seguro?'),
-                content: Column(
-                  children: [
-                    Text("Esta acción no puede deshacerse"),
-                  ],
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Cancelar')
-                  ),
-                  TextButton(
-                      onPressed: () {},
-                      child: const Text('Eliminar')
-                  ),
-                ],
-              )
-            ],
+  Widget editarNegocio(Business business){
+    return FutureBuilder(
+      future: tylist,
+      builder: (context, snapshot){
+        if(snapshot.hasData){
+          return editForm(snapshot.data, business);
+        }
+        else if (snapshot.data == null){
+          return Center(
+            child: CircularProgressIndicator(),
           );
         }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
+  }
+
+  Widget editForm(List<TypeBusiness> tylist, Business business){
+    GlobalKey<FormState> formkeyName = GlobalKey<FormState>();
+    GlobalKey<FormState> formkeyDesc = GlobalKey<FormState>();
+
+    ctrollerNegocioName.text = business.name;
+    ctrollerNegocioDesc.text = business.description;
+
+    return AlertDialog(
+      title: const Text('Editar Negocio'),
+      content: Form(
+        child: Column(
+          children: [
+            Padding( padding: EdgeInsets.all(5)),
+            TextFormField(
+              controller: ctrollerNegocioName,
+              autovalidateMode: AutovalidateMode.always,
+              key: formkeyName,
+              validator: MultiValidator([
+                RequiredValidator( errorText: "Campo Requerido"),
+              ]),
+              decoration: InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Nombre de Negocio *',
+              ),
+            ),
+            SizedBox(height: 10),
+            Padding( padding: EdgeInsets.all(2)),
+            TextFormField(
+              controller: ctrollerNegocioDesc,
+              decoration: InputDecoration(
+                border: UnderlineInputBorder(),
+                hintText: 'Descripcion',
+              ),
+            ),
+            Padding(padding: EdgeInsets.all(10)),
+            FutureBuilder(
+                future: vectorCategorias,
+                builder: (context, snapshot){
+                  if(snapshot.hasData){
+                    return DropdownButtonFormField<String>(
+                        key: formkeyDesc,
+                        validator: (value) => value == null?
+                        'Campo requerido' : null,
+                        value: valueCategorias,
+                        items: snapshot.data.map<DropdownMenuItem<String>>(
+                                (value) =>
+                                DropdownMenuItem<String>(
+                                  value: value.name.toString(),
+                                  child: Text(value.name.toString()),
+                                )).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            this.valueCategorias = value;
+                            List<TypeBusiness> lista = snapshot.data;
+                            idcategoria = this._determinarNumero(this.valueCategorias, lista).id;
+                            print("Resultado es " + this._determinarNumero(this.valueCategorias, lista).id.toString());
+                          });
+                        }
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+            )
+          ],
+        ),
+      ),
+      actions: [
+        ElevatedButton(
+          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Color(0xffef5a68))
+                  )
+              )
+          ),
+          onPressed: () { Navigator.pop(context);},
+          child: Text(
+            'Cancelar',
+            style: TextStyle(color: Colors.white, fontSize: 15),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            print("IdBusiness es ${business.idBusiness}");
+            print("name es ${ctrollerNegocioName.text}");
+            print("desc es ${ctrollerNegocioDesc.text}");
+            print("idTypeBusiness es $idcategoria");
+            print("idUser es $idUser");
+
+            DateTime now = new DateTime.now();
+
+            var response = Provider.of<BoActiveProvider>(context, listen: false).
+            updateBusiness(
+                business.idBusiness,
+                ctrollerNegocioName.text,
+                ctrollerNegocioDesc.text,
+                idcategoria,
+                idUser,
+                now);
+
+            /*Route route = MaterialPageRoute(builder: (context) => OwnerMenu());
+            Navigator.push(context, route);*/
+
+            //print("REsponse es " + response.toString());
+          },
+          child: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Color(0xffa7d676))
+                    )
+                )),
+
+            child: Text(
+              'Registrar',
+              style: TextStyle(color: Colors.white, fontSize: 15),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget createForm(List<TypeBusiness> tylist){    GlobalKey<FormState> formkeyName = GlobalKey<FormState>();
+  GlobalKey<FormState> formkeyDesc = GlobalKey<FormState>();
+  return AlertDialog(
+    title: const Text('Nuevo Negocio'),
+    content: Form(
+      child: Column(
+        children: [
+          Padding( padding: EdgeInsets.all(5)),
+          TextFormField(
+            controller: ctrollerNegocioName,
+            autovalidateMode: AutovalidateMode.always,
+            key: formkeyName,
+            validator: MultiValidator([
+              RequiredValidator( errorText: "Campo Requerido"),
+            ]),
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Nombre de Negocio *',
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding( padding: EdgeInsets.all(2)),
+          TextFormField(
+            controller: ctrollerNegocioDesc,
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(),
+              hintText: 'Descripcion',
+            ),
+          ),
+          Padding(padding: EdgeInsets.all(10)),
+          FutureBuilder(
+              future: vectorCategorias,
+              builder: (context, snapshot){
+                if(snapshot.hasData){
+                  return DropdownButtonFormField<String>(
+                      key: formkeyDesc,
+                      validator: (value) => value == null?
+                      'Campo requerido' : null,
+                      value: valueCategorias,
+                      items: snapshot.data.map<DropdownMenuItem<String>>(
+                              (value) =>
+                              DropdownMenuItem<String>(
+                                value: value.name.toString(),
+                                child: Text(value.name.toString()),
+                              )).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          this.valueCategorias = value;
+                          //print("Opcion es " + this.valueCategorias);
+                          List<TypeBusiness> lista = snapshot.data;
+
+                          idcategoria = this._determinarNumero(this.valueCategorias, lista).id;
+
+                          print("Resultado es " + this._determinarNumero(this.valueCategorias, lista).id.toString());
+                          //this._determinarNumero(this.valueCategorias, lista);
+                        });
+                      }
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+          )
+        ],
+      ),
+    ),
+    actions: [
+      ElevatedButton(
+        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xffef5a68)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Color(0xffef5a68))
+                )
+            )
+        ),
+        onPressed: () { Navigator.pop(context);},
+        child: Text(
+          'Cancelar',
+          style: TextStyle(color: Colors.white, fontSize: 15),
+        ),
+      ),
+      TextButton(
+        onPressed: () {
+          //print(ctrollerNegocioName.text);
+          //print(ctrollerNegocioDesc.text);
+          //print(valueCategorias);
+          //print(idcategoria);
+
+          DateTime now = new DateTime.now();
+
+          var response = Provider.of<BoActiveProvider>(context, listen: false).
+          createBusiness(
+              ctrollerNegocioName.text,
+              ctrollerNegocioDesc.text,
+              idcategoria,
+              1,
+              now,
+              now);
+
+          //print("REsponse es " + response.toString());
+        },
+        child: ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+              ),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Color(0xffa7d676))
+                  )
+              )),
+
+          child: Text(
+            'Registrar',
+            style: TextStyle(color: Colors.white, fontSize: 15),
+          ),
+        ),
+      ),
+    ],
+  );
+
+  }
+
+
+/*-------------------------------------*/
+
+  _determinarNumero(String opcion, var tipos) {
+    //print("Opcion es " + opcion);
+    //print("Tipos es " + tipos.toString());
+    return tipos.firstWhere((element) =>
+    element.name == opcion, orElse: () {
+      return null;
+    });
   }
 }

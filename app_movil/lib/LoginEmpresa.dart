@@ -1,4 +1,5 @@
 import 'package:app_movil/Inicio.dart';
+import 'package:app_movil/OwnerMenu.dart';
 
 import 'package:app_movil/SignUp.dart';
 import 'package:app_movil/servers/provider.dart';
@@ -9,12 +10,12 @@ import 'package:provider/provider.dart';
 
 import 'Mapa.dart';
 
-class Login extends StatefulWidget {
+class LoginEmpresa extends StatefulWidget {
   @override
   _Login createState() => _Login();
 }
 
-class _Login extends State<Login> {
+class _Login extends State<LoginEmpresa> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   TextEditingController nickname = new TextEditingController();
   TextEditingController password = new TextEditingController();
@@ -29,7 +30,7 @@ class _Login extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final elevButtonStyle = ElevatedButton.styleFrom(
-      primary: Color(0xffa7d676),
+      primary: Color(0xfffbc78d),
 
       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
       elevation: 10,
@@ -49,7 +50,7 @@ class _Login extends State<Login> {
           ),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xffa7d676),Color(0xff85cbcc)],
+              colors: [Color(0xfffbc78d),Color(0xff85cbcc)],
               begin: Alignment.topLeft,
               end: Alignment.topRight,
             ),
@@ -115,7 +116,7 @@ class _Login extends State<Login> {
                                     RequiredValidator(
                                         errorText: "campo requerido")
                                   ]),
-
+                                  keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Color(0xffffffff),
@@ -126,13 +127,13 @@ class _Login extends State<Login> {
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xffa7d676),
+                                          color: Color(0xfffbc78d),
                                           width: 2.0),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xffa7d676),
+                                          color: Color(0xfffbc78d),
                                           width: 2.0),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
@@ -160,13 +161,13 @@ class _Login extends State<Login> {
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xffa7d676),
+                                          color: Color(0xfffbc78d),
                                           width: 2.0),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xffa7d676),
+                                          color: Color(0xfffbc78d),
                                           width: 2.0),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
@@ -197,12 +198,6 @@ class _Login extends State<Login> {
                                   child: ElevatedButton(
                                     style: elevButtonStyle,
                                     onPressed: () {
-                                      print("address es ${password.text}");
-                                      print("openHour es ${nickname.text}");
-
-                                      validate;
-
-
                                       var response = Provider.of<BoActiveProvider>(context, listen: false).
                                       login(
 
@@ -212,9 +207,10 @@ class _Login extends State<Login> {
                                       );
 
 
+                                      validate;
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
-                                              builder: (context) => Home()));
+                                              builder: (context) => OwnerMenu()));
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -222,7 +218,7 @@ class _Login extends State<Login> {
                                       child: Text(
                                         "Ingresar",
                                         style: TextStyle(
-                                          color: Color(0xfff3ede0),
+                                          color: Color(0xffffffff),
                                           fontSize: 18.0,
                                         ),
                                       ),
@@ -238,9 +234,9 @@ class _Login extends State<Login> {
                                       GestureDetector(
                                         child: const Text(" Registrate ahora",
                                             style: TextStyle(
-                                                color: Color(0xfffbc78d),
+                                                color: Color(0xffa7d676),
                                                 decoration:
-                                                    TextDecoration.underline)),
+                                                TextDecoration.underline)),
                                         onTap: () async {
                                           try {
                                             await Navigator.push(
