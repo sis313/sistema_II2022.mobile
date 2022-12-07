@@ -56,8 +56,10 @@ class MapSampleState extends State<MapSample> {
     });
 
     var m = Marker(
-        point: LatLng(-16.493730639624058, -68.13252864400924),
-        //point: LatLng(user_position.latitude, user_position.longitude),
+        //for emulator
+      // point: LatLng(-16.493730639624058, -68.13252864400924),
+      //for apk
+        point: LatLng(user_position.latitude, user_position.longitude),
         builder: (context) => Icon(
           Icons.person_pin,
           color: Colors.red,
@@ -65,21 +67,14 @@ class MapSampleState extends State<MapSample> {
         )
     );
     listMarks.add(m);
-    CalulateLimits(-16.493730639624058, -68.13252864400924);
-    //CalulateLimits(position.latitude, position.longitude);
+    // for emulator
+    //CalulateLimits(-16.493730639624058, -68.13252864400924);
+    // for apk
+    CalulateLimits(position.latitude, position.longitude);
     BranchOfficeFilter();
     SetMarkers(FilterBranch);
 
   }
-
-
-  /*var Sucursales = [
-    {1, 'sucursal 1', -16.509119931820113, -68.12710156327141},
-    {2, 'sucursal 2', -36.493730639624058,-14.493730639624058},
-    {3, 'sucursal 3', -22.493730639624058,-60.493730639624058},
-    {4, 'sucursal 4', -46.493730639624058,-23.493730639624058},
-    {5, 'sucursal 5', -50.493730639624058,-3.493730639624058},
-  ];*/
 
 
   void CalulateLimits( userLat, userLon )  {
@@ -103,7 +98,6 @@ class MapSampleState extends State<MapSample> {
       double lon = branch.longitude;
       print('$lat, $lon');
       if ((lat > lminLat && lat < lmaxLat) && (lon > lminLon && lon < lmaxLon)){
-
         //print('$lat, $lon');
         FilterBranch.add(branch);
       }
@@ -184,7 +178,7 @@ class MapSampleState extends State<MapSample> {
           children: [
             Flexible(
                 child: FlutterMap(
-                  options: MapOptions(// Coordenadas Plaza Murillo -16.493730639624058, -68.13252864400924
+                  options: MapOptions(
                     center: LatLng(-16.493730639624058, -68.13252864400924),
                       zoom: 12,
                       maxZoom: 18,
@@ -195,20 +189,6 @@ class MapSampleState extends State<MapSample> {
                       source: 'OpenStreetMap contributors',
                       onSourceTapped: null,
                     ),
-                    /*Align(
-                    alignment: Alignment(0.9, 0.9),
-                    child:
-                    ElevatedButton(
-                      child: const Icon(
-                        Icons.adjust_sharp,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                      style: elevButtonStyle,
-                      onPressed: () {
-                        //setBranches(widget.ListBusiness);
-                      },),
-                  )*/
                   ],
 
 
