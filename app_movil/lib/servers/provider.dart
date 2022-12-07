@@ -814,7 +814,7 @@ class BoActiveProvider extends ChangeNotifier {
       int type) async {
     print("Creating business...");
 
-    var url = Uri.http(this.apiURL, '/v1/api/user/publico/register');
+    var url = Uri.https(this.apiUriV2, '/v1/api/user/publico/register');
 
     final Map body = {
       "name": name,
