@@ -615,9 +615,7 @@ class BoActiveProvider extends ChangeNotifier {
       String image,
       int idZone,
       int idLocation,
-      int idBusiness/*,
-      DateTime createDate,
-      DateTime updateDate*/) async {
+      int idBusiness) async {
     var url = Uri.http(this.apiURL, '/api/branch/json');
     var response = await http.post(
       url,
@@ -658,8 +656,9 @@ class BoActiveProvider extends ChangeNotifier {
       int idBusiness,
       String createDate,
       DateTime updateDate) async {
+    var url = Uri.http(this.apiURL, '/api/branch/json/$id');
     var response = await http.put(
-      Uri.parse(apiURL + "/api/branch/json/$id"),
+      url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
