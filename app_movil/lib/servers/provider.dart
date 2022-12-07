@@ -564,6 +564,9 @@ class BoActiveProvider extends ChangeNotifier {
     List<Branch> responseBranch = [];
 
     for(var item in jsonData){
+      print("Status es ${item['status']}");
+      if(item['status'] == 0) continue;
+
       Branch branch = Branch();
       branch.idBranch = item['idBranch'];
       branch.address = item['address'];
@@ -577,6 +580,7 @@ class BoActiveProvider extends ChangeNotifier {
       branch.createDate = item['createDate'];
       branch.updateDate = item['updateDate'];
       branch.status = item['status'];
+
       responseBranch.add(branch);
     }
     allBranch = responseBranch;
@@ -604,6 +608,8 @@ class BoActiveProvider extends ChangeNotifier {
     final jsonData = json.decode(body);
     List<Branch> responseBranch = [];
     for(var item in jsonData){
+      if(item['status'] == 0) continue;
+
       Branch branch = Branch();
       branch.idBranch = item['idBranch'];
       branch.address = item['address'];
@@ -696,7 +702,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   deleteBranch(int id) async {
     final http.Response response = await http.delete(
-      Uri.parse(apiURL + "/api/branch/json/$id"),
+      Uri.parse("http://$apiURL/api/branch/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
