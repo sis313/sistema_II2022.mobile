@@ -6,6 +6,7 @@ import 'package:app_movil/DTO/Comment.dart';
 import 'package:app_movil/DTO/Location.dart';
 import 'package:app_movil/DTO/Municipality.dart';
 import 'package:app_movil/DTO/Rating.dart';
+import 'package:app_movil/DTO/User.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,9 +29,15 @@ class BoActiveProvider extends ChangeNotifier {
   List<Comment> allComment=[];
   List<Branch> allBranch = [];
   List<Rating> allRating = [];
+  User currentUser;
 
   // Return data
   String cityResponse;
+
+  // Getter
+  User getUser(){
+    return currentUser;
+  }
 
   // Methods
   getCity() async {
@@ -816,11 +823,13 @@ class BoActiveProvider extends ChangeNotifier {
       throw Exception('Failed to create .');
     }
   }
+
+
   //Login-register
 
   createUser(String name, String email, String nickname, String password,
       int type) async {
-    print("Creating business...");
+    print("Creating User...");
 
     var url = Uri.https(this.apiUriV2, '/v1/api/user/publico/register');
 
@@ -839,9 +848,6 @@ class BoActiveProvider extends ChangeNotifier {
       },
       body: jsonEncode(body),
     );
-    /*print("Fecha creacion es ");
-    print(createDate);*/
-
     print(response.body);
     if (response.statusCode == 200) {
       return response.body;
@@ -851,9 +857,10 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   /////LOGIN
-  login( String nickname, String password) async {
-    print("Creating business...");
-    var url = Uri.http(this.apiURL, '/auth/signin');
+  Future <bool> login( String nickname, String password) async {
+    print("Logging in...");
+
+    var url = Uri.http(this.apiUriV2, '/auth/signin');
     final Map body = {
       "username": nickname,
       "password": password,
@@ -868,9 +875,30 @@ class BoActiveProvider extends ChangeNotifier {
     );
     print(response.body);
     if (response.statusCode == 200) {
-      return response.body;
+      print("user exists!");
+      print("Fetching data...");
+
+      final queryParams = {'username': nickname};
+      var url = Uri.http(apiUriV2, '/v1/api/user/username', queryParams);
+      final response = await http.get(url);
+      print(response.body);
+
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = json.decode(body);
+      User user = User();
+      user.idUser = jsonData['idUser'];
+      user.name = jsonData['name'];
+      user.email = jsonData['email'];
+      user.nickname = jsonData['nickname'];
+      user.idTypeUser = jsonData['idTypeUser'];
+      user.createDate = jsonData['createDate'];
+      user.updateDate = jsonData['updateDate'];
+      user.role = jsonData['roles'][0]['name'];
+      this.currentUser = user;
+      return true;
     } else {
-      print('Failed to create');
+      print('Invalid login');
+      return false;
     }
   }
 }
