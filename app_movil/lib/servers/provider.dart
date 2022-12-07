@@ -61,6 +61,7 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting Comments by id: $id");
 
     final queryParams = {'businessId': id.toString()};
+    print("id $id");
     var url = Uri.http(apiURL, '/api/comment/', queryParams);
     final response = await http.get(url);
     print(response.body);
@@ -71,11 +72,13 @@ class BoActiveProvider extends ChangeNotifier {
     List<Comment> comment = [];
 
     for(var item in jsonData){
+      if(item['status'] == 0) continue;
       Comment c = Comment();
       c.idComment = item['idComment'];
       c.message = item['message'];
       c.idUser = item['idUser'];
       c.idBusiness = item['idBusiness'];
+      c.status=item['status'];
       comment.add(c);
     }
     print("Array length: ${comment.length}");
@@ -109,13 +112,14 @@ class BoActiveProvider extends ChangeNotifier {
   deleteComment(int id) async {
     print("Deleting comment $id...");
     final http.Response response = await http.delete(
-      Uri.parse(apiURL + "/api/comment/$id"),
+      Uri.parse("http://$apiURL/api/comment/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
     print(response.body);
     if (response.statusCode == 200) {
+      print("si se elimina");
       return response.body;
     } else {
       throw Exception('Failed to delete album.');
@@ -125,7 +129,10 @@ class BoActiveProvider extends ChangeNotifier {
   createComment(String message, int idUser, int idBusinness) async {
     print("Creating comments...");
     final response = await http.post(
-      Uri.parse(apiURL + "/api/comment"),
+      Uri.parse("http://$apiURL/api/comment"),
+
+
+
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -143,7 +150,8 @@ class BoActiveProvider extends ChangeNotifier {
   updateComment(int id, String message, int idUser, int idBussiness) async {
     print("Updating comment $id...");
     final response = await http.put(
-      Uri.parse(apiURL + '/api/comment/$id'),
+      Uri.parse("http://$apiURL/api/comment/$id"),
+
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

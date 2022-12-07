@@ -13,14 +13,18 @@ class ComentariosNegocio extends StatefulWidget {
 }
 
 class _ComentariosNegocioState extends State<ComentariosNegocio> {
+
   TextEditingController _textFieldController = TextEditingController();
+  TextEditingController _textFieldController1 = TextEditingController();
   Future<List<Comment>> comments;
   var id;
 
   @override
   Widget build(BuildContext context) {
+    setState(() {});
     comments = Provider.of<BoActiveProvider>(context, listen: false).getCommentbyid(widget.id);
     print(comments);
+    setState(() {});
     return Scaffold(
       appBar: AppBar(
         title: Text('Comentarios del negocio'),
@@ -28,6 +32,7 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
       ),
       body: Center(
         child: FutureBuilder(
+
           future:comments,
           builder: (context, snapshot){
             if(snapshot.hasData){
@@ -61,7 +66,7 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
             title: Text('Nuevo comentario'),
             content: TextField(
               controller: _textFieldController,
-              decoration: InputDecoration(hintText: "Entrar comentario"),
+              decoration: InputDecoration(hintText: "Ingresar comentario"),
             ),
             actions: [
               new ElevatedButton(
@@ -69,6 +74,7 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
                   backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
                   )),
                 onPressed: () {
+                  var response = Provider.of<BoActiveProvider>(context, listen: false).createComment(_textFieldController.text, 1, widget.id);
                   Navigator.of(context).pop();
                 },
               )
@@ -76,7 +82,31 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
           );
         });
   }
+  _update(BuildContext context, int id) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Actualizar comentario'),
+            content: TextField(
+              controller: _textFieldController1,
 
+              decoration: InputDecoration(hintText: "Actualizar comentario"),
+            ),
+            actions: [
+              new ElevatedButton(
+                child: new Text('Guardar'), style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+                  )),
+                onPressed: () {
+                  var response = Provider.of<BoActiveProvider>(context, listen: false).updateComment(id, _textFieldController1.text, 1, widget.id);
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
   Widget miCard(List<Comment> comment, BuildContext context) {
     print("------------------------!!!");
     print(comment.length);
@@ -95,19 +125,27 @@ class _ComentariosNegocioState extends State<ComentariosNegocio> {
                         children: <Widget>[
                           ListTile(
                             contentPadding: EdgeInsets.fromLTRB(15, 10, 25, 0),
-                            title: Text(e.idUser.toString()),
+                            title: Text(e.message.toString()),
                             subtitle: Text(
-                                e.message.toString()),
+                                e.idComment.toString()),
                             leading: Icon(Icons.account_box_outlined),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              ElevatedButton(onPressed: () => {}, child: Icon(Icons.edit) ,
+                              ElevatedButton(onPressed: () => _update(context,e.idComment), child: Icon(Icons.edit) ,
                                   style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(Color(0xff85cbcc)),
                                   )),
-                              ElevatedButton(onPressed: () => {}, child: Icon(Icons.delete),
+                              ElevatedButton(onPressed: () {
+                                setState(() {
+
+                                  var response = Provider.of<BoActiveProvider>(context, listen: false).deleteComment(e.idComment);
+
+                                });
+
+
+                              }, child: Icon(Icons.delete),
                                   style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(Color(0xffe72b3e)),
                                   )
