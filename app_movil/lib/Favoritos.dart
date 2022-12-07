@@ -109,8 +109,8 @@ class Favoritos extends StatelessWidget {
                       e.businessName,
                       style: TextStyle(fontSize: 25),
                     ),
-                    trailing: Icon(alreadyadd ? Icons.star_rate : Icons.star,
-                        color: alreadyadd ? null : Color(0xfff6dd34)),
+                    // trailing: Icon(alreadyadd ? Icons.star_rate : Icons.star,
+                    //     color: alreadyadd ? null : Color(0xfff6dd34)),
                     subtitle: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -41,7 +41,7 @@ class ClienteListaServicios extends StatelessWidget {
   }
 
   var id;
-  bool fav=false;
+  final fav =false;
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +157,8 @@ class ClienteListaServicios extends StatelessWidget {
                                 //fav = !fav;
                                 Provider.of<BoActiveProvider>(context, listen: false).createRanking(4, e.idBusiness, 1);
                               },
-                              icon: Icon((!fav)?Icons.favorite_border : Icons.favorite, color: Colors.red)
+
+                              icon: Icon( fav ? Icons.favorite_border : Icons.favorite,  color: !false ? null : Color(0xfff6dd34))
                           ),
 
                         ),

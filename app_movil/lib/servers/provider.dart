@@ -173,7 +173,7 @@ class BoActiveProvider extends ChangeNotifier {
   createRanking(int score, int idBranch, int idUser) async {
     print("Creating ranking...");
     final response = await http.post(
-      Uri.parse(apiURL + "/api/rating"),
+      Uri.parse("https://sistema2022.uc.r.appspot.com/api/rating"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
