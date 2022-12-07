@@ -70,4 +70,28 @@ Accept: application/json
   "status": 1
 }
 
+### Create comment
+POST http://projectspring-env.eba-3xmbucvq.us-east-1.elasticbeanstalk.com/api/comment
+Content-Type: application/json
+Accept: application/json
+
+{
+  "message": "segundo message",
+  "idUser": 1,
+  "idBusiness": 2,
+  "status": 1
+}
+
+### Login
+POST https://sistema2022.uc.r.appspot.com/auth/signin
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "Mire11", 
+  "password": "mire11"
+}
+
+## Login user info
+GET https://sistema2022.uc.r.appspot.com/v1/api/user/username?username=Mire11
 

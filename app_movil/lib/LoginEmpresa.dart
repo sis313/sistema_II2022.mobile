@@ -197,20 +197,15 @@ class _Login extends State<LoginEmpresa> {
                                 Container(
                                   child: ElevatedButton(
                                     style: elevButtonStyle,
-                                    onPressed: () {
-                                      var response = Provider.of<BoActiveProvider>(context, listen: false).
+                                    onPressed: () async {
+                                      validate;
+                                      bool correct = await Provider.of<BoActiveProvider>(context, listen: false).
                                       login(
-
                                         nickname.text,
                                         password.text,
-
                                       );
-
-
-                                      validate;
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) => OwnerMenu()));
+                                      if(correct) Navigator.of(context).push(MaterialPageRoute(builder: (context) => OwnerMenu()));
+                                      else _badLogin(context);
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -261,5 +256,26 @@ class _Login extends State<LoginEmpresa> {
         ),
       ),
     );
+  }
+
+  _badLogin(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text("Credenciales inválidas, intenta nuevamente"),
+            actions: [
+              new ElevatedButton(
+                child: new Text('OK'), style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
+                  )),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }
