@@ -207,6 +207,7 @@ class _OwnerMenuState extends State<OwnerMenu> {
                           var response = Provider.of<BoActiveProvider>(context, listen: false).
                             deleteBusinessById(business.idBusiness);
                           Navigator.pop(context);
+                          setState(() {});
                         },
                         child: const Text('Eliminar',style: TextStyle(color: Colors.white, fontSize: 15)),style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
@@ -533,7 +534,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
               1,
               now,
               now);
-
+          Navigator.pop(context);
+          setState(() {});
           //print("REsponse es " + response.toString());
         },
         child: ElevatedButton(

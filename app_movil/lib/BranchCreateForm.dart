@@ -192,13 +192,12 @@ class _BranchCreateFormState extends State<BranchCreateForm> {
                   address,
                   new DateTime(now.year, now.month, now.day, openTime.hour, openTime.minute),
                   new DateTime(now.year, now.month, now.day, closeTime.hour, closeTime.minute),
-                  valueAtencion,
-                  "https://sistemasii2022.s3.amazonaws.com/ab72364152e34adfa2128b4691a77976",
-                  idZone,
-                  idLocation,
-                  idBusiness,
-                  now,
-                  now);
+                  valueAtencion.toString(),
+                  "aW1hZ2UgZmlsZQ==",
+                  1,
+                  1,
+                  idBusiness);
+
 
               Route route = MaterialPageRoute(builder: (context) => BranchDetail(idBusiness));
               Navigator.push(context, route);
