@@ -607,14 +607,14 @@ class BoActiveProvider extends ChangeNotifier {
       String image,
       int idZone,
       int idLocation,
-      int idBusiness,
+      int idBusiness/*,
       DateTime createDate,
-      DateTime updateDate) async {
+      DateTime updateDate*/) async {
     var url = Uri.http(this.apiURL, '/api/branch/json');
     var response = await http.post(
       url,
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json',
       },
       body: jsonEncode(<String, Object>{
         "address": address,
@@ -625,8 +625,8 @@ class BoActiveProvider extends ChangeNotifier {
         "idZone": idZone,
         "idLocation": idLocation,
         "idBusiness": idBusiness,
-        "createDate": createDate.toIso8601String(),
-        "updateDate": updateDate.toIso8601String(),
+        /*"createDate": createDate.toIso8601String(),
+        "updateDate": updateDate.toIso8601String(),*/
         "status": 1
       }),
     );
