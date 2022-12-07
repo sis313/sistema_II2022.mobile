@@ -6,6 +6,7 @@ import 'package:app_movil/DTO/Comment.dart';
 import 'package:app_movil/DTO/Location.dart';
 import 'package:app_movil/DTO/Municipality.dart';
 import 'package:app_movil/DTO/Rating.dart';
+import 'package:app_movil/DTO/User.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,10 +29,26 @@ class BoActiveProvider extends ChangeNotifier {
   List<Comment> allComment=[];
   List<Branch> allBranch = [];
   List<Rating> allRating = [];
-
+  User currentUser;
+  List<Business> favs=[];
   // Return data
   String cityResponse;
 
+  // Getter
+  User getUser(){
+    return currentUser;
+  }
+
+ List<Business> getFavs(){
+    return favs;
+
+ }
+
+//Setter
+  void addfav(Business business){
+    favs.add(business);
+
+  }
   // Methods
   getCity() async {
     print("Getting city...");
@@ -61,6 +78,7 @@ class BoActiveProvider extends ChangeNotifier {
     print("Getting Comments by id: $id");
 
     final queryParams = {'businessId': id.toString()};
+    print("id $id");
     var url = Uri.http(apiURL, '/api/comment/', queryParams);
     final response = await http.get(url);
     print(response.body);
@@ -71,11 +89,13 @@ class BoActiveProvider extends ChangeNotifier {
     List<Comment> comment = [];
 
     for(var item in jsonData){
+      if(item['status'] == 0) continue;
       Comment c = Comment();
       c.idComment = item['idComment'];
       c.message = item['message'];
       c.idUser = item['idUser'];
       c.idBusiness = item['idBusiness'];
+      c.status=item['status'];
       comment.add(c);
     }
     print("Array length: ${comment.length}");
@@ -109,13 +129,14 @@ class BoActiveProvider extends ChangeNotifier {
   deleteComment(int id) async {
     print("Deleting comment $id...");
     final http.Response response = await http.delete(
-      Uri.parse(apiURL + "/api/comment/$id"),
+      Uri.parse("http://$apiURL/api/comment/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
     print(response.body);
     if (response.statusCode == 200) {
+      print("si se elimina");
       return response.body;
     } else {
       throw Exception('Failed to delete album.');
@@ -125,7 +146,10 @@ class BoActiveProvider extends ChangeNotifier {
   createComment(String message, int idUser, int idBusinness) async {
     print("Creating comments...");
     final response = await http.post(
-      Uri.parse(apiURL + "/api/comment"),
+      Uri.parse("http://$apiURL/api/comment"),
+
+
+
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -143,7 +167,8 @@ class BoActiveProvider extends ChangeNotifier {
   updateComment(int id, String message, int idUser, int idBussiness) async {
     print("Updating comment $id...");
     final response = await http.put(
-      Uri.parse(apiURL + '/api/comment/$id'),
+      Uri.parse("http://$apiURL/api/comment/$id"),
+
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -165,7 +190,7 @@ class BoActiveProvider extends ChangeNotifier {
   createRanking(int score, int idBranch, int idUser) async {
     print("Creating ranking...");
     final response = await http.post(
-      Uri.parse(apiURL + "/api/rating"),
+      Uri.parse("https://sistema2022.uc.r.appspot.com/api/rating"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -309,7 +334,7 @@ class BoActiveProvider extends ChangeNotifier {
   updateBusiness(int id, String name, String desc, int idTypeBusiness,
       int idUser, DateTime updateDate) async {
     var response = await http.put(
-      Uri.parse(apiURL + "/api/business/$id"),
+      Uri.parse("http://$apiURL/api/business/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -539,6 +564,9 @@ class BoActiveProvider extends ChangeNotifier {
     List<Branch> responseBranch = [];
 
     for(var item in jsonData){
+      print("Status es ${item['status']}");
+      if(item['status'] == 0) continue;
+
       Branch branch = Branch();
       branch.idBranch = item['idBranch'];
       branch.address = item['address'];
@@ -552,6 +580,7 @@ class BoActiveProvider extends ChangeNotifier {
       branch.createDate = item['createDate'];
       branch.updateDate = item['updateDate'];
       branch.status = item['status'];
+
       responseBranch.add(branch);
     }
     allBranch = responseBranch;
@@ -579,6 +608,8 @@ class BoActiveProvider extends ChangeNotifier {
     final jsonData = json.decode(body);
     List<Branch> responseBranch = [];
     for(var item in jsonData){
+      if(item['status'] == 0) continue;
+
       Branch branch = Branch();
       branch.idBranch = item['idBranch'];
       branch.address = item['address'];
@@ -607,14 +638,12 @@ class BoActiveProvider extends ChangeNotifier {
       String image,
       int idZone,
       int idLocation,
-      int idBusiness,
-      DateTime createDate,
-      DateTime updateDate) async {
+      int idBusiness) async {
     var url = Uri.http(this.apiURL, '/api/branch/json');
     var response = await http.post(
       url,
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json',
       },
       body: jsonEncode(<String, Object>{
         "address": address,
@@ -625,8 +654,6 @@ class BoActiveProvider extends ChangeNotifier {
         "idZone": idZone,
         "idLocation": idLocation,
         "idBusiness": idBusiness,
-        "createDate": createDate.toIso8601String(),
-        "updateDate": updateDate.toIso8601String(),
         "status": 1
       }),
     );
@@ -647,11 +674,9 @@ class BoActiveProvider extends ChangeNotifier {
       String image,
       int idZone,
       int idLocation,
-      int idBusiness,
-      String createDate,
-      DateTime updateDate) async {
+      int idBusiness) async {
     var response = await http.put(
-      Uri.parse(apiURL + "/api/branch/json/$id"),
+      Uri.parse("http://$apiURL/api/branch/json/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -664,8 +689,6 @@ class BoActiveProvider extends ChangeNotifier {
         "idZone": idZone,
         "idLocation": idLocation,
         "idBusiness": idBusiness,
-        "createDate": createDate,
-        "updateDate": updateDate.toIso8601String(),
         "status": 1
       }),
     );
@@ -679,7 +702,7 @@ class BoActiveProvider extends ChangeNotifier {
 
   deleteBranch(int id) async {
     final http.Response response = await http.delete(
-      Uri.parse(apiURL + "/api/branch/json/$id"),
+      Uri.parse("http://$apiURL/api/branch/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -808,11 +831,13 @@ class BoActiveProvider extends ChangeNotifier {
       throw Exception('Failed to create .');
     }
   }
+
+
   //Login-register
 
   createUser(String name, String email, String nickname, String password,
       int type) async {
-    print("Creating business...");
+    print("Creating User...");
 
     var url = Uri.https(this.apiUriV2, '/v1/api/user/publico/register');
 
@@ -831,9 +856,6 @@ class BoActiveProvider extends ChangeNotifier {
       },
       body: jsonEncode(body),
     );
-    /*print("Fecha creacion es ");
-    print(createDate);*/
-
     print(response.body);
     if (response.statusCode == 200) {
       return response.body;
@@ -843,9 +865,10 @@ class BoActiveProvider extends ChangeNotifier {
   }
 
   /////LOGIN
-  login( String nickname, String password) async {
-    print("Creating business...");
-    var url = Uri.http(this.apiURL, '/auth/signin');
+  Future <bool> login( String nickname, String password) async {
+    print("Logging in...");
+
+    var url = Uri.http(this.apiUriV2, '/auth/signin');
     final Map body = {
       "username": nickname,
       "password": password,
@@ -860,9 +883,30 @@ class BoActiveProvider extends ChangeNotifier {
     );
     print(response.body);
     if (response.statusCode == 200) {
-      return response.body;
+      print("user exists!");
+      print("Fetching data...");
+
+      final queryParams = {'username': nickname};
+      var url = Uri.http(apiUriV2, '/v1/api/user/username', queryParams);
+      final response = await http.get(url);
+      print(response.body);
+
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = json.decode(body);
+      User user = User();
+      user.idUser = jsonData['idUser'];
+      user.name = jsonData['name'];
+      user.email = jsonData['email'];
+      user.nickname = jsonData['nickname'];
+      user.idTypeUser = jsonData['idTypeUser'];
+      user.createDate = jsonData['createDate'];
+      user.updateDate = jsonData['updateDate'];
+      user.role = jsonData['roles'][0]['name'];
+      this.currentUser = user;
+      return true;
     } else {
-      print('Failed to create');
+      print('Invalid login');
+      return false;
     }
   }
 }

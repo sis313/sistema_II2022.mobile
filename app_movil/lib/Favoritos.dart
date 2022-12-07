@@ -1,3 +1,4 @@
+import 'package:app_movil/DTO/Business.dart';
 import 'package:app_movil/Favoritos.dart';
 import 'package:app_movil/Mapa.dart';
 import 'package:app_movil/servers/provider.dart';
@@ -13,7 +14,7 @@ import 'MenuLateral.dart';
 
 class Favoritos extends StatelessWidget {
 
-  Future<List<Rating>> business;
+  List<Business> business;
   var ListBusinness;
   final alreadyadd =false;
 
@@ -25,7 +26,7 @@ class Favoritos extends StatelessWidget {
   var id;
   @override
   Widget build(BuildContext context) {
-    business = Provider.of<BoActiveProvider>(context, listen: false).getRanting();
+    business = Provider.of<BoActiveProvider>(context, listen: false).getFavs();
 
     return Scaffold(
         backgroundColor: Color(0xfff6f7f9),
@@ -50,27 +51,11 @@ class Favoritos extends StatelessWidget {
           ],
         ),
 
-        body: FutureBuilder(
-          future: business,
-          builder: (context, snapshot){
-            if(snapshot.hasData){
-
-              return items(snapshot.data, context);
-            }
-            else if (snapshot.data == null){
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        )
+        body:  items(business, context)
     );
   }
 
-  Widget items(List<Rating> products, BuildContext context){
+  Widget items(List<Business> products, BuildContext context){
     return ListView(
       children: <Widget>[
         Container(
@@ -106,16 +91,15 @@ class Favoritos extends StatelessWidget {
                       height: 100,
                     ),
                     title: Text(
-                      e.businessName,
+                      e.name,
                       style: TextStyle(fontSize: 25),
                     ),
-                    trailing: Icon(alreadyadd ? Icons.star_rate : Icons.star,
-                        color: alreadyadd ? null : Color(0xfff6dd34)),
+
                     subtitle: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("\Sucursal :" + e.idBranch.toString()),
+                        Text("\Sucursal :" + e.idBusiness.toString()),
                         SizedBox(height: 10),
 
 

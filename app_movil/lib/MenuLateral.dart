@@ -1,25 +1,30 @@
 import 'package:app_movil/ClienteFavoritos.dart';
+import 'package:app_movil/DTO/User.dart';
 import 'package:app_movil/StartMenu.dart';
+import 'package:app_movil/servers/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app_movil/Perfil.dart';
+import 'package:provider/provider.dart';
 
 import 'Favoritos.dart';
 import 'Inicio.dart';
 import 'Mapa.dart';
 
 class MenuLateral extends StatelessWidget {
+  User usuario;
   @override
   Widget build(BuildContext context) {
+    usuario=  Provider.of<BoActiveProvider>(context, listen: false).getUser();
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(
-              'nombre',
+              usuario.nickname,
               style: TextStyle(color: Colors.black),
             ),
-            accountEmail: Text('Correo', style: TextStyle(color: Colors.black)),
+            accountEmail: Text(usuario.email, style: TextStyle(color: Colors.black)),
 
             decoration: BoxDecoration(
                 image: DecorationImage(

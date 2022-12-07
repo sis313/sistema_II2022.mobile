@@ -21,6 +21,8 @@ class Product {
 
 
 
+
+
 class ClienteListaServicios extends StatelessWidget {
   List products = [
     Product(
@@ -33,6 +35,7 @@ class ClienteListaServicios extends StatelessWidget {
         4),
   ];
   Future<List<Business>> business;
+
   var ListBusinness;
 
   void convertFutureListToList() async {
@@ -41,7 +44,7 @@ class ClienteListaServicios extends StatelessWidget {
   }
 
   var id;
-  bool fav=false;
+  final fav =false;
 
   @override
   Widget build(BuildContext context) {
@@ -153,11 +156,12 @@ class ClienteListaServicios extends StatelessWidget {
                           ),
                           child:  IconButton(
                               onPressed: (){
-                                //print("changing fav... $fav");
-                                //fav = !fav;
-                                Provider.of<BoActiveProvider>(context, listen: false).createRanking(4, e.idBusiness, 1);
+
+                                Provider.of<BoActiveProvider>(context, listen: false).addfav(e);
                               },
-                              icon: Icon((!fav)?Icons.favorite_border : Icons.favorite, color: Colors.red)
+
+                              icon: Icon(  Provider.of<BoActiveProvider>(context, listen: false).getFavs().any((element) => e.idBusiness==element.idBusiness)
+                                  ? Icons.favorite : Icons.favorite_border,  color: false ? null : Color(0xffec7070))
                           ),
 
                         ),

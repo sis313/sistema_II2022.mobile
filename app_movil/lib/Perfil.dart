@@ -1,12 +1,16 @@
+import 'package:app_movil/servers/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'ClienteServicios.dart';
+import 'DTO/User.dart';
 import 'Inicio.dart';
 
 
 class Perfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
@@ -15,6 +19,8 @@ class Perfil extends StatelessWidget {
   }
 }
 
+
+
 class EditProfilePage extends StatefulWidget {
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
@@ -22,9 +28,13 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   bool showPassword = false;
+  User usuario ;
   @override
   Widget build(BuildContext context) {
+    usuario=  Provider.of<BoActiveProvider>(context, listen: false).getUser();
+    print(usuario.name);
     return Scaffold(
+
       appBar: AppBar(
         title: Text("Mi perfil"),
         backgroundColor: Color(0xffa7d676),
@@ -104,10 +114,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(
                 height: 35,
               ),
-              buildTextField("Nombre", "Sara Salazar", false),
-              buildTextField("E-mail", "sara@gmail.com", false),
+              buildTextField("Nombre", usuario.name, false),
+              buildTextField("E-mail", usuario.email, false),
               buildTextField("Password", "********", true),
-              buildTextField("Ubicacion", "LP, Bolivia", false),
+              buildTextField("Nickname", usuario.nickname, false),
               SizedBox(
                 height: 35,
               ),
