@@ -161,7 +161,7 @@ class ClienteListaServicios extends StatelessWidget {
                               },
 
                               icon: Icon(  Provider.of<BoActiveProvider>(context, listen: false).getFavs().any((element) => e.idBusiness==element.idBusiness)
-                                  ? Icons.favorite : Icons.favorite_border,  color: false ? null : Color(0xffa01912))
+                                  ? Icons.favorite : Icons.favorite_border,  color: false ? null : Color(0xffec7070))
                           ),
 
                         ),
