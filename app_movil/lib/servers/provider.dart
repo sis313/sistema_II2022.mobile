@@ -24,7 +24,7 @@ class BoActiveProvider extends ChangeNotifier {
   List<Location> allLocations = [];
   List<Business> allBusiness = [];
   List<Business> allBusinessByUserId = [];
-  List<Comment> allcommet=[];
+  List<Comment> allComment=[];
   List<Branch> allBranch = [];
   List<Rating> allRating = [];
 
@@ -56,25 +56,29 @@ class BoActiveProvider extends ChangeNotifier {
     return response.body;
   }
 
-  Future<List<Comment>>getCommentbyid(int id) async {
-    print("Getting Business...");
-    var url = Uri.http(apiURL, '/api/comment/$id');
+  Future<List<Comment>> getCommentbyid(int id) async {
+    print("Getting Comments by id: $id");
+
+    final queryParams = {'businessId': id.toString()};
+    var url = Uri.http(apiURL, '/api/comment/', queryParams);
     final response = await http.get(url);
     print(response.body);
-
     String body = utf8.decode(response.bodyBytes);
+    print("String body: $body");
     final jsonData = json.decode(body);
+    print("jsonData: $jsonData");
     List<Comment> comment = [];
+
     for(var item in jsonData){
-      print("comentarios");
-      Comment b = Comment();
-      b.idComment = item['idComment'];
-      b.message = item['message'];
-      b.id = item['idUser'];
-      comment.add(b);
+      Comment c = Comment();
+      c.idComment = item['idComment'];
+      c.message = item['message'];
+      c.idUser = item['idUser'];
+      c.idBusiness = item['idBusiness'];
+      comment.add(c);
     }
-    this.allcommet = comment;
-    print(comment.toString());
+    print("Array length: ${comment.length}");
+    this.allComment = comment;
     return comment;
   }
 
@@ -83,7 +87,6 @@ class BoActiveProvider extends ChangeNotifier {
     var url = Uri.http(apiURL, '/api/rating/detail');
     final response = await http.get(url);
     print(response.body);
-
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
     List<Rating> rating = [];
@@ -209,6 +212,7 @@ class BoActiveProvider extends ChangeNotifier {
 
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
+    print("All business jsonData: $jsonData");
     List<Business> business = [];
     for(var item in jsonData){
       Business b = Business();
@@ -229,6 +233,7 @@ class BoActiveProvider extends ChangeNotifier {
 
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
+    print("Business by id jsonData: $jsonData");
     List<Business> business = [];
     Business m = Business();
     m.idBusiness = jsonData['idBusiness'];
@@ -342,11 +347,9 @@ class BoActiveProvider extends ChangeNotifier {
   Future<List<TypeBusiness>> getTypeBusiness() async {
     print("Getting TypeBusiness...");
     List<TypeBusiness> list = [];
-
     var url = Uri.http(apiURL, '/api/typeBusiness');
     final response = await http.get(url);
     print(response.body);
-
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
     List<TypeBusiness> responseTypeBusiness = [];
@@ -572,7 +575,6 @@ class BoActiveProvider extends ChangeNotifier {
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
     List<Branch> responseBranch = [];
-
     for(var item in jsonData){
       Branch branch = Branch();
       branch.idBranch = item['idBranch'];
@@ -590,10 +592,8 @@ class BoActiveProvider extends ChangeNotifier {
       responseBranch.add(branch);
     }
     allBranch = responseBranch;
-
     print("Branch array length: ${responseBranch.length}");
     return responseBranch;
-
   }
 
   createBranch(
@@ -732,11 +732,9 @@ class BoActiveProvider extends ChangeNotifier {
   Future<List<Municipality>> getMunicipalities() async{
     print("Getting Municipality...");
     List<Municipality> list = [];
-
     var url = Uri.http(apiURL, '/api/municipalities');
     final response = await http.get(url);
     //print(response.body);
-
     String body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(body);
     List<Municipality> responseMunicipality = [];
@@ -822,7 +820,6 @@ class BoActiveProvider extends ChangeNotifier {
       "password": password,
       "idTypeUser": type
     };
-
     final response = await http.post(
       url,
       headers: {
@@ -842,21 +839,14 @@ class BoActiveProvider extends ChangeNotifier {
     }
   }
 
-
-
   /////LOGIN
   login( String nickname, String password) async {
     print("Creating business...");
-
     var url = Uri.http(this.apiURL, '/auth/signin');
-
     final Map body = {
-
       "username": nickname,
       "password": password,
-
     };
-
     final response = await http.post(
       url,
       headers: {
@@ -865,8 +855,6 @@ class BoActiveProvider extends ChangeNotifier {
       },
       body: jsonEncode(body),
     );
-
-
     print(response.body);
     if (response.statusCode == 200) {
       return response.body;

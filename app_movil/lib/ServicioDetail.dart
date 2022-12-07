@@ -33,18 +33,14 @@ ServicioDetail(this.id);
 }
 
 class _ServicioDetailState extends State<ServicioDetail> {
-
-
   Future<List<Business>> business;
-
-  
 
   @override
   Widget build(BuildContext context) {
-
     business = Provider.of<BoActiveProvider>(context, listen: false).getBusinessById(widget.id) ;
     print('object');
     print(business.toString());
+
     return Scaffold(
       backgroundColor:Color(0xfff6f7f9),
       appBar: AppBar(
@@ -60,10 +56,9 @@ class _ServicioDetailState extends State<ServicioDetail> {
         ),
         actions: [
           IconButton(
-            onPressed: () {      Comment a= Comment();
-
+            onPressed: () {
+              Comment a= Comment();
               Navigator.push(context, MaterialPageRoute(builder: (context) =>ComentariosNegocio(widget.id)));
-
             },
             icon: const Icon(
               Ionicons.chatbox,
