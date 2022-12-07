@@ -116,7 +116,7 @@ class _BranchDetailState extends State<BranchDetail> {
               Navigator.push(context, route);
               break;
             case 1:
-              eliminarSucursal();
+              eliminarSucursal(branch);
               break;
           }
         });
@@ -628,7 +628,7 @@ class _BranchDetailState extends State<BranchDetail> {
     );
   }
 
-  eliminarSucursal(){
+  eliminarSucursal(Branch sucursal){
     showDialog(
         context: context,
         builder: (context) {
@@ -661,7 +661,10 @@ class _BranchDetailState extends State<BranchDetail> {
                       ),
                   TextButton(
                     onPressed: () {
-
+                      var response = Provider.of<BoActiveProvider>(context, listen: false)
+                          .deleteBranch(sucursal.idBranch);
+                      Navigator.pop(context);
+                      setState(() {});
                     },
                     child: const Text('Eliminar',style: TextStyle(color: Colors.white, fontSize: 15)),style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Color(0xffa7d676)
